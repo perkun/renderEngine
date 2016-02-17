@@ -1,0 +1,61 @@
+/*
+ * Disp.cpp
+ *
+ *  Created on: 14 wrz 2015
+ *      Author: grzeslaff
+ */
+
+#include "Disp.h"
+#define GLM_FORCE_RADIANS
+
+Disp::Disp(int x, int y, bool visible) {
+	att[0] = GLX_RGBA;	att[0] = GLX_DEPTH_SIZE;	att[0] = 24;	att[0] = GLX_DOUBLEBUFFER;	att[0] = None;
+	
+	window_dim_x = x;
+	window_dim_y = y;
+
+	dpy = XOpenDisplay(NULL);
+	if (dpy == NULL) {
+		printf("\n\tcannot connect to X server\n\n");
+		exit(0);
+	}
+
+	root = DefaultRootWindow(dpy) ;
+
+	vi = glXChooseVisual(dpy, 0, att);
+	if (vi == NULL) {
+		printf("\n\tno appropriate visual found\n\n");
+		exit(0);
+	}
+
+	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
+	swa.colormap = cmap;
+	swa.event_mask = ExposureMask | KeyPressMask;
+	win = XCreateWindow(dpy, root, 0, 0, window_dim_x, window_dim_y, 0,
+			vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
+
+	if (visible)
+		XMapWindow(dpy, win);
+
+	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
+	glXMakeCurrent(dpy, win, glc);
+
+	GLenum status = glewInit();
+	if (status != GLEW_OK) {
+		std::cout << "Glew failed to initialaze " << std::endl;
+	}
+
+	printf("skjfhkshflksjhflhfslkjfhe\n");
+	
+	glEnable(GL_DEPTH_TEST);
+	
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace (GL_CCW);
+	
+}
+
+Disp::~Disp() {
+	XDestroyWindow(dpy, win);
+}
+

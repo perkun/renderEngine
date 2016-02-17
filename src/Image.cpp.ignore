@@ -1,0 +1,39 @@
+/*
+ * Image.cpp
+ *
+ *  Created on: 7 cze 2015
+ *      Author: grzeslaff
+ */
+
+#include "Image.h"
+#define GLM_FORCE_RADIANS
+Image::Image(int w, int h, int bpp) {
+	width = w;
+	height = h;
+	FreeImage_Initialise();
+
+	bitmap = FreeImage_Allocate(width, height, bpp);
+
+
+
+
+}
+
+Image::~Image() {
+	FreeImage_DeInitialise();
+}
+
+void Image::saveImage(float *pixel_buffer , int step) {
+	for (int i = 0; i< width; i++) {
+		for (int j = 0; j < height; j++) {
+			color.rgbRed = 	color.rgbGreen = color.rgbBlue = pixel_buffer[j*width + i]*255.;
+			FreeImage_SetPixelColor(bitmap, i, j, &color);
+		}
+	}
+
+	char name[20], step_str[10];
+	sprintf(name, "./%d.png", step);
+
+
+	FreeImage_Save(FIF_PNG, bitmap, name, 0);
+}
