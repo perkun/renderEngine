@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -131,44 +131,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classMesh.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classMesh.html">Mesh</a> {</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">float</span> max;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classTransform.html">Transform</a> transform;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> draw();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<span class="keyword">const</span> <a class="code" href="classMesh.html">Mesh</a>&amp; other);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<span class="keyword">const</span> std::string &amp;file_name);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<a class="code" href="classVertex.html">Vertex</a> *vertices, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> number_of_vertices, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *indices, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num_indices);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> normalize, normal_interpolation;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    GLenum draw_mode = GL_TRIANGLES;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">float</span> max;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classTransform.html">Transform</a> transform;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> draw();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<span class="keyword">const</span> <a class="code" href="classMesh.html">Mesh</a>&amp; other);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<span class="keywordtype">float</span> vertices[][3], <span class="keywordtype">int</span> num_pkt, <span class="keywordtype">int</span> indices[][3], <span class="keywordtype">int</span> num_tr);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classMesh.html">Mesh</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<span class="keyword">const</span> std::string &amp;file_name);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<a class="code" href="classVertex.html">Vertex</a> *vertices, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> number_of_vertices, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *indices, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num_indices);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        POSITION_VB,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        TEXCOORD_VB,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        NORMAL_VB,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        INDEX_VB,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        NUM_BUFFERS</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    };</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    GLuint vertex_array_object;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    GLuint vertex_array_buffers[NUM_BUFFERS];</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    GLuint vertex_array_buffer;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> draw_count;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> InitMesh(<span class="keyword">const</span> <a class="code" href="classIndexedModel.html">IndexedModel</a> &amp;model);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="classMesh.html">Mesh</a>(<span class="keywordtype">float</span> vertices[][3], <span class="keywordtype">int</span> num_pkt, <span class="keywordtype">int</span> indices[][3], <span class="keywordtype">int</span> num_tr);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classMesh.html">Mesh</a>();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        POSITION_VB,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        TEXCOORD_VB,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        NORMAL_VB,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        INDEX_VB,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        NUM_BUFFERS</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    GLuint vertex_array_object;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    GLuint vertex_array_buffers[NUM_BUFFERS];</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    GLuint vertex_array_buffer;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> draw_count;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> InitMesh(<span class="keyword">const</span> <a class="code" href="classIndexedModel.html">IndexedModel</a> &amp;model);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MESH_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MESH_H_ */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="classMesh_html"><div class="ttname"><a href="classMesh.html">Mesh</a></div><div class="ttdef"><b>Definition:</b> Mesh.h:43</div></div>
 <div class="ttc" id="classTransform_html"><div class="ttname"><a href="classTransform.html">Transform</a></div><div class="ttdef"><b>Definition:</b> Transform.h:15</div></div>
 <div class="ttc" id="classIndexedModel_html"><div class="ttname"><a href="classIndexedModel.html">IndexedModel</a></div><div class="ttdef"><b>Definition:</b> obj_loader.h:17</div></div>
@@ -176,7 +179,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Feb 17 2016 13:33:26 for Render Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 17 2016 14:41:20 for Render Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

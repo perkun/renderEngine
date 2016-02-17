@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['winglfw',['WinGLFW',['../classWinGLFW.html',1,'']]]
+  ['xwindow',['Xwindow',['../classXwindow.html',1,'']]]
 ];

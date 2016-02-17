@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,18 +88,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>This is the complete list of members for <a class="el" href="classMesh.html">Mesh</a>, including all inherited members.</p>
 <table class="directory">
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>draw</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>max</b> (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Mesh</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Mesh</b>(const Mesh &amp;other) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Mesh</b>(const std::string &amp;file_name) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Mesh</b>(Vertex *vertices, unsigned int number_of_vertices, unsigned int *indices, unsigned int num_indices) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Mesh</b>(float vertices[][3], int num_pkt, int indices[][3], int num_tr) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>transform</b> (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~Mesh</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>draw_mode</b> (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>max</b> (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>Mesh</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Mesh</b>(const Mesh &amp;other) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>Mesh</b>(const std::string &amp;file_name) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Mesh</b>(Vertex *vertices, unsigned int number_of_vertices, unsigned int *indices, unsigned int num_indices) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>Mesh</b>(float vertices[][3], int num_pkt, int indices[][3], int num_tr) (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>normal_interpolation</b> (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>normalize</b> (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>transform</b> (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>~Mesh</b>() (defined in <a class="el" href="classMesh.html">Mesh</a>)</td><td class="entry"><a class="el" href="classMesh.html">Mesh</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Feb 17 2016 13:33:26 for Render Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 17 2016 14:41:20 for Render Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -11,23 +11,23 @@ RenderEngine::RenderEngine(int w, int h, bool visible, bool off_screen_rendering
 	DISPLAY_WIDTH = w;
 	DISPLAY_HEIGHT = h;
 	shadow_size = 1024 * 2;
-	
+
 	Xdisplay.initWindow(w, h, visible);
-	
-	
+
+
 	// 	shadow_shader_id = addShader("shadowShader");
 	shadow_shader_id = 0;
 	Shader *temp = new Shader("shadowShader");
 	shaders.push_back(temp);
 	shaders_camera.push_back(0);
 	shaders_texture.push_back(0);
-	
+
 	shadow_fb_id = addFramebuffer(shadow_size, shadow_size);
 	shadow_texture_id = addTexture(shadow_size, shadow_size);
-	
+
 	fb = addFramebuffer(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	fb_tx = addTexture(DISPLAY_WIDTH, DISPLAY_HEIGHT);
-	
+
 	render_off_screen = off_screen_rendering;
 	interactive = false;
 }
@@ -89,26 +89,69 @@ void RenderEngine::linkTextureToShader(int texture_index, int shader_index) {
 	shaders_texture[shader_index] = texture_index;
 }
 
-void RenderEngine::linkCameraToShader(int camera_index, int shader_index) {
+void RenderEngine::linkCameraToShaders(int camera_index, int shader_index) {
 	shaders_camera[shader_index] = camera_index;
 }
+
+void RenderEngine::linkBasicCamerasToShader() {
+	/**
+	 * linkuje dwie podstawowe kamery do shaderów
+	 */
+	for (int i = 0; i < shaders.size(); i++) {
+		linkCameraToShaders(0, i);
+		linkCameraToShaders(1, i);
+	}
+}
+
 
 
 int RenderEngine::addModel(const std::string& file_name) {
 	Mesh *temp = new Mesh(file_name);
 	models.push_back(temp);
-	
+
 	models_shader.push_back(0);
-	
+
 	return models.size() -1 ;
 }
 
 int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3], int num_tr) {
 	Mesh *temp = new Mesh(vertices, num_pkt, indices, num_tr);
 	models.push_back(temp);
-	
+
 	models_shader.push_back(0);
-	
+
+	return models.size() -1 ;
+}
+
+int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
+	/**
+	 *  Funkcja wkładająca model do RenderEngine
+	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów i liczbę tr)
+	 */
+	FILE *f = fopen(filename.c_str(), "r");
+
+	int num_indices, num_vertices;
+
+	fscanf(f, "%d %d", &num_vertices, &num_indices);
+	printf("%d %d\n", num_vertices, num_indices);
+
+	float vertices[num_vertices][3];
+	int indices[num_indices][3];
+
+	for (int i = 0; i < num_vertices; i++) {
+		fscanf(f, "%f %f %f ", &vertices[i][0], &vertices[i][1], &vertices[i][2]);
+	}
+	for (int i = 0; i < num_indices; i++) {
+		fscanf(f, "%d %d %d ", &indices[i][0], &indices[i][1], &indices[i][2]);
+	}
+	fclose(f);
+
+
+	Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices);
+	models.push_back(temp);
+
+	models_shader.push_back(0);
+
 	return models.size() -1 ;
 }
 
@@ -117,13 +160,13 @@ int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3], i
 int RenderEngine::addShader(const std::string& file_name) {
 	Shader *temp = new Shader(file_name);
 	shaders.push_back(temp);
-	
+
 	shaders_camera.push_back(0);
 	shaders_texture.push_back(0);
-	
+
 	// automatyczne dodanie uniform name "depth_map" do shadera
 	textures[shadow_texture_id]->setUniform(*shaders[shaders.size() -1] , "dddd", "depth_map");
-	
+
 	return shaders.size() -1 ;
 }
 /*
@@ -173,19 +216,19 @@ int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, floa
 RenderEngine::~RenderEngine() {
 	for (int i = 0; i < models.size(); i++)
 		delete models[i];
-	
+
 	for (int i = 0; i < shaders.size(); i++)
 		delete shaders[i];
-	
+
 	for (int i = 0; i < textures.size(); i++)
 		delete textures[i];
-	
+
 	for (int i = 0; i < framebuffers.size(); i++)
 		delete framebuffers[i];
-	
+
 	for (int i = 0; i < cameras.size(); i++)
 		delete cameras[i];
-	
+
 	if (!interactive)	// czyli że Xwindow jest
 		XDestroyWindow(Xdisplay.dpy, Xdisplay.win);
 }

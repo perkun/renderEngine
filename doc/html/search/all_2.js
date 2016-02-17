@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['framebuffer',['FrameBuffer',['../classFrameBuffer.html',1,'']]]
+  ['disp',['Disp',['../classDisp.html',1,'']]]
 ];

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['camera',['Camera',['../classCamera.html',1,'']]],
-  ['cuda',['Cuda',['../classCuda.html',1,'']]],
-  ['cuda_2ecu',['Cuda.cu',['../Cuda_8cu.html',1,'']]]
+  ['addmodelasteroidformat',['addModelAsteroidFormat',['../classRenderEngine.html#af81500753fe429679dc05f4250c94359',1,'RenderEngine']]]
 ];

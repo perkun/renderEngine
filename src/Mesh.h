@@ -42,15 +42,18 @@ private:
 
 class Mesh {
 public:
+	static bool normalize, normal_interpolation;
+	GLenum draw_mode = GL_TRIANGLES;
+
 	float max;
-	
+
 	Transform transform;
-	
+
 	void draw();
 	Mesh();
-	
+
 	Mesh(const Mesh& other);
-	
+
 	Mesh(const std::string &file_name);
 	Mesh(Vertex *vertices, unsigned int number_of_vertices, unsigned int *indices, unsigned int num_indices);
 
@@ -70,12 +73,12 @@ private:
 	GLuint vertex_array_object;
 	GLuint vertex_array_buffers[NUM_BUFFERS];
 	GLuint vertex_array_buffer;
-	
+
 	unsigned int draw_count;
-	
+
 	void InitMesh(const IndexedModel &model);
-	
-	
+
+
 
 };
 
