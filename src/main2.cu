@@ -19,8 +19,14 @@
 #include "RenderEngine.h"
 #include "Cuda.h"
 
+/** \file */
 
-
+int xyz(float buba) {
+/**
+ * zwraca czesc calkowita
+ */
+	return (int) buba;
+}
 
 
 int DISPLAY_WIDTH = 512 * 2;
@@ -39,6 +45,7 @@ int DISPLAY_HEIGHT = 512 * 2;
 	 * 8) RenderEngine.renderScene tworzy scene ze wszystkich modeli
 	 *
 	******************************************************************/
+/// MAIN FUNCTION
 int main() {
 	clock_t start_t, end_t;
 	double cpu_time_used, cpu_ticks;
@@ -83,9 +90,9 @@ int main() {
     render.models[aster]->transform.setPosition(asteroid_pos);
 
     float d = 1., model_camera_distance, model_light_distance;
-	glm::vec3 light_position(0, 0, 0.);
+	glm::vec3 light_position(0., 0., 0.);
 	light_position *= 10000.;
-	glm::vec3 camera_position(2, 2, 0);
+	glm::vec3 camera_position(2., 2., 0.);
 	camera_position *= 10000.;
 	model_camera_distance = glm::length(asteroid_pos - camera_position);
 	model_light_distance = glm::length(asteroid_pos - light_position);

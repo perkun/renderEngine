@@ -24,6 +24,9 @@ Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right, flo
 }
 
 void Camera::moveLeft(float step)	{
+	/**
+	 * przesuniecie kamery w lewo o step
+	 */
 	forward = glm::normalize(target - position);
 	glm::vec3 left_direction = glm::normalize( -glm::cross(forward, up) );
 	

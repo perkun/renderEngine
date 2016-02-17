@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['huffman',['huffman',['../structhuffman.html',1,'']]]
+  ['image',['Image',['../classImage.html',1,'']]],
+  ['indexedmodel',['IndexedModel',['../classIndexedModel.html',1,'']]]
 ];

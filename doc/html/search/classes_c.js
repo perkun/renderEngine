@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['texture',['Texture',['../classTexture.html',1,'']]],
-  ['transform',['Transform',['../classTransform.html',1,'']]]
+  ['xwindow',['Xwindow',['../classXwindow.html',1,'']]]
 ];

@@ -4,6 +4,8 @@
 
 texture<uchar4, 2, cudaReadModeNormalizedFloat> tex_img;
 
+/** \file */
+
 __global__ void kernel(float *result, float *result2, float *result3) {
 	int x, y, width = 1000, height = 1000;
 	*result = -7.;
@@ -52,6 +54,10 @@ __global__ void sumA(float *blocks_partials, int width, int height) {
 }
 
 __global__ void sumB(float *blocks_partials, float *suma, int size) {
+	/**
+	 * to jest funkcja licząca sumę, drugi pass
+	 * jada jada jada...
+	 */
 	int global_id = blockIdx.x * blockDim.x + threadIdx.x;
 	int local_id = threadIdx.x;
 	int i;

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>My Project: Camera Class Reference</title>
+<title>Render Engine: Camera Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Render Engine
    </div>
   </td>
  </tr>
@@ -61,6 +61,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -68,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -102,8 +103,7 @@ glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><b>getProjectionMat
 <tr class="memitem:a941940439c3704c7e5c75e6fd9fa6e7c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a941940439c3704c7e5c75e6fd9fa6e7c"></a>
 glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><b>getViewMatrix</b> () const </td></tr>
 <tr class="separator:a941940439c3704c7e5c75e6fd9fa6e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9733e299c281288208e4ce36681143a6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9733e299c281288208e4ce36681143a6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>moveLeft</b> (float step)</td></tr>
+<tr class="memitem:a9733e299c281288208e4ce36681143a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCamera.html#a9733e299c281288208e4ce36681143a6">moveLeft</a> (float step)</td></tr>
 <tr class="separator:a9733e299c281288208e4ce36681143a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70f638369d8bbcb60639f5b1cc40de19"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70f638369d8bbcb60639f5b1cc40de19"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>moveRight</b> (float step)</td></tr>
@@ -136,6 +136,24 @@ Public Attributes</h2></td></tr>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>position</b></td></tr>
 <tr class="separator:a04b5db2c530d8630660e8cfb93a4b3b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a9733e299c281288208e4ce36681143a6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Camera::moveLeft </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>step</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>przesuniecie kamery w lewo o step</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/grzeslaff/opengl/renderEngine/src/<a class="el" href="Camera_8h_source.html">Camera.h</a></li>
 <li>/home/grzeslaff/opengl/renderEngine/src/Camera.cpp</li>
@@ -143,7 +161,7 @@ glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>position</b></td
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Feb 17 2016 12:24:00 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 17 2016 13:33:26 for Render Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
