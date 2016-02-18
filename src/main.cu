@@ -76,8 +76,10 @@ int main() {
     model_camera_distance = glm::length(asteroid_pos - camera_position);
     model_light_distance = glm::length(asteroid_pos - light_position);
 // 	render.addCamera(camera_position, asteroid_pos, 70.0f, (float)DISPLAY_WIDTH/(float)DISPLAY_HEIGHT, model_light_distance - 5, model_light_distance + 5);
-    render.addCamera(camera_position, asteroid_pos, -d, d, -d, d, model_camera_distance - 1, model_camera_distance + 1);
-    render.addCamera(light_position, asteroid_pos, -d, d, -d, d, model_light_distance - 1, model_light_distance + 1);
+    render.addCamera(camera_position, asteroid_pos, -d, d, -d, d,
+					 model_camera_distance - 1, model_camera_distance + 1);
+    render.addCamera(light_position, asteroid_pos, -d, d, -d, d,
+					 model_light_distance - 1, model_light_distance + 1);
     render.linkShaderToModel(basicShader, aster);
 
     render.linkBasicCamerasToShader();

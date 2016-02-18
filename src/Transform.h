@@ -19,35 +19,36 @@ public:
 		pos(pos),
 		rot(rot),
 		scale(scale) {}
-		
+
 	Transform(const glm::vec3& pos, float alpha, float beta, float gamma, float gamma0 ):
 		pos(pos),
 		alpha(alpha),
 		gamma(gamma),
 		gamma0(gamma0) {}
-		
 
-	
+
+
 	glm::mat4 getModelMatrix();
 
 	void setPosition(glm::vec3 pos);
 	void setAngles(float alpha, float beta, float gamma, float gamma0);
+	void setScale(glm::vec3 scale);
 	
 	glm::mat4 getRotationMatrix();
 	glm::mat4 getRotationMatrix313();
-	
-	
+
+
 	virtual ~Transform();
 
 	float alpha, beta, gamma, gamma0;
 	glm::vec3 pos;
 	glm::vec3 rot;
 	glm::vec3 scale;
-	
+
 	glm::mat4 rotX, rotY, rotZ;
-	
-	
-	
+
+
+
 };
 
 #endif /* TRANSFORM_H_ */

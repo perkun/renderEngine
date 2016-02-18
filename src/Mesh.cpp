@@ -127,7 +127,12 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr ) {
             if ( l  > max )
                 max = l;
         }
-        transform.scale = glm::vec3(1./max, 1./max, 1./max);
+//         transform.scale = glm::vec3(1./max, 1./max, 1./max);
+		for (int i = 0; i < num_pkt; i++) {
+			vertices[i][0] /= max;
+			vertices[i][1] /= max;
+			vertices[i][2] /= max;
+		}
     }
 
     // brak interpolacji normalnych

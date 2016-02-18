@@ -1,6 +1,7 @@
 #ifndef CUDA_H_
 #define CUDA_H_
 #define CUDA_VERSION 5000
+// #define GLM_COMPILER 0
 
 #include <iostream>
 #include <fstream>
@@ -9,6 +10,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
+#include <cuda.h>
+// #include <cuda_runtime.h>
 #include <cuda_gl_interop.h>
 
 
@@ -23,15 +26,15 @@ public:
 	int num_blocks, initial_num_blocks;
 	int width, height;
 	GLuint texture;
-	
+
 	Cuda(GLuint &tex, int w, int h);
 	~Cuda();
-	
+
 	void copyResult();
 	float calculateMagnitudes();
-	
-	
-	
+
+
+
 };
 
 
