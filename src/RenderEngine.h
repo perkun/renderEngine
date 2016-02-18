@@ -19,6 +19,7 @@
 #include "Camera.h"
 #include "FrameBuffer.h"
 #include "Xwindow.h"
+#include "WinGLFW.h"
 
 
 
@@ -44,16 +45,22 @@ public:
 	int shadow_size;
 	int fb, fb_tx;
 
+	float camera_rotation_speed;
+
 	glm::vec3 light_position;
 
 	Xwindow Xdisplay;
+	WinGLFW display;
+
 	Camera camera, light;
 
 
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering);
+	RenderEngine(int w, int h, bool visible, bool off_screen_rendering, bool _interactive);
 	~RenderEngine();
 
 	void renderScene();
+	void userInput();
 
 
 	void linkShaderToModel(int shader_index, int model_index);

@@ -9,7 +9,7 @@ CPPEXT = cpp
 CUDAEXT = cu
 
 CFLAGS = -g -c
-LIB = -lm -lGL -lGLU -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl
+LIB = -lm -lglfw3 -lGL -lGLU -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl
 
 SOURCES = $(shell find $(SRCDIR) -type f -name *.$(CPPEXT))
 CUDASOURCES = $(shell find $(SRCDIR) -type f -name *.$(CUDAEXT))

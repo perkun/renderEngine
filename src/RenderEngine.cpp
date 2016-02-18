@@ -32,12 +32,42 @@ RenderEngine::RenderEngine(int w, int h, bool visible, bool off_screen_rendering
 	interactive = false;
 }
 
+RenderEngine::RenderEngine(int w, int h, bool visible,
+						   bool off_screen_rendering, bool _interactive ):
+						   display(w, h, "RenderEngine window")
+{
+	DISPLAY_WIDTH = w;
+	DISPLAY_HEIGHT = h;
+	shadow_size = 1024 * 2;
+
+	//      shadow_shader_id = addShader("shadowShader");
+	shadow_shader_id = 0;
+	Shader *temp = new Shader("shadowShader");
+	shaders.push_back(temp);
+	shaders_camera.push_back(0);
+	shaders_texture.push_back(0);
+
+	shadow_fb_id = addFramebuffer(shadow_size, shadow_size);
+	shadow_texture_id = addTexture(shadow_size, shadow_size);
+
+	fb = addFramebuffer(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+	fb_tx = addTexture(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+
+	render_off_screen = false;
+	interactive = _interactive;
+
+	camera_rotation_speed = 0.05;
+
+}
 
 
 void RenderEngine::renderScene() {
 
 
 	if (!render_off_screen) {
+		if (interactive)
+			display.clear(0.0, 0., 0., 1.);
+		else
 			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
 
@@ -72,13 +102,71 @@ void RenderEngine::renderScene() {
 	}
 
 
-
 	if (!render_off_screen) {
+		if (interactive) {
+			userInput();
+			display.update();
+		}
+		else
 			Xdisplay.update();
 	}
+
 }
 
+void RenderEngine::userInput() {
+// 	float camera_rotation_speed = 0.05;
 
+	if (display.keys.A) {
+		cameras[0]->moveLeft(0.01);
+	}
+	if (display.keys.D) {
+		cameras[0]->moveRight(0.01);
+	}
+	if (display.keys.W) {
+		cameras[0]->moveForward(0.01);
+	}
+	if (display.keys.S) {
+		cameras[0]->moveBack(0.01);
+	}
+
+
+	if (display.keys.UP) {
+		cameras[0]->rotateUp(camera_rotation_speed);
+	}
+
+	if (display.keys.DOWN) {
+		cameras[0]->rotateDown(camera_rotation_speed);
+	}
+	if (display.keys.LEFT) {
+		cameras[0]->rotateLeft(camera_rotation_speed);
+	}
+	if (display.keys.RIGHT) {
+		cameras[0]->rotateRight(camera_rotation_speed);
+	}
+	if (display.keys.C)
+		cameras[0]->resetView();
+
+	if (display.keys.SPACE)
+		models[0]->transform.gamma += 0.05;
+
+	if (display.keys.O)
+		models[0]->transform.alpha -=0.05;
+
+	if (display.keys.P)
+		models[0]->transform.alpha +=0.05;
+
+	if (display.keys.K)
+		models[0]->transform.beta -=0.05;
+
+	if (display.keys.L)
+		models[0]->transform.beta +=0.05;
+
+
+
+
+// 	if (!render_off_screen)
+// 		display.update();
+}
 
 
 void RenderEngine::linkShaderToModel(int shader_index, int model_index) {

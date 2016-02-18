@@ -55,8 +55,9 @@ int main() {
 
 
 //     RenderEngine render(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, true);		// brak wyśw., LICZY jasnosci
-    RenderEngine render(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, false);		// wyswietla, NIE LICZY jasnosci
-    cudaGLSetGLDevice(0);
+//     RenderEngine render(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, false);		// wyswietla, NIE LICZY jasnosci
+	RenderEngine render(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, false, true);
+	cudaGLSetGLDevice(0);
 
     int basicShader = render.addShader("basicShader");
 //     int aster = render.addModel(punkty, num_vertices, trojkaty, num_indices);
@@ -100,23 +101,23 @@ int main() {
 //     render.render_off_screen = false;
 //    while (!render.display.is_closed) {
 
-
-    for (int k = 0; k < 2; k++) {
+	while (!render.display.is_closed) {
+//     for (int k = 0; k < 2; k++) {
 //      for (int k = 0; k < 90; k++) {
-        render.models[aster]->transform.gamma += 2.*M_PI/ILOSC_SYMULACJI;
+//         render.models[aster]->transform.gamma += 2.*M_PI/ILOSC_SYMULACJI;
         render.renderScene();
 
         model_camera_distance = glm::length(asteroid_pos - camera_position);
         model_light_distance = glm::length(asteroid_pos - light_position);
-        render.updateCamera(camera_position, asteroid_pos,
-							-d, d, -d, d, model_camera_distance - 1,
-							model_camera_distance + 1 , 0);
+//         render.updateCamera(camera_position, asteroid_pos,
+// 							-d, d, -d, d, model_camera_distance - 1,
+// 							model_camera_distance + 1 , 0);
 
 
-        if (render.render_off_screen)
-            jasnosci[0][k] = cuda.calculateMagnitudes();
+//         if (render.render_off_screen)
+//             jasnosci[0][k] = cuda.calculateMagnitudes();
 
-		sleep(1);
+// 		sleep(1);
         counter++;
     }
 
