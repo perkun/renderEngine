@@ -76,8 +76,10 @@ void RenderEngine::renderScene() {
 	framebuffers[shadow_fb_id]->clear(0., 0., 0., 1.);
 	shaders[shadow_shader_id]->bind();
 	for (int i = 0; i < models.size(); i++) {
-		shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0], *cameras[1]);
-		models[i]->draw();
+		if (models[i]->casting_shadow) {
+			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0], *cameras[1]);
+			models[i]->draw();
+		}
 	}
 
 	// normal drawing
@@ -96,9 +98,11 @@ void RenderEngine::renderScene() {
 	}
 
 	for (int i = 0; i < models.size(); i++) {
-		shaders[models_shader[i]]->bind();
-		shaders[models_shader[i]]->update(models[i]->transform, *cameras[0], *cameras[1]);
-		models[i]->draw();
+		if (models[i]->visible) {
+			shaders[models_shader[i]]->bind();
+			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0], *cameras[1]);
+			models[i]->draw();
+		}
 	}
 
 
@@ -128,6 +132,15 @@ void RenderEngine::userInput() {
 	if (display.keys.S) {
 		cameras[0]->moveBack(0.01);
 	}
+	if (display.keys.R) {
+		cameras[0]->moveUp(0.01);
+	}
+	if (display.keys.F) {
+		cameras[0]->moveDown(0.01);
+	}
+
+
+
 
 
 	if (display.keys.UP) {
@@ -146,20 +159,20 @@ void RenderEngine::userInput() {
 	if (display.keys.C)
 		cameras[0]->resetView();
 
-	if (display.keys.SPACE)
-		models[0]->transform.gamma += 0.05;
+// 	if (display.keys.SPACE)
+// 		models[0]->transform.gamma += 0.005;
 
 	if (display.keys.O)
-		models[0]->transform.alpha -=0.05;
+		models[0]->transform.alpha -=0.005;
 
 	if (display.keys.P)
-		models[0]->transform.alpha +=0.05;
+		models[0]->transform.alpha +=0.005;
 
 	if (display.keys.K)
-		models[0]->transform.beta -=0.05;
+		models[0]->transform.beta -=0.005;
 
 	if (display.keys.L)
-		models[0]->transform.beta +=0.05;
+		models[0]->transform.beta +=0.005;
 
 
 
@@ -217,11 +230,14 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
 	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów i liczbę tr)
 	 */
 	FILE *f = fopen(filename.c_str(), "r");
+	if (f == NULL) {
+		perror("Error");
+	}
 
 	int num_indices, num_vertices;
 
 	fscanf(f, "%d %d", &num_vertices, &num_indices);
-	printf("%d %d\n", num_vertices, num_indices);
+	//printf("%d %d\n", num_vertices, num_indices);
 
 	float vertices[num_vertices][3];
 	int indices[num_indices][3];
@@ -240,6 +256,7 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
 
 	models_shader.push_back(0);
 
+	printf("model %s added\n", filename.c_str());
 	return models.size() -1 ;
 }
 

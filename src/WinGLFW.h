@@ -22,23 +22,23 @@
 #define GLM_FORCE_RADIANS
 class Keys {
 public:
-	bool A, W, S, D, C, O, P, K, L;
+	bool A, W, S, D, C, O, P, K, L, Z, X, F, R, N, M;
 	bool UP, DOWN, LEFT, RIGHT, SPACE;
-	
+
 	Keys() {
 		A = W = S = D = C = false;
 		UP = DOWN = LEFT = RIGHT = false;
 	}
-	
+
 	void update(GLFWwindow* window);
-	
+
 };
 
 class WinGLFW {
 public:
 	Keys keys;
 	int disp_width, disp_height;
-	
+
 	GLFWwindow* window;
 
 	bool is_closed;
@@ -51,7 +51,7 @@ public:
 	WinGLFW() {}
 	WinGLFW(int width, int height, const std::string& title );
 	virtual ~WinGLFW();
-	
+
 };
 
 #endif /* WINGLFW_H_ */

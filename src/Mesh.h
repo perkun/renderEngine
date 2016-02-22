@@ -45,6 +45,9 @@ public:
 	static bool normalize, normal_interpolation;
 	GLenum draw_mode = GL_TRIANGLES;
 
+	bool visible = true;
+	bool casting_shadow = true;
+
 	float max;
 
 	Transform transform;

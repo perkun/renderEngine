@@ -12,57 +12,93 @@
 void Keys::update(GLFWwindow* window)
 {
 	glfwPollEvents();
-	
-	
+
+
 	if (glfwGetKey (window, GLFW_KEY_W)) {
 		W = true;
 	}
 	else
 		W = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_A)) {
 		A = true;
 	}
 	else
 		A = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_S)) {
 		S = true;
 	}
 	else
 		S = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_D)) {
 		D = true;
 	}
 	else
 		D = false;
-	
-	
+
+
 	if (glfwGetKey (window, GLFW_KEY_O)) {
 		O = true;
 	}
 	else
 		O = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_P)) {
 		P = true;
 	}
 	else
 		P = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_K)) {
 		K = true;
 	}
 	else
 		K = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_L)) {
 		L = true;
 	}
 	else
 		L = false;
-	
+
+	if (glfwGetKey (window, GLFW_KEY_Z)) {
+		Z = true;
+	}
+	else
+		Z = false;
+
+	if (glfwGetKey (window, GLFW_KEY_X)) {
+		X = true;
+	}
+	else
+		X = false;
+
+	if (glfwGetKey (window, GLFW_KEY_R)) {
+		R = true;
+	}
+	else
+		R = false;
+
+	if (glfwGetKey (window, GLFW_KEY_F)) {
+		F = true;
+	}
+	else
+		F = false;
+
+	if (glfwGetKey (window, GLFW_KEY_N)) {
+		N = true;
+	}
+	else
+		N = false;
+
+	if (glfwGetKey (window, GLFW_KEY_M)) {
+		M = true;
+	}
+	else
+		M = false;
+
 	if (glfwGetKey (window, GLFW_KEY_SPACE )) {
 		glfwWaitEvents();
 		SPACE = !SPACE;
@@ -70,42 +106,42 @@ void Keys::update(GLFWwindow* window)
 	}
 // 	else
 // 		BACKSPACE = false;
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	if (glfwGetKey (window, GLFW_KEY_UP)) {
 		UP = true;
 	}
 	else
 		UP = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_DOWN)) {
 		DOWN = true;
 	}
 	else
 		DOWN = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_LEFT)) {
 		LEFT = true;
 	}
 	else
 		LEFT = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_RIGHT)) {
 		RIGHT = true;
 	}
 	else
 		RIGHT = false;
-	
+
 	if (glfwGetKey (window, GLFW_KEY_C)) {
 		C = true;
 	}
 	else
 		C = false;
-	
+
 }
 
 
@@ -113,7 +149,7 @@ void Keys::update(GLFWwindow* window)
 WinGLFW::WinGLFW(int width, int height, const std::string& title ) {
 	disp_height = height;
 	disp_width = width;
-	
+
 	if (!glfwInit ()) {
 		fprintf (stderr, "ERROR: could not start GLFW3\n");
 		exit(0);
@@ -131,20 +167,20 @@ WinGLFW::WinGLFW(int width, int height, const std::string& title ) {
 
 	// start GLEW extension handler
 	glewInit ();
-	
-	
+
+
 	glEnable(GL_DEPTH_TEST);
-	
+
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace (GL_CCW);
 
 
 	is_closed = false;
-	
+
 	keys = Keys();
 	keys.SPACE = false;
-	
+
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_FALSE);
 }
 
@@ -172,17 +208,17 @@ void WinGLFW::update() {
 		glfwSetWindowShouldClose (window, 1);
 		is_closed = true;
 	}
-	
+
 // 	if (glfwGetKey (window, GLFW_KEY_A)) {
 // // 		printf("A___");
 // 		keys.A = true;
 // 	}
-// 
-	
-	
+//
+
+
 	keys.update(window);
-	
-	
+
+
 }
 
 void WinGLFW::setDefaultViewport()

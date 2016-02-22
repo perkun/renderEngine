@@ -13,6 +13,16 @@
 //	// TODO Auto-generated constructor stub
 //
 //}
+/*
+Transform::Transform()
+{
+	alpha = beta = gamma = gamma0 = 0.;
+	pos = glm::vec3(0., 0., 0.);
+	equatorial_orbit_position = glm::vec3(0., 0., 0.) ;
+	rot = glm::vec3(0., 0., 0.) ;
+	scale = glm::vec3(1., 1., 1.);
+}*/
+
 
 Transform::~Transform() {
 	// TODO Auto-generated destructor stub
@@ -21,8 +31,9 @@ Transform::~Transform() {
 glm::mat4 Transform::getModelMatrix() {
 	glm::mat4 posMatrix = glm::translate(pos);
 	glm::mat4 scaleMatrix = glm::scale(scale);
+	glm::mat4 equatorialOrbitMatrix = glm::translate(equatorial_orbit_position);
 
-	return posMatrix * getRotationMatrix313() * scaleMatrix;
+	return posMatrix * equatorialOrbitMatrix * getRotationMatrix313() * scaleMatrix;
 }
 
 void Transform::setScale ( glm::vec3 scale ) {
