@@ -61,7 +61,7 @@ int main() {
 
     int basicShader = render.addShader("basicShader");
 //     int aster = render.addModel(punkty, num_vertices, trojkaty, num_indices);
-    int aster = render.addModelAsteroidFormat("../data/model.obj");
+    int aster = render.addModelAsteroidFormat("../data/hw1_3.obj");
 
 
     glm::vec3 asteroid_pos(0,2,0);
@@ -72,11 +72,11 @@ int main() {
     float d = 1., model_camera_distance, model_light_distance;
     glm::vec3 light_position(0., 0., 0.);
     light_position *= 10000.;
-    glm::vec3 camera_position(2., 2., 0.);
+    glm::vec3 camera_position(0., 0., 0.);
     camera_position *= 10000.;
     model_camera_distance = glm::length(asteroid_pos - camera_position);
     model_light_distance = glm::length(asteroid_pos - light_position);
-// 	render.addCamera(camera_position, asteroid_pos, 70.0f, (float)DISPLAY_WIDTH/(float)DISPLAY_HEIGHT, model_light_distance - 5, model_light_distance + 5);
+// // 	render.addCamera(camera_position, asteroid_pos, 70.0f, (float)DISPLAY_WIDTH/(float)DISPLAY_HEIGHT, model_light_distance - 5, model_light_distance + 5);
     render.addCamera(camera_position, asteroid_pos, -d, d, -d, d,
 					 model_camera_distance - 1, model_camera_distance + 1);
     render.addCamera(light_position, asteroid_pos, -d, d, -d, d,

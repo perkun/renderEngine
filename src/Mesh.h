@@ -50,6 +50,9 @@ public:
 
 	float max;
 
+// 	float RGB_value[3] = {1., 1., 1.};
+	glm::vec3 RGB_value = glm::vec3(1., 1., 1.);
+
 	Transform transform;
 
 	void draw();
@@ -61,7 +64,9 @@ public:
 	Mesh(Vertex *vertices, unsigned int number_of_vertices, unsigned int *indices, unsigned int num_indices);
 
 	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr);
+	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr, float texture_coords[][2]);
 	virtual ~Mesh();
+
 
 private:
 

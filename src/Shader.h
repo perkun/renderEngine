@@ -23,14 +23,14 @@
 class Shader {
 public:
 	GLuint program;
-	
-	
-	
+
+
+
 	Shader();
 	Shader(const Shader& other) {}
 	Shader(const std::string& filename);
 	virtual ~Shader();
-	
+
 	void bind();
 	void update(Transform& transform, const Camera& camera, const Camera& light);
 // 	void update(int model_index, int camera_index, int light_index);
@@ -48,12 +48,14 @@ public:
 		LIGHT_VIEW_U,
 		LIGHT_PROJECTION_U,
 		LIGHT_POSITION_U,
+		RGB_VALUE_U,
 
 		NUM_UNIFORMS
 	};
 
 	static const unsigned int NUM_SHADERS = 2;
-	
+	glm::vec3 RGB_value;
+
 	GLuint shaders[NUM_SHADERS];
 	GLuint uniforms[NUM_UNIFORMS];
 

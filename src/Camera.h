@@ -49,12 +49,12 @@ public:
 
     ~Camera();
 	glm::vec3 position;
-private:
-	glm::mat4 perspective, view;
-
-	glm::vec3 forward;
 	glm::vec3 target;
 	glm::vec3 up;
+private:
+	glm::mat4 perspective, view;
+	glm::vec3 forward;
+
 };
 
 #endif // CAMERA_H

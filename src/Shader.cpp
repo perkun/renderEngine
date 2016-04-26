@@ -13,6 +13,10 @@ Shader::Shader() {
 
 
 Shader::Shader(const std::string& filename) {
+// 	RGB_value[0] = RGB_value[1] = RGB_value[2] = 1.;
+	RGB_value = glm::vec3(1., 1., 1.);
+
+
 	program = glCreateProgram();
 	shaders[0] = createShader(loadShader(filename + ".vs"), GL_VERTEX_SHADER);
 	shaders[1] = createShader(loadShader(filename + ".fs"), GL_FRAGMENT_SHADER);
@@ -24,6 +28,7 @@ Shader::Shader(const std::string& filename) {
 	glBindAttribLocation(program, 0, "position");
 	glBindAttribLocation(program, 1, "texCoord");
 	glBindAttribLocation(program, 2, "normal");
+
 
 	glLinkProgram(program);
 	checkShaderError(program, GL_LINK_STATUS, true, "Error: Shader program linking failed");
@@ -38,8 +43,8 @@ Shader::Shader(const std::string& filename) {
 	uniforms[LIGHT_VIEW_U] = glGetUniformLocation(program, "light_view_matrix");
 	uniforms[LIGHT_PROJECTION_U] = glGetUniformLocation(program, "light_projection_matrix");
 	uniforms[LIGHT_POSITION_U] = glGetUniformLocation(program, "light_position");
-	
-	
+
+	uniforms[RGB_VALUE_U] = glGetUniformLocation(program, "RGB_value");
 
 }
 
@@ -62,16 +67,24 @@ void Shader::update(Transform& transform, const Camera& camera, const Camera& li
 	glm::mat4 projection_matrix = camera.getProjectionMatrix();
 	glm::mat4 light_view_matrix = light.getViewMatrix();
 	glm::mat4 light_projection_matrix = light.getProjectionMatrix();
-	
+
 	float lp[3];
 	lp[0] = light.position.x; lp[1] = light.position.y; lp[2] = light.position.z;
-	
+
 	glUniformMatrix4fv(uniforms[MODEL_U], 1, GL_FALSE, &model_matrix[0][0]);
 	glUniformMatrix4fv(uniforms[VIEW_U], 1, GL_FALSE, &view_matrix[0][0]);
 	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, GL_FALSE, &projection_matrix[0][0]);
 	glUniformMatrix4fv(uniforms[LIGHT_VIEW_U], 1, GL_FALSE, &light_view_matrix[0][0]);
 	glUniformMatrix4fv(uniforms[LIGHT_PROJECTION_U], 1, GL_FALSE, &light_projection_matrix[0][0]);
 	glUniform3fv(uniforms[LIGHT_POSITION_U], 1, lp);
+
+// 	float dupa[3] = {0.,0., 1.};
+// 	glUniform3fv(uniforms[RGB_VALUE_U], 1, dupa);
+// 	glm::vec3 dupa = glm::vec3(0.,0.,1.);
+	glUniform3fv(uniforms[RGB_VALUE_U], 1, (float*) &RGB_value);
+
+
+
 }
 
 

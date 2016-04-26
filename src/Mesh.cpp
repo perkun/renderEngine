@@ -72,7 +72,9 @@ void Mesh::InitMesh(const IndexedModel &model) {
 
 Mesh::Mesh(const std::string &file_name) {
 
+	std::cout << "indexing...\n";
     IndexedModel model = OBJModel(file_name).ToIndexedModel();
+	std::cout << "model indexed\n";
 
 // 	for (int i = 0; i < 100; i++)
 // 		printf("%f \t %f \t %f\n", model.positions[i].x, model.positions[i].y, model.positions[i].z);
@@ -115,7 +117,8 @@ Mesh::Mesh(Vertex* vertices, unsigned int number_of_vertices, unsigned int *indi
 
 
 Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr ) {
-    IndexedModel model;
+
+	IndexedModel model;
 
 // 	glm::vec3 normals[num_pkt];
 
@@ -203,6 +206,78 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr ) {
 
 }
 
+Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr, float texture_coords[][2] ) {
+	IndexedModel model;
+
+
+	// 	glm::vec3 normals[num_pkt];
+
+	// normalizacja modelu do 1
+	if (normalize) {
+		max=-1.;
+		for (int i = 0; i < num_pkt; i++) {
+			float l = glm::length(glm::vec3(vertices[i][0], vertices[i][1], vertices[i][2]) );
+			if ( l  > max )
+				max = l;
+		}
+		//         transform.scale = glm::vec3(1./max, 1./max, 1./max);
+		for (int i = 0; i < num_pkt; i++) {
+			vertices[i][0] /= max;
+			vertices[i][1] /= max;
+			vertices[i][2] /= max;
+		}
+	}
+
+	// brak interpolacji normalnych
+	if (!normal_interpolation) {
+		int k = 0;
+		for (int i = 0; i < num_tr; i++) {
+			int i0 = indices[i][0] -1;
+			int i1 = indices[i][1] -1;
+			int i2 = indices[i][2] -1;
+
+			model.positions.push_back( glm::vec3( vertices[i0][0], vertices[i0][1], vertices[i0][2]  ) );
+// 			model.texCoords.push_back(glm::vec2(0.,0.) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i0][0], texture_coords[i0][1]) );
+			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
+
+			model.positions.push_back( glm::vec3( vertices[i1][0], vertices[i1][1], vertices[i1][2]  ) );
+// 			model.texCoords.push_back(glm::vec2(0.,0.) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i1][0], texture_coords[i1][1]) );
+			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
+
+			model.positions.push_back( glm::vec3( vertices[i2][0], vertices[i2][1], vertices[i2][2]  ) );
+// 			model.texCoords.push_back(glm::vec2(0.,0.) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i2][0], texture_coords[i2][1]) );
+			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
+
+
+			model.indices.push_back( k  );
+			model.indices.push_back( k +1 );
+			model.indices.push_back( k  +2);
+
+			k += 3;
+		}
+	}
+
+	// 	interpolacja normalnych na powierzchni
+	if (normal_interpolation) {
+		for (int i = 0; i < num_tr; i++) {
+			for (int j = 0; j < 3; j++)
+				model.indices.push_back(indices[i][j]-1);		// przesuniecie (bo w pliku jest numeracja trojkatów od 1)
+		}
+		for ( int i = 0; i < num_pkt; i++) {
+			model.positions.push_back( glm::vec3( vertices[i][0], vertices[i][1], vertices[i][2]  ) );
+// 			model.texCoords.push_back(glm::vec2(0.,0.) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i][0], texture_coords[i][1]) );
+			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
+		}
+	}
+
+	model.CalcNormals();
+
+	InitMesh(model);
+}
 
 
 

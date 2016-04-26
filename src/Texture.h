@@ -11,7 +11,7 @@
 #include <string>
 #include <iostream>
 #include <GL/glew.h>
-// #include "stb_image.h"
+#include "stb_image.h"
 #include <string.h>
 #include "Shader.h"
 
@@ -23,34 +23,34 @@ public:
 	static int num_textures;
 	int color_texture_unit, depth_texture_unit;
 	GLuint color_texture, depth_texture;
-	
-	
+
+
 	Texture(int, int);
-// 	Texture(const std::string& filename);
-	
+	Texture(const std::string& filename);
+
 	Texture();
 	Texture(const Texture& other) {}
-	
+
 	void bind();
-	
-	
+
+
 // 	Texture(int mode);
 	void createDepthTexture();
-// 	void createColorTexture(const std::string& filename);
+	void createColorTexture(const std::string& filename);
 	void createColorTexture();
 	void setUniform(Shader& shader, const char* color_name, const char* depth_name);
-	
+
 	virtual ~Texture();
-	
+
 private:
 	int depth_texture_height, depth_texture_width, color_texture_width, color_texture_height;
 	GLuint color_texture_location, depth_texture_location;
-	
-	
+
+
 	void attachToCurrentFramebuffer();
-	
-	
-	
+
+
+
 };
 
 

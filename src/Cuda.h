@@ -9,6 +9,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
+#include <cmath>
 
 #include <cuda.h>
 // #include <cuda_runtime.h>

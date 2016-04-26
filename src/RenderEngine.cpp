@@ -100,6 +100,8 @@ void RenderEngine::renderScene() {
 	for (int i = 0; i < models.size(); i++) {
 		if (models[i]->visible) {
 			shaders[models_shader[i]]->bind();
+			for (int j = 0; j < 3; j++)
+				shaders[models_shader[i]]->RGB_value[j] = models[i]->RGB_value[j];
 			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0], *cameras[1]);
 			models[i]->draw();
 		}
@@ -156,8 +158,8 @@ void RenderEngine::userInput() {
 	if (display.keys.RIGHT) {
 		cameras[0]->rotateRight(camera_rotation_speed);
 	}
-	if (display.keys.C)
-		cameras[0]->resetView();
+// 	if (display.keys.C)
+// 		cameras[0]->resetView();
 
 // 	if (display.keys.SPACE)
 // 		models[0]->transform.gamma += 0.005;
@@ -207,8 +209,11 @@ void RenderEngine::linkBasicCamerasToShader() {
 
 
 int RenderEngine::addModel(const std::string& file_name) {
+	std::cout << "adding model...\n";
 	Mesh *temp = new Mesh(file_name);
+	std::cout << "still adding model...\n";
 	models.push_back(temp);
+	std::cout << "model added...\n";
 
 	models_shader.push_back(0);
 
@@ -229,10 +234,26 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
 	 *  Funkcja wkładająca model do RenderEngine
 	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów i liczbę tr)
 	 */
+
+	// dodać wczytywanie dodatkowego pliku, np file_name.uv albo cos
+	// i jeśli istnieje to wpisuj koordynaty
+
 	FILE *f = fopen(filename.c_str(), "r");
 	if (f == NULL) {
 		perror("Error");
 	}
+
+	bool texture_coords_available = false;
+	std::string tex_filename = filename + ".uv";
+	FILE *f_tex = fopen(tex_filename.c_str(), "r");
+	if (f_tex == NULL) {
+		perror("No texture coordinates .uv file");
+		texture_coords_available = false;
+	}
+	else
+		texture_coords_available = true;
+
+
 
 	int num_indices, num_vertices;
 
@@ -241,6 +262,7 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
 
 	float vertices[num_vertices][3];
 	int indices[num_indices][3];
+	float texture_coords[num_vertices][2];
 
 	for (int i = 0; i < num_vertices; i++) {
 		fscanf(f, "%f %f %f ", &vertices[i][0], &vertices[i][1], &vertices[i][2]);
@@ -250,13 +272,26 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
 	}
 	fclose(f);
 
+	if (texture_coords_available) {
+		for (int i = 0; i < num_vertices; i++) {
+			fscanf(f_tex, "%f %f ", &texture_coords[i][0], &texture_coords[i][1]);
+		}
+		fclose(f_tex);
+	}
 
-	Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices);
-	models.push_back(temp);
+	if (texture_coords_available) {
+		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices, texture_coords);
+		models.push_back(temp);
+	}
+	else {
+		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices);
+		models.push_back(temp);
+	}
+
 
 	models_shader.push_back(0);
 
-	printf("model %s added\n", filename.c_str());
+// 	printf("model %s added\n", filename.c_str());
 	return models.size() -1 ;
 }
 
@@ -274,13 +309,13 @@ int RenderEngine::addShader(const std::string& file_name) {
 
 	return shaders.size() -1 ;
 }
-/*
+
 int RenderEngine::addTexture(const std::string& file_name) {
 	Texture *temp = new Texture(file_name);
 	textures.push_back(temp);
 	return textures.size() -1 ;
 }
-*/
+
 int RenderEngine::addTexture(int w, int h) {
 	Texture *temp = new Texture(w ,h);
 	textures.push_back(temp);
