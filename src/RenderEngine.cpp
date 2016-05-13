@@ -60,8 +60,8 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 
 }
 
-
-void RenderEngine::renderScene() {
+void RenderEngine::renderScene() 
+{
 
 
 	if (!render_off_screen) {
@@ -119,7 +119,8 @@ void RenderEngine::renderScene() {
 
 }
 
-void RenderEngine::userInput() {
+void RenderEngine::userInput() 
+{
 // 	float camera_rotation_speed = 0.05;
 
 	if (display.keys.A) {
@@ -183,20 +184,23 @@ void RenderEngine::userInput() {
 // 		display.update();
 }
 
-
-void RenderEngine::linkShaderToModel(int shader_index, int model_index) {
+void RenderEngine::linkShaderToModel(int shader_index, int model_index) 
+{
 	models_shader[model_index] = shader_index;
 }
 
-void RenderEngine::linkTextureToShader(int texture_index, int shader_index) {
+void RenderEngine::linkTextureToShader(int texture_index, int shader_index) 
+{
 	shaders_texture[shader_index] = texture_index;
 }
 
-void RenderEngine::linkCameraToShaders(int camera_index, int shader_index) {
+void RenderEngine::linkCameraToShaders(int camera_index, int shader_index) 
+{
 	shaders_camera[shader_index] = camera_index;
 }
 
-void RenderEngine::linkBasicCamerasToShader() {
+void RenderEngine::linkBasicCamerasToShader() 
+{
 	/**
 	 * linkuje dwie podstawowe kamery do shaderów
 	 */
@@ -206,9 +210,8 @@ void RenderEngine::linkBasicCamerasToShader() {
 	}
 }
 
-
-
-int RenderEngine::addModel(const std::string& file_name) {
+int RenderEngine::addModel(const std::string& file_name) 
+{
 	std::cout << "adding model...\n";
 	Mesh *temp = new Mesh(file_name);
 	std::cout << "still adding model...\n";
@@ -220,7 +223,9 @@ int RenderEngine::addModel(const std::string& file_name) {
 	return models.size() -1 ;
 }
 
-int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3], int num_tr) {
+int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3],
+			   														int num_tr) 
+{
 	Mesh *temp = new Mesh(vertices, num_pkt, indices, num_tr);
 	models.push_back(temp);
 
@@ -229,7 +234,8 @@ int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3], i
 	return models.size() -1 ;
 }
 
-int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
+int RenderEngine::addModelAsteroidFormat(const std::string& filename) 
+{
 	/**
 	 *  Funkcja wkładająca model do RenderEngine
 	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów i liczbę tr)
@@ -295,9 +301,8 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename) {
 	return models.size() -1 ;
 }
 
-
-
-int RenderEngine::addShader(const std::string& file_name) {
+int RenderEngine::addShader(const std::string& file_name) 
+{
 	Shader *temp = new Shader(file_name);
 	shaders.push_back(temp);
 
@@ -310,50 +315,57 @@ int RenderEngine::addShader(const std::string& file_name) {
 	return shaders.size() -1 ;
 }
 
-int RenderEngine::addTexture(const std::string& file_name) {
+int RenderEngine::addTexture(const std::string& file_name) 
+{
 	Texture *temp = new Texture(file_name);
 	textures.push_back(temp);
 	return textures.size() -1 ;
 }
 
-int RenderEngine::addTexture(int w, int h) {
+int RenderEngine::addTexture(int w, int h) 
+{
 	Texture *temp = new Texture(w ,h);
 	textures.push_back(temp);
 	return textures.size() -1 ;
 }
 
-
-int RenderEngine::addFramebuffer(int w, int h) {
+int RenderEngine::addFramebuffer(int w, int h) 
+{
 	FrameBuffer *temp = new FrameBuffer(w,h);
 	framebuffers.push_back(temp);
 // 	framebuffers[framebuffers.size()-1].initialize(w, h);
 	return framebuffers.size() -1 ;
 }
 
-int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right, float bottom, float top, float zNear, float zFar) {
+int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float left,
+			   	float right, float bottom, float top, float zNear, float zFar) 
+{
 	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar);
 	cameras.push_back(temp);
 // 	cameras[cameras.size()-1].initialize(pos, targ, left, right, top, bottom, zNear, zFar);
 	return cameras.size() -1;
 }
 
-void RenderEngine::updateCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right, float bottom, float top, float zNear, float zFar, int camera_id) {
+void RenderEngine::updateCamera(const glm::vec3 pos, glm::vec3 targ, 
+				float left, float right, float bottom, float top, float zNear,
+			   	float zFar, int camera_id) 
+{
 	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar);
 	cameras.at(camera_id) = temp;
 	// 	cameras.push_back(temp);
 }
 
-int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect, float zNear, float zFar) {
+int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, 
+				float aspect, float zNear, float zFar) 
+{
 	Camera *temp = new Camera(pos, targ, fov, aspect, zNear, zFar);
 	cameras.push_back(temp);
 // 	cameras[cameras.size()-1].initialize(pos, targ, fov, aspect, zNear, zFar);
 	return cameras.size() -1;
 }
 
-
-
-
-RenderEngine::~RenderEngine() {
+RenderEngine::~RenderEngine() 
+{
 	for (int i = 0; i < models.size(); i++)
 		delete models[i];
 
@@ -372,10 +384,4 @@ RenderEngine::~RenderEngine() {
 	if (!interactive)	// czyli że Xwindow jest
 		XDestroyWindow(Xdisplay.dpy, Xdisplay.win);
 }
-
-
-
-
-
-
 

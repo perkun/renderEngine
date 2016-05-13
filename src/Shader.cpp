@@ -11,8 +11,8 @@ Shader::Shader() {
 	// asdwd
 }
 
-
-Shader::Shader(const std::string& filename) {
+Shader::Shader(const std::string& filename) 
+{
 // 	RGB_value[0] = RGB_value[1] = RGB_value[2] = 1.;
 	RGB_value = glm::vec3(1., 1., 1.);
 
@@ -48,7 +48,8 @@ Shader::Shader(const std::string& filename) {
 
 }
 
-Shader::~Shader() {
+Shader::~Shader() 
+{
 	for (unsigned int i=0; i < NUM_SHADERS; i++) {
 		glDetachShader(program, shaders[i]);
 		glDeleteShader(shaders[i]);
@@ -57,11 +58,13 @@ Shader::~Shader() {
 	glDeleteProgram(program);
 }
 
-void Shader::bind() {
+void Shader::bind() 
+{
 	glUseProgram(program);
 }
 
-void Shader::update(Transform& transform, const Camera& camera, const Camera& light) {
+void Shader::update(Transform& transform, const Camera& camera, const Camera& light) 
+{
  	glm::mat4 model_matrix = transform.getModelMatrix();
 	glm::mat4 view_matrix = camera.getViewMatrix();
 	glm::mat4 projection_matrix = camera.getProjectionMatrix();
@@ -87,16 +90,14 @@ void Shader::update(Transform& transform, const Camera& camera, const Camera& li
 
 }
 
-
-
-
-void Shader::updateModelMatrix(Transform& transform) {
+void Shader::updateModelMatrix(Transform& transform) 
+{
 	glm::mat4 model_matrix = transform.getModelMatrix();
 	glUniformMatrix4fv(uniforms[MODEL_U], 1, GL_FALSE, &model_matrix[0][0]);
 }
 
-
-std::string Shader::loadShader(const std::string& filename) {
+std::string Shader::loadShader(const std::string& filename) 
+{
 //	const std::string& filename2 = "basicShader.vs";
 
 	std::ifstream file;
@@ -118,7 +119,8 @@ std::string Shader::loadShader(const std::string& filename) {
 }
 
 void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram,
-		const std::string& errorMessage) {
+		const std::string& errorMessage) 
+{
 	GLint success = 0;
 	GLchar error[1024] = { 0 };
 
@@ -137,9 +139,8 @@ void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram,
 	}
 }
 
-
-
-GLuint Shader::createShader(const std::string& text, unsigned int type) {
+GLuint Shader::createShader(const std::string& text, unsigned int type) 
+{
 	GLuint shader = glCreateShader(type);
 
 	if (shader == 0)
