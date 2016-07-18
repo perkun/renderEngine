@@ -43,8 +43,8 @@ bool Mesh::normalize = true;
 bool Mesh::normal_interpolation = true;
 
 int main() {
-
-    clock_t start_t, end_t;
+	int k;
+	clock_t start_t, end_t;
     double cpu_time_used, cpu_ticks;
 
 
@@ -78,9 +78,9 @@ int main() {
     model_light_distance = glm::length(asteroid_pos - light_position);
 // // 	render.addCamera(camera_position, asteroid_pos, 70.0f, (float)DISPLAY_WIDTH/(float)DISPLAY_HEIGHT, model_light_distance - 5, model_light_distance + 5);
     render.addCamera(camera_position, asteroid_pos, -d, d, -d, d,
-					 model_camera_distance - 1, model_camera_distance + 1);
+						model_camera_distance - 1, model_camera_distance + 1);
     render.addCamera(light_position, asteroid_pos, -d, d, -d, d,
-					 model_light_distance - 1, model_light_distance + 1);
+						model_light_distance - 1, model_light_distance + 1);
     render.linkShaderToModel(basicShader, aster);
 
     render.linkBasicCamerasToShader();
@@ -101,7 +101,8 @@ int main() {
 //     render.render_off_screen = false;
 //    while (!render.display.is_closed) {
 
-	while (!render.display.is_closed) {
+	while (!render.display.is_closed)
+	{
 //     for (int k = 0; k < 2; k++) {
 //      for (int k = 0; k < 90; k++) {
 //         render.models[aster]->transform.gamma += 2.*M_PI/ILOSC_SYMULACJI;
@@ -114,15 +115,16 @@ int main() {
 // 							model_camera_distance + 1 , 0);
 
 
-//         if (render.render_off_screen)
-//             jasnosci[0][k] = cuda.calculateMagnitudes();
+         if (render.render_off_screen)
+             jasnosci[0][k] = cuda.calculateMagnitudes();
 
 // 		sleep(1);
         counter++;
     }
 
 
-    if (render.render_off_screen) {
+    if (render.render_off_screen)
+	{
 		for (int i = 0; i < ILOSC_SYMULACJI; i++)
 			printf("%d\t%lf\n", i, jasnosci[0][i]);
 	}

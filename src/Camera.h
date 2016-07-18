@@ -8,8 +8,10 @@ class Camera
 {
 public:
 	Camera() {}
-	Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect, float zNear, float zFar);
-	Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right, float bottom, float top, float zNear, float zFar);
+	Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect, 
+					float zNear, float zFar);
+	Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right, 
+					float bottom, float top, float zNear, float zFar);
 
 // 	glm::mat4 getProjectionMatrix();
 // 	glm::mat4 getViewMatrix();
