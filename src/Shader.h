@@ -24,8 +24,6 @@ class Shader {
 public:
 	GLuint program;
 
-
-
 	Shader();
 	Shader(const Shader& other) {}
 	Shader(const std::string& filename);
@@ -33,6 +31,7 @@ public:
 
 	void bind();
 	void update(Transform& transform, const Camera& camera, const Camera& light);
+	void updateRadar(Transform& transform, const Camera& camera, const Camera& light);
 // 	void update(int model_index, int camera_index, int light_index);
 	void updateModelMatrix(Transform& transform);
 
@@ -49,6 +48,8 @@ public:
 		LIGHT_PROJECTION_U,
 		LIGHT_POSITION_U,
 		RGB_VALUE_U,
+		NO_TRNSLATION_MODEL_U,
+		NO_TRNSLATION_VIEW_U,
 
 		NUM_UNIFORMS
 	};

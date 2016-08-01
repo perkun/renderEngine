@@ -20,6 +20,7 @@
 #include "FrameBuffer.h"
 #include "Xwindow.h"
 #include "WinGLFW.h"
+#include "RadarImages.h"
 
 
 
@@ -60,6 +61,7 @@ public:
 	~RenderEngine();
 
 	void renderScene();
+	void renderSceneRadar();
 	void userInput();
 
 

@@ -11,7 +11,7 @@ Shader::Shader() {
 	// asdwd
 }
 
-Shader::Shader(const std::string& filename) 
+Shader::Shader(const std::string& filename)
 {
 // 	RGB_value[0] = RGB_value[1] = RGB_value[2] = 1.;
 	RGB_value = glm::vec3(1., 1., 1.);
@@ -46,9 +46,15 @@ Shader::Shader(const std::string& filename)
 
 	uniforms[RGB_VALUE_U] = glGetUniformLocation(program, "RGB_value");
 
+	// dodać uniformy dla angles, view angles,
+	// oraz maximum length? (czy normalizować model zawsze?)
+	uniforms[NO_TRNSLATION_MODEL_U] = glGetUniformLocation(program,
+			"no_translation_model_matrix");
+	uniforms[NO_TRNSLATION_VIEW_U] = glGetUniformLocation(program,
+			"no_translation_view_matrix");
 }
 
-Shader::~Shader() 
+Shader::~Shader()
 {
 	for (unsigned int i=0; i < NUM_SHADERS; i++) {
 		glDetachShader(program, shaders[i]);
@@ -58,12 +64,12 @@ Shader::~Shader()
 	glDeleteProgram(program);
 }
 
-void Shader::bind() 
+void Shader::bind()
 {
 	glUseProgram(program);
 }
 
-void Shader::update(Transform& transform, const Camera& camera, const Camera& light) 
+void Shader::update(Transform& transform, const Camera& camera, const Camera& light)
 {
  	glm::mat4 model_matrix = transform.getModelMatrix();
 	glm::mat4 view_matrix = camera.getViewMatrix();
@@ -85,18 +91,47 @@ void Shader::update(Transform& transform, const Camera& camera, const Camera& li
 // 	glUniform3fv(uniforms[RGB_VALUE_U], 1, dupa);
 // 	glm::vec3 dupa = glm::vec3(0.,0.,1.);
 	glUniform3fv(uniforms[RGB_VALUE_U], 1, (float*) &RGB_value);
-
-
-
 }
 
-void Shader::updateModelMatrix(Transform& transform) 
+void Shader::updateRadar(Transform& transform, const Camera& camera,
+	   	const Camera& light)
+{
+ 	glm::mat4 model_matrix = transform.getModelMatrix();
+	glm::mat4 view_matrix = camera.getViewMatrix();
+	glm::mat4 projection_matrix = camera.getProjectionMatrix();
+	glm::mat4 light_view_matrix = light.getViewMatrix();
+	glm::mat4 light_projection_matrix = light.getProjectionMatrix();
+
+	glm::mat4 no_translation_model_matrix =
+		transform.getNoTranslationModelMatrix();
+	glm::mat4 no_translation_view_matrix =
+		camera.getNoTranslationViewMatrix();
+
+
+	float lp[3];
+	lp[0] = light.position.x; lp[1] = light.position.y; lp[2] = light.position.z;
+
+	glUniformMatrix4fv(uniforms[MODEL_U], 1, GL_FALSE, &model_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[VIEW_U], 1, GL_FALSE, &view_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, GL_FALSE, &projection_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_VIEW_U], 1, GL_FALSE, &light_view_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_PROJECTION_U], 1, GL_FALSE, &light_projection_matrix[0][0]);
+	glUniform3fv(uniforms[LIGHT_POSITION_U], 1, lp);
+
+	glUniformMatrix4fv(uniforms[NO_TRNSLATION_MODEL_U], 1, GL_FALSE,
+			&no_translation_model_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[NO_TRNSLATION_VIEW_U], 1, GL_FALSE,
+			&no_translation_view_matrix[0][0]);
+}
+
+
+void Shader::updateModelMatrix(Transform& transform)
 {
 	glm::mat4 model_matrix = transform.getModelMatrix();
 	glUniformMatrix4fv(uniforms[MODEL_U], 1, GL_FALSE, &model_matrix[0][0]);
 }
 
-std::string Shader::loadShader(const std::string& filename) 
+std::string Shader::loadShader(const std::string& filename)
 {
 //	const std::string& filename2 = "basicShader.vs";
 
@@ -119,7 +154,7 @@ std::string Shader::loadShader(const std::string& filename)
 }
 
 void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram,
-		const std::string& errorMessage) 
+		const std::string& errorMessage)
 {
 	GLint success = 0;
 	GLchar error[1024] = { 0 };
@@ -139,7 +174,7 @@ void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram,
 	}
 }
 
-GLuint Shader::createShader(const std::string& text, unsigned int type) 
+GLuint Shader::createShader(const std::string& text, unsigned int type)
 {
 	GLuint shader = glCreateShader(type);
 

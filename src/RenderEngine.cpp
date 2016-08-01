@@ -63,31 +63,37 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 void RenderEngine::renderScene()
 {
 
-
-	if (!render_off_screen) {
+	if (!render_off_screen)
+   	{
 		if (interactive)
-			display.clear(1.0, 1., 1., 1.);
+			display.clear(0., 0., 0., 1.);
 		else
 			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
 
 	// create shadow map
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	framebuffers[shadow_fb_id]->bind();
 	framebuffers[shadow_fb_id]->clear(0., 0., 0., 1.);
 	shaders[shadow_shader_id]->bind();
-	for (int i = 0; i < models.size(); i++) {
+	for (int i = 0; i < models.size(); i++)
+   	{
 		if (models[i]->casting_shadow) {
-			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0], *cameras[1]);
+			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0],
+					*cameras[1]);
 			models[i]->draw();
 		}
 	}
 
 	// normal drawing
-	if (!render_off_screen) {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (!render_off_screen)
+   	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0,0,DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	}
-	else {
+	else
+   	{
 // 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[2]->frame_buffer);
 		framebuffers[fb]->bind();
 		GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
@@ -97,19 +103,25 @@ void RenderEngine::renderScene()
 
 	}
 
-	for (int i = 0; i < models.size(); i++) {
-		if (models[i]->visible) {
+	for (int i = 0; i < models.size(); i++)
+   	{
+		if (models[i]->visible)
+	   	{
 			shaders[models_shader[i]]->bind();
 			for (int j = 0; j < 3; j++)
-				shaders[models_shader[i]]->RGB_value[j] = models[i]->RGB_value[j];
-			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0], *cameras[1]);
+				shaders[models_shader[i]]->RGB_value[j] =
+				   	models[i]->RGB_value[j];
+			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0],
+					*cameras[1]);
 			models[i]->draw();
 		}
 	}
 
 
-	if (!render_off_screen) {
-		if (interactive) {
+	if (!render_off_screen)
+   	{
+		if (interactive)
+	   	{
 			userInput();
 			display.update();
 		}
@@ -117,6 +129,44 @@ void RenderEngine::renderScene()
 			Xdisplay.update();
 	}
 
+}
+
+void RenderEngine::renderSceneRadar()
+{
+	// tak jak dla normalnie, tylko że bez zbędnych opcji i z użyciem
+	// update radar
+
+	// normal drawing
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (!render_off_screen)
+   	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0,0,DISPLAY_WIDTH, DISPLAY_HEIGHT);
+	}
+	else
+   	{
+// 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[2]->frame_buffer);
+		framebuffers[fb]->bind();
+		GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
+		glDrawBuffers (1, draw_buffers);
+		textures[fb_tx]->bind();
+		framebuffers[fb]->clear(0., 0., 0., 1.);
+
+	}
+
+	for (int i = 0; i < models.size(); i++)
+   	{
+		if (models[i]->visible)
+	   	{
+			shaders[models_shader[i]]->bind();
+			for (int j = 0; j < 3; j++)
+				shaders[models_shader[i]]->RGB_value[j] =
+				   	models[i]->RGB_value[j];
+			shaders[models_shader[i]]->updateRadar(models[i]->transform, *cameras[0],
+					*cameras[1]);
+			models[i]->draw();
+		}
+	}
 }
 
 void RenderEngine::userInput()
