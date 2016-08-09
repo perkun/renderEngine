@@ -167,6 +167,9 @@ void RenderEngine::renderSceneRadar()
 			models[i]->draw();
 		}
 	}
+
+	if (!render_off_screen)
+		display.update();
 }
 
 void RenderEngine::userInput()
@@ -378,6 +381,14 @@ int RenderEngine::addTexture(int w, int h)
 	textures.push_back(temp);
 	return textures.size() -1 ;
 }
+
+int RenderEngine::addTexture(int w, int h, GLuint *data)
+{
+	Texture *temp = new Texture(w ,h, data);
+	textures.push_back(temp);
+	return textures.size() -1 ;
+}
+
 
 int RenderEngine::addFramebuffer(int w, int h)
 {

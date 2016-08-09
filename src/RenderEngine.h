@@ -77,10 +77,15 @@ public:
 	int addShader(const std::string &file_name);
 	int addTexture(const std::string &file_name);
 	int addTexture(int w, int h);
+	int addTexture(int w, int h, GLuint *data);
 	int addFramebuffer(int w, int h);
-	int addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect, float zNear, float zFar);
-	int addCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right, float top, float bottom, float zNear, float zFar);
-	void updateCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right, float bottom, float top, float zNear, float zFar, int camera_id);
+	int addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
+			float zNear, float zFar);
+	int addCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
+			float top, float bottom, float zNear, float zFar);
+	void updateCamera(const glm::vec3 pos, glm::vec3 targ, float left,
+			float right, float bottom, float top, float zNear, float zFar,
+			int camera_id);
 
 
 private:

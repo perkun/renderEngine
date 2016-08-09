@@ -60,7 +60,8 @@ void Mesh::InitMesh(const IndexedModel &model) {
 
     // normalne
     glBindBuffer(GL_ARRAY_BUFFER, vertex_array_buffers[NORMAL_VB]);
-    glBufferData(GL_ARRAY_BUFFER, model.normals.size() * sizeof(model.normals[0]), &model.normals[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, model.normals.size()
+		   	* sizeof(model.normals[0]), &model.normals[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 

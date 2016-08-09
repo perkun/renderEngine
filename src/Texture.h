@@ -26,6 +26,7 @@ public:
 
 
 	Texture(int, int);
+	Texture(int, int, GLuint*);
 	Texture(const std::string& filename);
 
 	Texture();
@@ -38,6 +39,7 @@ public:
 	void createDepthTexture();
 	void createColorTexture(const std::string& filename);
 	void createColorTexture();
+	void createColorTexture(GLuint*);
 	void setUniform(Shader& shader, const char* color_name, const char* depth_name);
 
 	virtual ~Texture();
