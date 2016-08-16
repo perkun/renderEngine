@@ -76,9 +76,12 @@ void RadarImages::scaleAllImages(int x, int y)
 
 void RadarImages::scaleImage(int x, int y, int image_id)
 {
-	// po tej opracji przeskalowany obrazek siedzi w scaled_image.
-	// nie jest dodawane nic do tabeli scaled_radar_images
-	// (jedynie przy skalowaniu wszystkich na raz)
+
+	/** po tej opracji przeskalowany obrazek siedzi w scaled_image. Nie jest
+	 * dodawane nic do tabeli scaled_radar_images  (jedynie przy skalowaniu
+	 * wszystkich na raz). W scaled_image_triangles siedzą indeksy trójkątów,
+	 *  odpowiedzialne za dane piksele
+	 */
 
 	delete[] scaled_image;
 	delete[] scaled_image_triangles;
@@ -238,8 +241,11 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 			{
 				scaled_image_triangles[i].erase(it);
 
-				// it trzeba podmienic na nowe begin
-				it = scaled_image_triangles[i].begin();
+				// cofnac iterator trzeba
+				it--;
+
+				// it trzeba podmienic na nowe begin (wystarczy cofnac...)
+// 				it = scaled_image_triangles[i].begin();
 			}
 		}
 	}
