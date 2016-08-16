@@ -51,13 +51,23 @@ void RadarImages::scaleAllImages(int x, int y)
 
 	num_scaled_images = 0;
 	scaled_radar_images = new float*[num_images];
+	scaled_radar_images_triangles = new vector<unsigned int>*[num_images];
 
 	for (int i = 0; i < num_images; i++)
 	{
 		scaled_radar_images[i] = new float[x * y];
+		scaled_radar_images_triangles[i] = new vector<unsigned int>[x * y];
 		scaleImage(x, y, i);
 		for (int j = 0; j < x * y; j++)
+		{
 			scaled_radar_images[i][j] = scaled_image[j];
+
+			scaled_radar_images_triangles[i][j].insert(
+					scaled_radar_images_triangles[i][j].end(),
+					scaled_image_triangles[j].begin(),
+					scaled_image_triangles[j].end()
+					);
+		}
 
 	}
 
@@ -80,6 +90,9 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 	int k = 0;
 
 	scaled_image = new float[x * y];
+	for (int i = 0; i < x*y; i++)
+		scaled_image[i] = 0.;
+
 	scaled_image_triangles = new vector<unsigned int>[x * y];
 
 
@@ -91,7 +104,7 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 		start = 0;
 		stop = scale;
 		k = 0;
-		while (stop <= frame_size)			// jedzie po Xach
+		while (stop < frame_size)			// jedzie po Xach
 	   	{
 			//			printf("%f   %f", start, stop);
 			partial_sum = 0;
@@ -138,6 +151,13 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 			start += scale;
 			stop += scale;
 
+			// aby dojezdzal do konca
+			if (start > frame_size - 1)
+				break;
+
+			if (stop > frame_size - 1)
+				stop = frame_size - 1;
+
 		}
 	}
 
@@ -154,7 +174,7 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 		start = 0;
 		stop = scale;
 		k = 0;
-		while (stop <= frame_size)
+		while (stop < frame_size)
 	   	{
 			//			printf("%f   %f", start, stop);
 			partial_sum = 0;
@@ -196,8 +216,34 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 			k++;
 			start += scale;
 			stop += scale;
+
+			// aby dojezdzal do konca
+			if (start > frame_size - 1)
+				break;
+
+			if (stop > frame_size)
+				stop = frame_size - 1;
 		}
 	}
+
+	// usunąć powtarzające się trójkąty
+	for (int i = 0; i < x*y; i++)
+	{
+		for (vector<unsigned int>::iterator it = scaled_image_triangles[i].begin();
+				it != scaled_image_triangles[i].end(); it++)
+		{
+			// jezeli wartosc pod iteratorem wystepuje wiecej niz raz, to go usuń
+			if (count(scaled_image_triangles[i].begin(),
+						scaled_image_triangles[i].end(), *it) > 1 )
+			{
+				scaled_image_triangles[i].erase(it);
+
+				// it trzeba podmienic na nowe begin
+				it = scaled_image_triangles[i].begin();
+			}
+		}
+	}
+
 
 
 // 	if (print_to_file) {
@@ -274,7 +320,7 @@ void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_
 			   	+= pixel_buffer_green[i];
 
 			radar_images_triangles[num_images-1][y*radar_frame_size + x]
-											.push_back( pixel_buffer_uint[i] );
+											.push_back( pixel_buffer_uint[i*4]);
 		}
 	}
 
@@ -291,7 +337,7 @@ void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_
 				+= pixel_buffer_green[i];
 
 			radar_images_triangles[num_images -1][y*radar_frame_size + x]
-											.push_back( pixel_buffer_uint[i] );
+											.push_back( pixel_buffer_uint[i*4]);
 		}
 	}
 
