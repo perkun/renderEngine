@@ -31,7 +31,8 @@ Mesh::Mesh(const Mesh& other)
 
 
 
-void Mesh::InitMesh(const IndexedModel &model) {
+void Mesh::InitMesh(const IndexedModel &model)
+{
 // 	printf("%d\n",  model.indices.size());
     draw_count = model.indices.size();
 
@@ -78,7 +79,8 @@ Mesh::Mesh(const std::string &file_name) {
 	std::cout << "model indexed\n";
 
 // 	for (int i = 0; i < 100; i++)
-// 		printf("%f \t %f \t %f\n", model.positions[i].x, model.positions[i].y, model.positions[i].z);
+// 		printf("%f \t %f \t %f\n", model.positions[i].x, model.positions[i].y,
+// 		model.positions[i].z);
 // 	puts("xxxxxxxxxxxxxxx");
     InitMesh(model);
 
@@ -86,7 +88,9 @@ Mesh::Mesh(const std::string &file_name) {
 
 
 
-Mesh::Mesh(Vertex* vertices, unsigned int number_of_vertices, unsigned int *indices, unsigned int num_indices) {
+Mesh::Mesh(Vertex* vertices, unsigned int number_of_vertices,
+		unsigned int *indices, unsigned int num_indices)
+{
 
     IndexedModel model;
 
@@ -117,7 +121,9 @@ Mesh::Mesh(Vertex* vertices, unsigned int number_of_vertices, unsigned int *indi
 }
 
 
-Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr ) {
+Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr )
+{
+	// dodać licznie wsp. tekstry
 
 	IndexedModel model;
 
@@ -127,7 +133,8 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr ) {
     if (normalize) {
         max=-1.;
         for (int i = 0; i < num_pkt; i++) {
-            float l = glm::length(glm::vec3(vertices[i][0], vertices[i][1], vertices[i][2]) );
+			float l = glm::length(glm::vec3(vertices[i][0], vertices[i][1],
+						vertices[i][2]) );
             if ( l  > max )
                 max = l;
         }
@@ -147,22 +154,25 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr ) {
             int i1 = indices[i][1] -1;
             int i2 = indices[i][2] -1;
 
-            model.positions.push_back( glm::vec3( vertices[i0][0], vertices[i0][1], vertices[i0][2]  ) );
+			model.positions.push_back( glm::vec3( vertices[i0][0],
+						vertices[i0][1], vertices[i0][2]  ) );
             model.texCoords.push_back(glm::vec2(0.,0.) );
             model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
-            model.positions.push_back( glm::vec3( vertices[i1][0], vertices[i1][1], vertices[i1][2]  ) );
+			model.positions.push_back( glm::vec3( vertices[i1][0],
+						vertices[i1][1], vertices[i1][2]  ) );
             model.texCoords.push_back(glm::vec2(0.,0.) );
             model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
-            model.positions.push_back( glm::vec3( vertices[i2][0], vertices[i2][1], vertices[i2][2]  ) );
+			model.positions.push_back( glm::vec3( vertices[i2][0],
+						vertices[i2][1], vertices[i2][2]  ) );
             model.texCoords.push_back(glm::vec2(0.,0.) );
             model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
 
-            model.indices.push_back( k  );
+            model.indices.push_back( k    );
             model.indices.push_back( k +1 );
-            model.indices.push_back( k  +2);
+            model.indices.push_back( k +2 );
 
             k += 3;
         }
@@ -207,7 +217,10 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr ) {
 
 }
 
-Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr, float texture_coords[][2] ) {
+Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr,
+		float texture_coords[][2] )
+{
+
 	IndexedModel model;
 
 
@@ -237,19 +250,25 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr, float
 			int i1 = indices[i][1] -1;
 			int i2 = indices[i][2] -1;
 
-			model.positions.push_back( glm::vec3( vertices[i0][0], vertices[i0][1], vertices[i0][2]  ) );
+			model.positions.push_back( glm::vec3( vertices[i0][0],
+						vertices[i0][1], vertices[i0][2]  ) );
 // 			model.texCoords.push_back(glm::vec2(0.,0.) );
-			model.texCoords.push_back(glm::vec2(texture_coords[i0][0], texture_coords[i0][1]) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i0][0],
+						texture_coords[i0][1]) );
 			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
-			model.positions.push_back( glm::vec3( vertices[i1][0], vertices[i1][1], vertices[i1][2]  ) );
+			model.positions.push_back( glm::vec3( vertices[i1][0],
+						vertices[i1][1], vertices[i1][2]  ) );
 // 			model.texCoords.push_back(glm::vec2(0.,0.) );
-			model.texCoords.push_back(glm::vec2(texture_coords[i1][0], texture_coords[i1][1]) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i1][0],
+						texture_coords[i1][1]) );
 			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
-			model.positions.push_back( glm::vec3( vertices[i2][0], vertices[i2][1], vertices[i2][2]  ) );
+			model.positions.push_back( glm::vec3( vertices[i2][0],
+						vertices[i2][1], vertices[i2][2]  ) );
 // 			model.texCoords.push_back(glm::vec2(0.,0.) );
-			model.texCoords.push_back(glm::vec2(texture_coords[i2][0], texture_coords[i2][1]) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i2][0],
+						texture_coords[i2][1]) );
 			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
 
@@ -265,7 +284,8 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr, float
 	if (normal_interpolation) {
 		for (int i = 0; i < num_tr; i++) {
 			for (int j = 0; j < 3; j++)
-				model.indices.push_back(indices[i][j]-1);		// przesuniecie (bo w pliku jest numeracja trojkatów od 1)
+				// przesuniecie (bo w pliku jest numeracja trojkatów od 1)
+				model.indices.push_back(indices[i][j]-1);
 		}
 		for ( int i = 0; i < num_pkt; i++) {
 			model.positions.push_back( glm::vec3( vertices[i][0], vertices[i][1], vertices[i][2]  ) );

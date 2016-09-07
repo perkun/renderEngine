@@ -13,6 +13,8 @@ RadarImages::RadarImages(int frs)
 
 	all_scaled = false;
 
+	printf("bla lasdw \n");
+
 }
 
 RadarImages::~RadarImages()
@@ -133,8 +135,10 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 
 				x_scaled_image_triangles[k + j * x].insert(
 					x_scaled_image_triangles[k + j * x].end(),
-					radar_images_triangles[image_id][int(floor(start)+ j*frame_size)].begin(),
-					radar_images_triangles[image_id][int(floor(start)+ j*frame_size)].end()
+					radar_images_triangles[image_id]
+									[int(floor(start)+ j*frame_size)].begin(),
+					radar_images_triangles[image_id]
+									[int(floor(start)+ j*frame_size)].end()
 					);
 			}
 			if (stop - floor(stop) != 0)
@@ -144,8 +148,10 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 
 				x_scaled_image_triangles[k + j * x].insert(
 					x_scaled_image_triangles[k + j * x].end(),
-					radar_images_triangles[image_id][int(floor(stop)+ j*frame_size)].begin(),
-					radar_images_triangles[image_id][int(floor(stop)+ j*frame_size)].end()
+					radar_images_triangles[image_id]
+									[int(floor(stop)+ j*frame_size)].begin(),
+					radar_images_triangles[image_id]
+									[int(floor(stop)+ j*frame_size)].end()
 					);
 			}
 
@@ -253,18 +259,19 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 
 
 // 	if (print_to_file) {
-		FILE *f;
-		f = fopen("scaled.dat", "w");
+// 		FILE *f;
+// 		f = fopen("scaled.dat", "w");
 // 		for (int j = y - 1; j >= 0; j--) {
-		for (int j = 0; j < y; j++) {
-			for (int i = 0; i < x ; i++) {
+// 		for (int j = 0; j < y; j++) {
+// 			for (int i = 0; i < x ; i++) {
 //				fprintf(f, "%d\t", int(scaled_image[j * x + i]));
-				fprintf(f, "%.0f\t", (scaled_image[j * x + i]));
-				//				fprintf(f, "%f\t", float(scaled_image[j * x + i]));// zliczenia, tylko int
-			}
-			fprintf(f, "\n");
-		}
-		fclose(f);
+// 				fprintf(f, "%.0f\t", (scaled_image[j * x + i]));
+				// zliczenia, tylko int
+				//fprintf(f, "%f\t", float(scaled_image[j * x + i]));
+// 			}
+// 			fprintf(f, "\n");
+// 		}
+// 		fclose(f);
 // 	}
 /*
 	if (render_onto_screen) {
@@ -283,9 +290,9 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 */
 }
 
-void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_green,
-		float *pixel_buffer_blue, float *pixel_buffer,
-		unsigned int *pixel_buffer_uint)
+void RadarImages::createRadarImage(float *pixel_buffer_red,
+		float *pixel_buffer_green, float *pixel_buffer_blue,
+		float *pixel_buffer, unsigned int *pixel_buffer_uint)
 {
 	/**
 	 * funkcja dodaje do tabeli **radar_images nowy obraz radarowy
@@ -311,7 +318,6 @@ void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_
 	// UWAGA!! jest przestawione (red jest z lewej, blue z prawej,
 	// nie ma odbicia lustrzanego z obrazem z gory)
 
-
 	for (i = 0; i < radar_frame_size * radar_frame_size; i++)
    	{
 		ni = pixel_buffer_red[i];
@@ -330,7 +336,8 @@ void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_
 		}
 	}
 
-	for (i = 0; i < radar_frame_size * radar_frame_size; i++) {
+	for (i = 0; i < radar_frame_size * radar_frame_size; i++)
+   	{
 		ni = pixel_buffer_blue[i];
 		d = pixel_buffer[i];
 
@@ -349,11 +356,12 @@ void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_
 
 
 	max = -1000;
-	for (i = 1; i < radar_frame_size * radar_frame_size; i++) {
+	for (i = 1; i < radar_frame_size * radar_frame_size; i++)
+   	{
 		if (radar_images[num_images - 1][i] > max)
 			max = radar_images[num_images - 1][i];
 	}
-	printf("max: %f\n",max);
+// 	printf("max: %f\n",max);
 //	max = 10;
 //	for (i = 0; i < radar_frame_size * radar_frame_size; i++) {
 //		radar_image[i] /= max;
@@ -393,7 +401,7 @@ void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_
 // 	}
 //	printf("po kopiowaniu, %d\n", number_of_radar_images);
 
-// 	/*
+	/*
 	FILE *f = fopen("out.dat", "w");
 	for (int j = 0; j < frame_size; j++)
 	{
@@ -406,5 +414,5 @@ void RadarImages::createRadarImage(float *pixel_buffer_red, float *pixel_buffer_
 	}
 
 	fclose(f);
-// 	*/
+	*/
 }

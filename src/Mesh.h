@@ -25,7 +25,9 @@ public:
 	glm::vec2 tex_coord;
 	glm::vec3 normal;
 
-	Vertex(const glm::vec3& pos, const glm::vec2& tex_coord, const glm::vec3 &normal = glm::vec3(0,0,0) ) {
+	Vertex(const glm::vec3& pos, const glm::vec2& tex_coord,
+			const glm::vec3 &normal = glm::vec3(0,0,0) )
+   	{
 		this -> pos = pos;
 		this -> tex_coord = tex_coord;
 		this -> normal = normal;
@@ -61,10 +63,12 @@ public:
 	Mesh(const Mesh& other);
 
 	Mesh(const std::string &file_name);
-	Mesh(Vertex *vertices, unsigned int number_of_vertices, unsigned int *indices, unsigned int num_indices);
+	Mesh(Vertex *vertices, unsigned int number_of_vertices,
+			unsigned int *indices, unsigned int num_indices);
 
 	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr);
-	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr, float texture_coords[][2]);
+	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr,
+			float texture_coords[][2]);
 	virtual ~Mesh();
 
 

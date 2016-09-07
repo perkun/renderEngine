@@ -279,6 +279,7 @@ int RenderEngine::addModel(const std::string& file_name)
 int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3],
 			   														int num_tr)
 {
+
 	Mesh *temp = new Mesh(vertices, num_pkt, indices, num_tr);
 	models.push_back(temp);
 
@@ -291,7 +292,8 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 {
 	/**
 	 *  Funkcja wkładająca model do RenderEngine
-	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów i liczbę tr)
+	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów
+	 * i liczbę tr)
 	 */
 
 	// dodać wczytywanie dodatkowego pliku, np file_name.uv albo cos
@@ -339,14 +341,14 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 	}
 
 	if (texture_coords_available) {
-		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices, texture_coords);
+		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices,
+																texture_coords);
 		models.push_back(temp);
 	}
 	else {
 		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices);
 		models.push_back(temp);
 	}
-
 
 	models_shader.push_back(0);
 
