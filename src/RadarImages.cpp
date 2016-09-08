@@ -332,7 +332,7 @@ void RadarImages::createRadarImage(float *pixel_buffer_red,
 			   	+= pixel_buffer_green[i];
 
 			radar_images_triangles[num_images-1][y*radar_frame_size + x]
-											.push_back( pixel_buffer_uint[i*4]);
+				.push_back( pixel_buffer_uint[i*4 + 0]);
 		}
 	}
 
@@ -350,7 +350,7 @@ void RadarImages::createRadarImage(float *pixel_buffer_red,
 				+= pixel_buffer_green[i];
 
 			radar_images_triangles[num_images -1][y*radar_frame_size + x]
-											.push_back( pixel_buffer_uint[i*4]);
+				.push_back( pixel_buffer_uint[i*4 + 0]);
 		}
 	}
 

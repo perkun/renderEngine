@@ -52,6 +52,9 @@ public:
 
 	float max;
 
+	/// zobaczymy co sie staie, jak bedzie to zmienna globalna
+	IndexedModel model;
+
 // 	float RGB_value[3] = {1., 1., 1.};
 	glm::vec3 RGB_value = glm::vec3(1., 1., 1.);
 
@@ -89,6 +92,7 @@ private:
 	unsigned int draw_count;
 
 	void InitMesh(const IndexedModel &model);
+	glm::vec2 calculateTextureCoords(float *vec);
 
 
 

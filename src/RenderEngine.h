@@ -77,7 +77,8 @@ public:
 	int addShader(const std::string &file_name);
 	int addTexture(const std::string &file_name);
 	int addTexture(int w, int h);
-	int addTexture(int w, int h, GLuint *data);
+	int addTexture(int, int, GLuint*,  GLint internal_format, GLenum format,
+			GLenum type);
 	int addFramebuffer(int w, int h);
 	int addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
 			float zNear, float zFar);

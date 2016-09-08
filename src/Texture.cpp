@@ -28,13 +28,15 @@ Texture::Texture(int w, int h) {
 	attachToCurrentFramebuffer();
 }
 
-Texture::Texture(int w, int h, GLuint *data) {
+Texture::Texture(int w, int h, GLuint *data,  GLint internal_format,
+		GLenum format, GLenum type)
+{
 	color_texture_width = w;
 	color_texture_height = h;
 	depth_texture_width = w;
 	depth_texture_height = h;
 
-	createColorTexture(data);
+	createColorTexture(data, internal_format, format, type);
 	createDepthTexture();
 
 	attachToCurrentFramebuffer();
@@ -69,10 +71,11 @@ void Texture::createColorTexture() {
 // 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, color_texture_width, color_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 }
 
-void Texture::createColorTexture(GLuint *data)
+void Texture::createColorTexture(GLuint *data, GLint internal_format,
+	   	GLenum format, GLenum type)
 {
 
-
+/*
 // 	float *data2 = new float[256 * 256 * 4];
 // 	// wypełnić danymi
 // 	for (int x = 0; x < 256; x++)
@@ -130,7 +133,7 @@ void Texture::createColorTexture(GLuint *data)
 // 			data2[(y*256 + x)*4 + 2] = 255;
 // 			data2[(y*256 + x)*4 + 3] = 255;
 // 		}
-
+*/
 
 
 	glGenTextures(1, &color_texture);
@@ -141,8 +144,14 @@ void Texture::createColorTexture(GLuint *data)
 
 	glBindTexture(GL_TEXTURE_2D, color_texture);
 
-	glBindImageTexture(color_texture_unit, color_texture, 0, GL_FALSE, 0,
-			GL_READ_WRITE, GL_RGBA32UI);
+	glBindImageTexture(
+			color_texture_unit,				// unit
+		   	color_texture,					// texture
+		   	0,								// level
+		   	GL_FALSE,						// layered
+		   	0,								// layer
+			GL_READ_WRITE,					// access
+		   	internal_format);				// format (np GL_RGBA32UI)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -153,8 +162,16 @@ void Texture::createColorTexture(GLuint *data)
 // 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width,
 // 			color_texture_height);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32UI, color_texture_width,
-			color_texture_height, 0, GL_RGBA_INTEGER, GL_UNSIGNED_INT, (GLvoid*) data);
+	glTexImage2D(
+			GL_TEXTURE_2D,					// target
+		   	0,								// level
+		   	internal_format,				// internal format(np GL_RGBA32UI)
+		   	color_texture_width,			// witdh
+			color_texture_height,			// height
+		   	0,								// border
+		   	format,							// format (np GL_RGBA_INTEGER)
+		   	type,							// type (np GL_UNSIGNED_INT)
+			(GLvoid*) data);				// data
 // 	delete[] data;
 }
 

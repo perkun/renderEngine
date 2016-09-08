@@ -75,7 +75,7 @@ void Mesh::InitMesh(const IndexedModel &model)
 Mesh::Mesh(const std::string &file_name) {
 
 	std::cout << "indexing...\n";
-    IndexedModel model = OBJModel(file_name).ToIndexedModel();
+    model = OBJModel(file_name).ToIndexedModel();
 	std::cout << "model indexed\n";
 
 // 	for (int i = 0; i < 100; i++)
@@ -92,7 +92,7 @@ Mesh::Mesh(Vertex* vertices, unsigned int number_of_vertices,
 		unsigned int *indices, unsigned int num_indices)
 {
 
-    IndexedModel model;
+//     IndexedModel model;
 
 // 	m_draw_count = number_of_vertices;
     draw_count = num_indices;
@@ -125,21 +125,24 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr )
 {
 	// dodać licznie wsp. tekstry
 
-	IndexedModel model;
+// 	IndexedModel model;
 
 // 	glm::vec3 normals[num_pkt];
 
     // normalizacja modelu do 1
-    if (normalize) {
+    if (normalize)
+   	{
         max=-1.;
-        for (int i = 0; i < num_pkt; i++) {
+        for (int i = 0; i < num_pkt; i++)
+	   	{
 			float l = glm::length(glm::vec3(vertices[i][0], vertices[i][1],
 						vertices[i][2]) );
             if ( l  > max )
                 max = l;
         }
 //         transform.scale = glm::vec3(1./max, 1./max, 1./max);
-		for (int i = 0; i < num_pkt; i++) {
+		for (int i = 0; i < num_pkt; i++)
+	   	{
 			vertices[i][0] /= max;
 			vertices[i][1] /= max;
 			vertices[i][2] /= max;
@@ -147,26 +150,32 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr )
     }
 
     // brak interpolacji normalnych
-    if (!normal_interpolation) {
+    if (!normal_interpolation)
+   	{
         int k = 0;
-        for (int i = 0; i < num_tr; i++) {
+        for (int i = 0; i < num_tr; i++)
+	   	{
             int i0 = indices[i][0] -1;
             int i1 = indices[i][1] -1;
             int i2 = indices[i][2] -1;
 
 			model.positions.push_back( glm::vec3( vertices[i0][0],
 						vertices[i0][1], vertices[i0][2]  ) );
-            model.texCoords.push_back(glm::vec2(0.,0.) );
+			// finkcja licząca texCoord f(vertex) = vec2(u,v)
+//             model.texCoords.push_back(glm::vec2(0.,0.) );
+            model.texCoords.push_back(calculateTextureCoords(vertices[i0]));
             model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
 			model.positions.push_back( glm::vec3( vertices[i1][0],
 						vertices[i1][1], vertices[i1][2]  ) );
-            model.texCoords.push_back(glm::vec2(0.,0.) );
+//             model.texCoords.push_back(glm::vec2(0.,0.) );
+            model.texCoords.push_back(calculateTextureCoords(vertices[i1]));
             model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
 			model.positions.push_back( glm::vec3( vertices[i2][0],
 						vertices[i2][1], vertices[i2][2]  ) );
-            model.texCoords.push_back(glm::vec2(0.,0.) );
+//             model.texCoords.push_back(glm::vec2(0.,0.) );
+            model.texCoords.push_back(calculateTextureCoords(vertices[i2]));
             model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 
 
@@ -179,14 +188,20 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr )
     }
 
     // 	interpolacja normalnych na powierzchni
-    if (normal_interpolation) {
+    if (normal_interpolation)
+   	{
         for (int i = 0; i < num_tr; i++) {
             for (int j = 0; j < 3; j++)
-                model.indices.push_back(indices[i][j]-1);		// przesuniecie (bo w pliku jest numeracja trojkatów od 1)
+				// przesuniecie (bo w pliku jest numeracja trojkatów od 1)
+				model.indices.push_back(indices[i][j]-1);
         }
         for ( int i = 0; i < num_pkt; i++) {
-            model.positions.push_back( glm::vec3( vertices[i][0], vertices[i][1], vertices[i][2]  ) );
-            model.texCoords.push_back(glm::vec2(0.,0.) );
+			model.positions.push_back( glm::vec3( vertices[i][0],
+						vertices[i][1], vertices[i][2]  ) );
+
+//             model.texCoords.push_back(glm::vec2(0.,0.) );
+            model.texCoords.push_back(calculateTextureCoords(vertices[i]));
+
             model.normals.push_back( glm::vec3(0.0,0.0,0.0));
         }
     }
@@ -215,13 +230,21 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr )
 
     InitMesh(model);
 
+	////////////////////////////////////////////////////////////
+	// teraz tracony jest model i vertices i indices, wiec tutaj trzeba obliczyc
+	// teksture (tablice 2D) z indeksami trojkatów
+	// jakas flaga? bool? opcj, czy nowy konstrukor?
+	// - zapisany IndexedModel model jako public var
+	////////////////////////////////////////////////////////////
+
+
 }
 
 Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr,
 		float texture_coords[][2] )
 {
 
-	IndexedModel model;
+// 	IndexedModel model;
 
 
 	// 	glm::vec3 normals[num_pkt];
@@ -281,16 +304,22 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr,
 	}
 
 	// 	interpolacja normalnych na powierzchni
-	if (normal_interpolation) {
-		for (int i = 0; i < num_tr; i++) {
+	if (normal_interpolation)
+   	{
+		for (int i = 0; i < num_tr; i++)
+	   	{
 			for (int j = 0; j < 3; j++)
 				// przesuniecie (bo w pliku jest numeracja trojkatów od 1)
 				model.indices.push_back(indices[i][j]-1);
 		}
-		for ( int i = 0; i < num_pkt; i++) {
-			model.positions.push_back( glm::vec3( vertices[i][0], vertices[i][1], vertices[i][2]  ) );
+
+		for ( int i = 0; i < num_pkt; i++)
+	   	{
+			model.positions.push_back( glm::vec3( vertices[i][0],
+						vertices[i][1], vertices[i][2]  ) );
 // 			model.texCoords.push_back(glm::vec2(0.,0.) );
-			model.texCoords.push_back(glm::vec2(texture_coords[i][0], texture_coords[i][1]) );
+			model.texCoords.push_back(glm::vec2(texture_coords[i][0],
+						texture_coords[i][1]) );
 			model.normals.push_back( glm::vec3(0.0,0.0,0.0));
 		}
 	}
@@ -319,6 +348,18 @@ void Mesh::draw() {
     glBindVertexArray(0);
 }
 
+glm::vec2 Mesh::calculateTextureCoords(float *vec)
+{
+	glm::vec3 vertex = glm::vec3(vec[0], vec[1], vec[2]);
+	// do sferycznych:
+	float r = length(vertex);
+	float alpha = atan2(vertex.y, vertex.x);
+	float beta = acos(vertex.z / r);
 
+	float u = 0.5 + alpha/2./M_PI;
+	float v = 1. - beta/M_PI;
+
+	return glm::vec2(u, v);
+}
 
 
