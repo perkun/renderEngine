@@ -28,7 +28,7 @@ Texture::Texture(int w, int h) {
 	attachToCurrentFramebuffer();
 }
 
-Texture::Texture(int w, int h, GLuint *data,  GLint internal_format,
+Texture::Texture(int w, int h, GLvoid *data,  GLint internal_format,
 		GLenum format, GLenum type)
 {
 	color_texture_width = w;
@@ -71,7 +71,7 @@ void Texture::createColorTexture() {
 // 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, color_texture_width, color_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 }
 
-void Texture::createColorTexture(GLuint *data, GLint internal_format,
+void Texture::createColorTexture(GLvoid *data, GLint internal_format,
 	   	GLenum format, GLenum type)
 {
 

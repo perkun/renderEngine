@@ -26,7 +26,7 @@ public:
 
 
 	Texture(int, int);
-	Texture(int, int, GLuint*,  GLint internal_format, GLenum format,
+	Texture(int, int, GLvoid*,  GLint internal_format, GLenum format,
 			GLenum type);
 	Texture(const std::string& filename);
 
@@ -40,7 +40,7 @@ public:
 	void createDepthTexture();
 	void createColorTexture(const std::string& filename);
 	void createColorTexture();
-	void createColorTexture(GLuint*, GLint internal_format, GLenum format,
+	void createColorTexture(GLvoid*, GLint internal_format, GLenum format,
 		   	GLenum type);
 	void setUniform(Shader& shader, const char* color_name, const char* depth_name);
 
