@@ -331,8 +331,11 @@ void RadarImages::createRadarImage(float *pixel_buffer_red,
 			radar_images[num_images - 1][y*radar_frame_size + x]
 			   	+= pixel_buffer_green[i];
 
+			// tu jak sie zmieni na [i*4 + 1] w  pixel_buffer_uint[i*4 + 0] to
+			// bedzie nr trojkata z gl_PrimitiveID, a jak jest 0 to jest z mojej
+			// tekstury
 			radar_images_triangles[num_images-1][y*radar_frame_size + x]
-				.push_back( pixel_buffer_uint[i*4 + 0]);
+				.push_back( pixel_buffer_uint[i*4 + 1]);
 		}
 	}
 
@@ -350,7 +353,7 @@ void RadarImages::createRadarImage(float *pixel_buffer_red,
 				+= pixel_buffer_green[i];
 
 			radar_images_triangles[num_images -1][y*radar_frame_size + x]
-				.push_back( pixel_buffer_uint[i*4 + 0]);
+				.push_back( pixel_buffer_uint[i*4 + 1]);
 		}
 	}
 

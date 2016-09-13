@@ -40,6 +40,8 @@ public:
 	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 	GLuint createShader(const std::string& text, unsigned int type);
 
+	// można tu dadać jakąś tablice, w której można przesyłać jakieś parametry,
+	// podobnie jak np RGB_VALUE_U
 	enum {
 		MODEL_U,
 		VIEW_U,

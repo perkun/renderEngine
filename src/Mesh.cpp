@@ -43,13 +43,15 @@ void Mesh::InitMesh(const IndexedModel &model)
 
     // positions (vertices)
     glBindBuffer(GL_ARRAY_BUFFER, vertex_array_buffers[POSITION_VB]);
-    glBufferData(GL_ARRAY_BUFFER, model.positions.size() * sizeof(model.positions[0]), &model.positions[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, model.positions.size()
+		   	* sizeof(model.positions[0]), &model.positions[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // koordynaty tekstury
     glBindBuffer(GL_ARRAY_BUFFER, vertex_array_buffers[TEXCOORD_VB]);
-    glBufferData(GL_ARRAY_BUFFER, model.positions.size() * sizeof(model.texCoords[0]), &model.texCoords[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, model.positions.size()
+		   	* sizeof(model.texCoords[0]), &model.texCoords[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -57,7 +59,8 @@ void Mesh::InitMesh(const IndexedModel &model)
     // indices - definicje trójkątów
     // GL_ELEMENT_ARRAY_BUFFER to array który odnosi sie do innego arraya
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_array_buffers[INDEX_VB]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.indices.size() * sizeof(model.indices[0]), &model.indices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.indices.size()
+		   	* sizeof(model.indices[0]), &model.indices[0], GL_STATIC_DRAW);
 
     // normalne
     glBindBuffer(GL_ARRAY_BUFFER, vertex_array_buffers[NORMAL_VB]);

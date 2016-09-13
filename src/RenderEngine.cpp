@@ -384,10 +384,11 @@ int RenderEngine::addTexture(int w, int h)
 	return textures.size() -1 ;
 }
 
-int RenderEngine::addTexture(int w, int h, GLvoid* data,  GLint internal_format,
-		GLenum format, GLenum type)
+int RenderEngine::addTexture(int w, int h, GLenum target, GLvoid* data,
+		GLint internal_format, GLenum format, GLenum type)
 {
-	Texture *temp = new Texture(w ,h, data, internal_format, format, type);
+	Texture *temp = new Texture(w ,h, target, data, internal_format, format,
+			type);
 	textures.push_back(temp);
 	return textures.size() -1 ;
 }

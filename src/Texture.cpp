@@ -28,7 +28,7 @@ Texture::Texture(int w, int h) {
 	attachToCurrentFramebuffer();
 }
 
-Texture::Texture(int w, int h, GLvoid *data,  GLint internal_format,
+Texture::Texture(int w, int h, GLenum target, GLvoid *data,  GLint internal_format,
 		GLenum format, GLenum type)
 {
 	color_texture_width = w;
@@ -36,7 +36,7 @@ Texture::Texture(int w, int h, GLvoid *data,  GLint internal_format,
 	depth_texture_width = w;
 	depth_texture_height = h;
 
-	createColorTexture(data, internal_format, format, type);
+	createColorTexture(target, data, internal_format, format, type);
 	createDepthTexture();
 
 	attachToCurrentFramebuffer();
@@ -67,73 +67,46 @@ void Texture::createColorTexture() {
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width, color_texture_height);
-// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, color_texture_width, color_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width,
+			color_texture_height);
+	// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, color_texture_width,
+	// 	color_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 }
 
-void Texture::createColorTexture(GLvoid *data, GLint internal_format,
-	   	GLenum format, GLenum type)
+void Texture::createColorTexture(GLenum target, GLvoid *data,
+		GLint internal_format, GLenum format, GLenum type)
 {
 
-/*
-// 	float *data2 = new float[256 * 256 * 4];
-// 	// wypełnić danymi
-// 	for (int x = 0; x < 256; x++)
-// 		for (int y = 0; y < 256; y++)
-// 		{
-// 			data2[y * 256*4  + x*4 + 0] = 1.0;			 // R
-// 			data2[y * 256*4  + x*4 + 1] = 0.0;			 // G
-// 			data2[y * 256*4  + x*4 + 2] = 1.0;			 // B
-// 			data2[y * 256*4  + x*4 + 3] = 1.0;			 // A
-// 		}
-
-// 	float data2[512][512][4];
-//
-// 	for (int x = 0; x < 512; x++)
-// 		for (int y = 0; y < 512; y++)
-// 		{
-// 			data2[y][x][0] = 1.0f;
-// 			data2[y][x][1] = 0.0f;
-// 			data2[y][x][2] = 1.0f;
-// 			data2[y][x][3] = 1.0f;
-// 		}
-
-// 	GLuint* data2 = new GLuint[256*256]; //Use OpenGL's types
-// 	for (int y = 0; y < 256; ++y)
-// 		for (int x = 0; x < 256; ++x)
-// 			if ((x - 100)*(x - 100) + (y - 156)*(y - 156) < 75*75)
-// 				data2[256*y + x] = ((0x9C << 24) | (0xFF << 16) | (0x9C << 8) | (0xC8 << 0));
-// 			else
-// 				data2[256*y + x] = 0;  // I'd expect this to be transparent and
-   									  // the above to be slightly transparent
-									  // and green, but it's red somehow.
-
-
-// 	unsigned char* data2 = new unsigned char[256*256*4];
-// 	for (int y = 0; y < 256; ++y)
-// 		for (int x = 0; x < 256; ++x)
-// 			if ((x - 100)*(x - 100) + (y - 156)*(y - 156) < 75*75){
-// 				data2[(256*y + x)*4+0] = 255;
-// 				data2[(256*y + x)*4+1] = 0;
-// 				data2[(256*y + x)*4+2] = 0;
-// 				data2[(256*y + x)*4+3] = 255;
-// 			}else{
-// 				data2[(256*y + x)*4+0] = 0;
-// 				data2[(256*y + x)*4+1] = 0;
-// 				data2[(256*y + x)*4+2] = 0;
-// 				data2[(256*y + x)*4+3] = 0;
-// 			}
-
-// 	GLuint* data2 = new GLuint[256*256*4]; //Use OpenGL's types
-// 	for (int y = 0; y < 256; ++y)
-// 		for (int x = 0; x < 256; ++x)
-// 		{
-// 			data2[(y*256 + x)*4 + 0] = 1245;
-// 			data2[(y*256 + x)*4 + 1] = 0;
-// 			data2[(y*256 + x)*4 + 2] = 255;
-// 			data2[(y*256 + x)*4 + 3] = 255;
-// 		}
-*/
+	/** można tu wpierdolić tekstórę jakiegokolwiek typu,
+	 * manipuować można formatem wew., formatem i typem
+	 * 	  np dla tekstury rgba z unsigned int
+	 * 		internal format = GL_RGBA32UI
+	 *		format			= GL_RGBA_INTEGER
+	 *		type			= GL_UNSIGNED_INT
+	 *
+	 *	nadal są takie parametry jak GL_REPEAT, WRAP czy access GL_READ_WRITE
+	 *
+	 *	tutaj w odróżniniu od createColorTexture(nic) jest z teksturą zbindowany
+	 *	image (glBindImageTexture(...)), a nie Storage.
+	 *	Tak samo jak tu jest w createDepthTExture() akczyli
+	 *
+	 *	a tu jest przykladzik uzycia unsigned char do kodowani binarnego kolorow
+	 *
+	 *	GLuint* data2 = new GLuint[256*256]; //Use OpenGL's types
+	 *		for (int y = 0; y < 256; ++y)
+	 *			for (int x = 0; x < 256; ++x)
+	 * 				if ((x - 100)*(x - 100) + (y - 156)*(y - 156) < 75*75)
+	 * 					data2[256*y + x]
+	 * 				   	= ((0x9C << 24) | (0xFF << 16) | (0x9C << 8) | (0xC8 << 0));
+	 * 				else
+	 * 					data2[256*y + x] = 0; // I'd expect this to be transparent
+	 * 										  // and the above to be slightly
+	 * 										  // transparent and green, but it's red
+	 * 										  // somehow.
+	 * 			// albo
+ 	 *			// data2[(256*y + x)*4+0] = 255;
+	 *
+	*/
 
 
 	glGenTextures(1, &color_texture);
@@ -142,7 +115,8 @@ void Texture::createColorTexture(GLvoid *data, GLint internal_format,
 	color_texture_unit = num_textures;
 	num_textures++;
 
-	glBindTexture(GL_TEXTURE_2D, color_texture);
+// 	glBindTexture(GL_TEXTURE_2D, color_texture);
+	glBindTexture(target, color_texture);
 
 	glBindImageTexture(
 			color_texture_unit,				// unit
@@ -151,28 +125,41 @@ void Texture::createColorTexture(GLvoid *data, GLint internal_format,
 		   	GL_FALSE,						// layered
 		   	0,								// layer
 			GL_READ_WRITE,					// access
-		   	internal_format);				// format (np GL_RGBA32UI)
-
+		   	internal_format);				// format vel internal format
+   											// (np GL_RGBA32UI)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	if (target == GL_TEXTURE_2D)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 // 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width,
 // 			color_texture_height);
+	if (target == GL_TEXTURE_1D)
+		glTexImage1D(
+				GL_TEXTURE_1D,				// target
+				0,							// level
+				internal_format,			// internal format(np GL_RGBA32UI)
+				color_texture_width,		// witdh
+				0,							// border
+				format,						// format (np GL_RGBA_INTEGER)
+				type,						// type (np GL_UNSIGNED_INT)
+				(GLvoid*) data);			// data
 
-	glTexImage2D(
-			GL_TEXTURE_2D,					// target
-		   	0,								// level
-		   	internal_format,				// internal format(np GL_RGBA32UI)
-		   	color_texture_width,			// witdh
-			color_texture_height,			// height
-		   	0,								// border
-		   	format,							// format (np GL_RGBA_INTEGER)
-		   	type,							// type (np GL_UNSIGNED_INT)
-			(GLvoid*) data);				// data
-// 	delete[] data;
+
+	if (target == GL_TEXTURE_2D)
+		glTexImage2D(
+				GL_TEXTURE_2D,				// target
+				0,							// level
+				internal_format,			// internal format(np GL_RGBA32UI)
+				color_texture_width,		// witdh
+				color_texture_height,		// height
+				0,							// border
+				format,						// format (np GL_RGBA_INTEGER)
+				type,						// type (np GL_UNSIGNED_INT)
+				(GLvoid*) data);			// data
+	// 	delete[] data;
 }
 
 void Texture::createColorTexture(const std::string& filename)
