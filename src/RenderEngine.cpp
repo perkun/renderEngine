@@ -79,11 +79,11 @@ void RenderEngine::renderScene()
 	shaders[shadow_shader_id]->bind();
 	for (int i = 0; i < models.size(); i++)
    	{
-// 		if (models[i]->casting_shadow) {
+		if (models[i]->casting_shadow) {
 			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0],
 					*cameras[1]);
 			models[i]->draw();
-// 		}
+		}
 	}
 
 	// normal drawing
