@@ -24,6 +24,8 @@ public:
 	int color_texture_unit, depth_texture_unit;
 	GLuint color_texture, depth_texture;
 
+	GLenum target;
+
 
 	Texture(int, int);
 	Texture(int, int, GLenum, GLvoid*,  GLint internal_format, GLenum format,

@@ -17,6 +17,8 @@ Texture::Texture() {
 }
 
 Texture::Texture(int w, int h) {
+	target = GL_TEXTURE_2D;
+
 	color_texture_width = w;
 	color_texture_height = h;
 	depth_texture_width = w;
@@ -28,22 +30,25 @@ Texture::Texture(int w, int h) {
 	attachToCurrentFramebuffer();
 }
 
-Texture::Texture(int w, int h, GLenum target, GLvoid *data,  GLint internal_format,
+Texture::Texture(int w, int h, GLenum tar, GLvoid *data,  GLint internal_format,
 		GLenum format, GLenum type)
 {
+	target = tar;
+
 	color_texture_width = w;
 	color_texture_height = h;
 	depth_texture_width = w;
 	depth_texture_height = h;
 
 	createColorTexture(target, data, internal_format, format, type);
-	createDepthTexture();
+//  	createDepthTexture();
 
 	attachToCurrentFramebuffer();
 }
 
 Texture::Texture(const std::string& filename) {
 // 	shadow_size ;
+	target = GL_TEXTURE_2D;
 	createColorTexture(filename);
 	createDepthTexture();
 
@@ -69,8 +74,8 @@ void Texture::createColorTexture() {
 
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width,
 			color_texture_height);
-	// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, color_texture_width,
-	// 	color_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+// 	 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, color_texture_width,
+// 	 	color_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 }
 
 void Texture::createColorTexture(GLenum target, GLvoid *data,
@@ -127,12 +132,17 @@ void Texture::createColorTexture(GLenum target, GLvoid *data,
 			GL_READ_WRITE,					// access
 		   	internal_format);				// format vel internal format
    											// (np GL_RGBA32UI)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	if (target == GL_TEXTURE_2D)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+// 	if (target == GL_TEXTURE_1D)
+// 		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+ 		glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+ 		glTexParameterf(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 // 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width,
 // 			color_texture_height);
@@ -232,11 +242,13 @@ void Texture::createDepthTexture() {
 
 
 void Texture::bind() {
-	glActiveTexture(GL_TEXTURE0 + depth_texture_unit);
-	glBindTexture(GL_TEXTURE_2D, depth_texture);
-
-	glActiveTexture(GL_TEXTURE0 + color_texture_unit);
-	glBindTexture(GL_TEXTURE_2D, color_texture);
+	if (target == GL_TEXTURE_2D)
+	{
+		glActiveTexture(GL_TEXTURE0 + depth_texture_unit);
+		glBindTexture(GL_TEXTURE_2D, depth_texture);
+	}
+		glActiveTexture(GL_TEXTURE0 + color_texture_unit);
+		glBindTexture(target, color_texture);
 
 // 	GLuint clearColor = 0;
 // // 	glBindTexture(GL_TEXTURE_2D);
@@ -245,12 +257,6 @@ void Texture::bind() {
 
 // 	GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
 // 	glDrawBuffers (1, draw_buffers);
-
-
-
-
-
-
 // 	GLenum draw_bufs[] = { GL_NONE };
 // 	glDrawBuffers (1, draw_bufs);
 //
@@ -260,28 +266,39 @@ void Texture::bind() {
 void Texture::attachToCurrentFramebuffer()
 {
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_texture, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth_texture, 0);
+
+	if (target == GL_TEXTURE_2D)
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+				GL_TEXTURE_2D, depth_texture, 0);
+
+
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 
-void Texture::setUniform(Shader &shader, const char* color_name, const char* depth_name) {
+void Texture::setUniform(Shader &shader, const char* color_name,
+		const char* depth_name)
+{
 
 	shader.bind();
 
 	color_texture_location = glGetUniformLocation(shader.program, color_name);
 	glUniform1i(color_texture_location, color_texture_unit);
 
-	depth_texture_location = glGetUniformLocation(shader.program, depth_name);
-	glUniform1i(depth_texture_location, depth_texture_unit);
+	if (target == GL_TEXTURE_2D)
+	{
+		depth_texture_location = glGetUniformLocation(shader.program, depth_name);
+		glUniform1i(depth_texture_location, depth_texture_unit);
+	}
 
 }
 
 
 Texture::~Texture() {
 	glDeleteTextures(1, &color_texture);
-	glDeleteTextures(1, &depth_texture);
+// 	if (target == GL_TEXTURE_2D)
+		glDeleteTextures(1, &depth_texture);
 }
 
 
