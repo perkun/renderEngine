@@ -70,9 +70,9 @@ int main() {
     render.models[aster]->transform.setPosition(asteroid_pos);
 
     float d = 1., model_camera_distance, model_light_distance;
-    glm::vec3 light_position(0., 0., 0.);
+    glm::vec3 light_position(5., 0., 0.);
     light_position *= 10000.;
-    glm::vec3 camera_position(0., 0., 0.);
+    glm::vec3 camera_position(-1., 0., 0.);
     camera_position *= 10000.;
     model_camera_distance = glm::length(asteroid_pos - camera_position);
     model_light_distance = glm::length(asteroid_pos - light_position);

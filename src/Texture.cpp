@@ -41,7 +41,7 @@ Texture::Texture(int w, int h, GLenum tar, GLvoid *data,  GLint internal_format,
 	depth_texture_height = h;
 
 	createColorTexture(target, data, internal_format, format, type);
-//  	createDepthTexture();
+ 	createDepthTexture();
 
 	attachToCurrentFramebuffer();
 }
@@ -242,11 +242,11 @@ void Texture::createDepthTexture() {
 
 
 void Texture::bind() {
-	if (target == GL_TEXTURE_2D)
-	{
+// 	if (target == GL_TEXTURE_2D)
+// 	{
 		glActiveTexture(GL_TEXTURE0 + depth_texture_unit);
 		glBindTexture(GL_TEXTURE_2D, depth_texture);
-	}
+// 	}
 		glActiveTexture(GL_TEXTURE0 + color_texture_unit);
 		glBindTexture(target, color_texture);
 
@@ -267,7 +267,7 @@ void Texture::attachToCurrentFramebuffer()
 {
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_texture, 0);
 
-	if (target == GL_TEXTURE_2D)
+// 	if (target == GL_TEXTURE_2D)
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
 				GL_TEXTURE_2D, depth_texture, 0);
 
@@ -286,11 +286,11 @@ void Texture::setUniform(Shader &shader, const char* color_name,
 	color_texture_location = glGetUniformLocation(shader.program, color_name);
 	glUniform1i(color_texture_location, color_texture_unit);
 
-	if (target == GL_TEXTURE_2D)
-	{
+// 	if (target == GL_TEXTURE_2D)
+// 	{
 		depth_texture_location = glGetUniformLocation(shader.program, depth_name);
 		glUniform1i(depth_texture_location, depth_texture_unit);
-	}
+// 	}
 
 }
 
