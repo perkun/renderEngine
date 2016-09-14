@@ -17,7 +17,7 @@ Texture::Texture() {
 }
 
 Texture::Texture(int w, int h) {
-	target = GL_TEXTURE_2D;
+// 	target = GL_TEXTURE_2D;
 
 	color_texture_width = w;
 	color_texture_height = h;
@@ -30,25 +30,25 @@ Texture::Texture(int w, int h) {
 	attachToCurrentFramebuffer();
 }
 
-Texture::Texture(int w, int h, GLenum tar, GLvoid *data,  GLint internal_format,
-		GLenum format, GLenum type)
-{
-	target = tar;
-
-	color_texture_width = w;
-	color_texture_height = h;
-	depth_texture_width = w;
-	depth_texture_height = h;
-
-	createColorTexture(target, data, internal_format, format, type);
- 	createDepthTexture();
-
-	attachToCurrentFramebuffer();
-}
+// Texture::Texture(int w, int h, GLenum tar, GLvoid *data,  GLint internal_format,
+// 		GLenum format, GLenum type)
+// {
+// 	target = tar;
+//
+// 	color_texture_width = w;
+// 	color_texture_height = h;
+// 	depth_texture_width = w;
+// 	depth_texture_height = h;
+//
+// 	createColorTexture(target, data, internal_format, format, type);
+//  	createDepthTexture();
+//
+// 	attachToCurrentFramebuffer();
+// }
 
 Texture::Texture(const std::string& filename) {
 // 	shadow_size ;
-	target = GL_TEXTURE_2D;
+// 	target = GL_TEXTURE_2D;
 	createColorTexture(filename);
 	createDepthTexture();
 
@@ -78,9 +78,9 @@ void Texture::createColorTexture() {
 // 	 	color_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 }
 
-void Texture::createColorTexture(GLenum target, GLvoid *data,
-		GLint internal_format, GLenum format, GLenum type)
-{
+// void Texture::createColorTexture(GLenum target, GLvoid *data,
+// 		GLint internal_format, GLenum format, GLenum type)
+// {
 
 	/** można tu wpierdolić tekstórę jakiegokolwiek typu,
 	 * manipuować można formatem wew., formatem i typem
@@ -114,63 +114,63 @@ void Texture::createColorTexture(GLenum target, GLvoid *data,
 	*/
 
 
-	glGenTextures(1, &color_texture);
-
-	glActiveTexture(GL_TEXTURE0 + num_textures);			// uwaga na numerki!
-	color_texture_unit = num_textures;
-	num_textures++;
-
-// 	glBindTexture(GL_TEXTURE_2D, color_texture);
-	glBindTexture(target, color_texture);
-
-	glBindImageTexture(
-			color_texture_unit,				// unit
-		   	color_texture,					// texture
-		   	0,								// level
-		   	GL_FALSE,						// layered
-		   	0,								// layer
-			GL_READ_WRITE,					// access
-		   	internal_format);				// format vel internal format
-   											// (np GL_RGBA32UI)
-	if (target == GL_TEXTURE_2D)
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
+// 	glGenTextures(1, &color_texture);
+//
+// 	glActiveTexture(GL_TEXTURE0 + num_textures);			// uwaga na numerki!
+// 	color_texture_unit = num_textures;
+// 	num_textures++;
+//
+// // 	glBindTexture(GL_TEXTURE_2D, color_texture);
+// 	glBindTexture(target, color_texture);
+//
+// 	glBindImageTexture(
+// 			color_texture_unit,				// unit
+// 		   	color_texture,					// texture
+// 		   	0,								// level
+// 		   	GL_FALSE,						// layered
+// 		   	0,								// layer
+// 			GL_READ_WRITE,					// access
+// 		   	internal_format);				// format vel internal format
+//    											// (np GL_RGBA32UI)
+// 	if (target == GL_TEXTURE_2D)
+// 	{
+// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+// 	}
+// // 	if (target == GL_TEXTURE_1D)
+// // 		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//
+//
+//  		glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//  		glTexParameterf(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//
+// // 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width,
+// // 			color_texture_height);
 // 	if (target == GL_TEXTURE_1D)
-// 		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-
-
- 		glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
- 		glTexParameterf(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-// 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, color_texture_width,
-// 			color_texture_height);
-	if (target == GL_TEXTURE_1D)
-		glTexImage1D(
-				GL_TEXTURE_1D,				// target
-				0,							// level
-				internal_format,			// internal format(np GL_RGBA32UI)
-				color_texture_width,		// witdh
-				0,							// border
-				format,						// format (np GL_RGBA_INTEGER)
-				type,						// type (np GL_UNSIGNED_INT)
-				(GLvoid*) data);			// data
-
-
-	if (target == GL_TEXTURE_2D)
-		glTexImage2D(
-				GL_TEXTURE_2D,				// target
-				0,							// level
-				internal_format,			// internal format(np GL_RGBA32UI)
-				color_texture_width,		// witdh
-				color_texture_height,		// height
-				0,							// border
-				format,						// format (np GL_RGBA_INTEGER)
-				type,						// type (np GL_UNSIGNED_INT)
-				(GLvoid*) data);			// data
-	// 	delete[] data;
-}
+// 		glTexImage1D(
+// 				GL_TEXTURE_1D,				// target
+// 				0,							// level
+// 				internal_format,			// internal format(np GL_RGBA32UI)
+// 				color_texture_width,		// witdh
+// 				0,							// border
+// 				format,						// format (np GL_RGBA_INTEGER)
+// 				type,						// type (np GL_UNSIGNED_INT)
+// 				(GLvoid*) data);			// data
+//
+//
+// 	if (target == GL_TEXTURE_2D)
+// 		glTexImage2D(
+// 				GL_TEXTURE_2D,				// target
+// 				0,							// level
+// 				internal_format,			// internal format(np GL_RGBA32UI)
+// 				color_texture_width,		// witdh
+// 				color_texture_height,		// height
+// 				0,							// border
+// 				format,						// format (np GL_RGBA_INTEGER)
+// 				type,						// type (np GL_UNSIGNED_INT)
+// 				(GLvoid*) data);			// data
+// 	// 	delete[] data;
+// }
 
 void Texture::createColorTexture(const std::string& filename)
 {
@@ -248,7 +248,7 @@ void Texture::bind() {
 		glBindTexture(GL_TEXTURE_2D, depth_texture);
 // 	}
 		glActiveTexture(GL_TEXTURE0 + color_texture_unit);
-		glBindTexture(target, color_texture);
+		glBindTexture(GL_TEXTURE_2D, color_texture);
 
 // 	GLuint clearColor = 0;
 // // 	glBindTexture(GL_TEXTURE_2D);

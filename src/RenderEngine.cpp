@@ -53,7 +53,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	fb = addFramebuffer(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	fb_tx = addTexture(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
-	render_off_screen = false;
+	render_off_screen = false; // ??????????????
 	interactive = _interactive;
 
 	camera_rotation_speed = 0.05;
@@ -67,7 +67,7 @@ void RenderEngine::renderScene()
 	if (!render_off_screen)
    	{
 		if (interactive)
-			display.clear(0., 0., 0., 1.);
+			display.clear(1., 1., 1., 1.);
 		else
 			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
@@ -77,6 +77,7 @@ void RenderEngine::renderScene()
 	framebuffers[shadow_fb_id]->bind();
 	framebuffers[shadow_fb_id]->clear(0., 0., 0., 1.);
 	shaders[shadow_shader_id]->bind();
+// 	textures[shadow_texture_id]->bind();
 	for (int i = 0; i < models.size(); i++)
    	{
 		if (models[i]->casting_shadow) {
@@ -385,14 +386,14 @@ int RenderEngine::addTexture(int w, int h)
 	return textures.size() -1 ;
 }
 
-int RenderEngine::addTexture(int w, int h, GLenum target, GLvoid* data,
-		GLint internal_format, GLenum format, GLenum type)
-{
-	Texture *temp = new Texture(w ,h, target, data, internal_format, format,
-			type);
-	textures.push_back(temp);
-	return textures.size() -1 ;
-}
+// int RenderEngine::addTexture(int w, int h, GLenum target, GLvoid* data,
+// 		GLint internal_format, GLenum format, GLenum type)
+// {
+// 	Texture *temp = new Texture(w ,h, target, data, internal_format, format,
+// 			type);
+// 	textures.push_back(temp);
+// 	return textures.size() -1 ;
+// }
 
 
 int RenderEngine::addFramebuffer(int w, int h)
