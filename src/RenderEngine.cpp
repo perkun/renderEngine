@@ -40,7 +40,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	DISPLAY_HEIGHT = h;
 	shadow_size = 1024 * 2;
 
-	//      shadow_shader_id = addShader("shadowShader");
+//      shadow_shader_id = addShader("shadowShader");
 	shadow_shader_id = 0;
 	Shader *temp = new Shader("shadowShader");
 	shaders.push_back(temp);
