@@ -50,6 +50,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	shadow_fb_id = addFramebuffer(shadow_size, shadow_size);
 	shadow_texture_id = addTexture(shadow_size, shadow_size);
 
+
 	fb = addFramebuffer(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	fb_tx = addTexture(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 

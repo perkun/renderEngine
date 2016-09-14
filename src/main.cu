@@ -88,6 +88,15 @@ int main() {
 
 
 
+	/////////////////////////////////
+
+// 	render.textures[render.shadow_texture_id]->setUniform(
+// 			*render.shaders[basicShader], "color_shadow", "depth");
+
+
+// 	render.addTexture(100, 100);
+
+
     ///////////// CUDA ////////////////////////
     Cuda cuda(render.textures[ render.fb_tx ]->color_texture, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
