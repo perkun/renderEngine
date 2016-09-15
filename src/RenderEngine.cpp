@@ -56,7 +56,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	render_off_screen = false;
 	interactive = _interactive;
 
-	camera_rotation_speed = 0.05;
+	camera_rotation_speed = 0.005;
 
 
 }
@@ -73,7 +73,7 @@ void RenderEngine::renderScene()
 	}
 
 	// create shadow map
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	framebuffers[shadow_fb_id]->bind();
 	framebuffers[shadow_fb_id]->clear(0., 0., 0., 1.);
 	shaders[shadow_shader_id]->bind();
@@ -87,7 +87,7 @@ void RenderEngine::renderScene()
 	}
 
 	// normal drawing
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (!render_off_screen)
    	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
