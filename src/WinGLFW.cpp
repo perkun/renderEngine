@@ -176,6 +176,11 @@ WinGLFW::WinGLFW(int width, int height, const std::string& title ) {
 	glFrontFace (GL_CCW);
 
 
+// 	glDisable(GL_CULL_FACE);
+
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	is_closed = false;
 
 	keys = Keys();

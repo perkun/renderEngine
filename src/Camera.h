@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
+#include <stdio.h>
 #define GLM_FORCE_RADIANS
 class Camera
 {

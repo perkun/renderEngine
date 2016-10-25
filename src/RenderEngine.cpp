@@ -10,7 +10,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible, bool off_screen_rendering
 {
 	DISPLAY_WIDTH = w;
 	DISPLAY_HEIGHT = h;
-	shadow_size = 1024 * 2;
+	shadow_size = 1024 * 4;
 
 	Xdisplay.initWindow(w, h, visible);
 
@@ -67,13 +67,13 @@ void RenderEngine::renderScene()
 	if (!render_off_screen)
    	{
 		if (interactive)
-			display.clear(0., 0., 0., 1.);
+// 			display.clear(0., 0., 0., 1.);
+			display.clear(1., 1., 1., 1.);
 		else
 			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
 
 	// create shadow map
-// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	framebuffers[shadow_fb_id]->bind();
 	framebuffers[shadow_fb_id]->clear(0., 0., 0., 1.);
 	shaders[shadow_shader_id]->bind();
@@ -87,7 +87,6 @@ void RenderEngine::renderScene()
 	}
 
 	// normal drawing
-// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (!render_off_screen)
    	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -266,11 +265,11 @@ void RenderEngine::linkBasicCamerasToShader()
 
 int RenderEngine::addModel(const std::string& file_name)
 {
-	std::cout << "adding model...\n";
+// 	std::cout << "adding model...\n";
 	Mesh *temp = new Mesh(file_name);
-	std::cout << "still adding model...\n";
+// 	std::cout << "still adding model...\n";
 	models.push_back(temp);
-	std::cout << "model added...\n";
+// 	std::cout << "model added...\n";
 
 	models_shader.push_back(0);
 

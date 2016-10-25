@@ -21,6 +21,7 @@ public:
 	Image(int, int, int);
 	void saveImage(float*, int);
 	void saveImageRgb(float*, float*, float*, int);
+	void saveImageRgb(float*, float*, float*, const char*);
 	virtual ~Image();
 
 };

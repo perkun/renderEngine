@@ -9,7 +9,7 @@ CPPEXT = cpp
 CEXT = c
 CUDAEXT = cu
 
-CFLAGS = -std=c++11 -g -c
+CFLAGS = -g -c
 LIB = -lm -lglfw3 -lGL -lGLU -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl -lfreeimage
 
 SOURCES = $(shell find $(SRCDIR) -type f -name *.$(CPPEXT))
