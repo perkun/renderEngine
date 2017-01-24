@@ -69,7 +69,7 @@ void Image::saveImageRgb(float *pixel_buffer_r, float *pixel_buffer_g,
 	}
 
 	char name[100];//step_str[10];
-	sprintf(name, "./film/%d.png", image_id);
+	sprintf(name, "./%d.png", image_id);
 
 
 	FreeImage_Save(FIF_PNG, bitmap, name, 0);

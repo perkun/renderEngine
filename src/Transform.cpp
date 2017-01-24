@@ -30,7 +30,10 @@ glm::mat4 Transform::getModelMatrix()
 	glm::mat4 scaleMatrix = glm::scale(scale);
 	glm::mat4 equatorialOrbitMatrix = glm::translate(equatorial_orbit_position);
 
-	return posMatrix * equatorialOrbitMatrix * getRotationMatrix313() * scaleMatrix;
+	if (rotations == XYZ)
+		return posMatrix * equatorialOrbitMatrix * getRotationMatrix() * scaleMatrix;
+	if (rotations == EULER_ANGLES)
+		return posMatrix * equatorialOrbitMatrix * getRotationMatrix313() * scaleMatrix;
 }
 
 glm::mat4 Transform::getNoTranslationModelMatrix()
@@ -62,9 +65,12 @@ glm::mat4 Transform::getRotationMatrix()
 {
 	/** zwraca macierz obrotu wokół osi XYZ */
 
-	glm::mat4 rotXMatrix = glm::rotate(rot.x, glm::vec3(1.0, 0.0, 0.0));
-	glm::mat4 rotYMatrix = glm::rotate(rot.y, glm::vec3(0.0, 1.0, 0.0));
-	glm::mat4 rotZMatrix = glm::rotate(rot.z, glm::vec3(0.0, 0.0, 1.0));
+// 	glm::mat4 rotXMatrix = glm::rotate(rot.x, glm::vec3(1.0, 0.0, 0.0));
+// 	glm::mat4 rotYMatrix = glm::rotate(rot.y, glm::vec3(0.0, 1.0, 0.0));
+// 	glm::mat4 rotZMatrix = glm::rotate(rot.z, glm::vec3(0.0, 0.0, 1.0));
+	glm::mat4 rotXMatrix = glm::rotate(alpha, glm::vec3(1.0, 0.0, 0.0));
+	glm::mat4 rotYMatrix = glm::rotate(beta, glm::vec3(0.0, 1.0, 0.0));
+	glm::mat4 rotZMatrix = glm::rotate(gamma, glm::vec3(0.0, 0.0, 1.0));
 
 	return rotZMatrix * rotYMatrix * rotXMatrix;
 }

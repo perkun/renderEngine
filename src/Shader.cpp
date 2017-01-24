@@ -14,7 +14,7 @@ Shader::Shader() {
 Shader::Shader(const std::string& filename)
 {
 // 	RGB_value[0] = RGB_value[1] = RGB_value[2] = 1.;
-	RGB_value = glm::vec3(1., 1., 1.);
+// 	RGBA_value = glm::vec4(1., 1., 1., 1.);
 
 
 	program = glCreateProgram();
@@ -44,7 +44,7 @@ Shader::Shader(const std::string& filename)
 	uniforms[LIGHT_PROJECTION_U] = glGetUniformLocation(program, "light_projection_matrix");
 	uniforms[LIGHT_POSITION_U] = glGetUniformLocation(program, "light_position");
 
-	uniforms[RGB_VALUE_U] = glGetUniformLocation(program, "RGB_value");
+	uniforms[RGBA_VALUE_U] = glGetUniformLocation(program, "RGBA_value");
 
 	// dodać uniformy dla angles, view angles,
 	// oraz maximum length? (czy normalizować model zawsze?)
@@ -52,6 +52,7 @@ Shader::Shader(const std::string& filename)
 			"no_translation_model_matrix");
 	uniforms[NO_TRNSLATION_VIEW_U] = glGetUniformLocation(program,
 			"no_translation_view_matrix");
+	uniforms[MODEL_ID] = glGetUniformLocation(program, "model_id");
 }
 
 Shader::~Shader()
@@ -82,15 +83,77 @@ void Shader::update(Transform& transform, const Camera& camera, const Camera& li
 
 	glUniformMatrix4fv(uniforms[MODEL_U], 1, GL_FALSE, &model_matrix[0][0]);
 	glUniformMatrix4fv(uniforms[VIEW_U], 1, GL_FALSE, &view_matrix[0][0]);
-	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, GL_FALSE, &projection_matrix[0][0]);
-	glUniformMatrix4fv(uniforms[LIGHT_VIEW_U], 1, GL_FALSE, &light_view_matrix[0][0]);
-	glUniformMatrix4fv(uniforms[LIGHT_PROJECTION_U], 1, GL_FALSE, &light_projection_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, GL_FALSE,
+			&projection_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_VIEW_U], 1, GL_FALSE,
+			&light_view_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_PROJECTION_U], 1, GL_FALSE,
+			&light_projection_matrix[0][0]);
 	glUniform3fv(uniforms[LIGHT_POSITION_U], 1, lp);
 
 // 	float dupa[3] = {0.,0., 1.};
 // 	glUniform3fv(uniforms[RGB_VALUE_U], 1, dupa);
 // 	glm::vec3 dupa = glm::vec3(0.,0.,1.);
-	glUniform3fv(uniforms[RGB_VALUE_U], 1, (float*) &RGB_value);
+	glUniform4fv(uniforms[RGBA_VALUE_U], 1,  &RGBA_value[0]);
+
+}
+
+void Shader::update(Transform& transform, const Camera& camera, const Camera& light, int model_id)
+{
+ 	glm::mat4 model_matrix = transform.getModelMatrix();
+	glm::mat4 view_matrix = camera.getViewMatrix();
+	glm::mat4 projection_matrix = camera.getProjectionMatrix();
+	glm::mat4 light_view_matrix = light.getViewMatrix();
+	glm::mat4 light_projection_matrix = light.getProjectionMatrix();
+
+	float lp[3];
+	lp[0] = light.position.x; lp[1] = light.position.y; lp[2] = light.position.z;
+
+	glUniformMatrix4fv(uniforms[MODEL_U], 1, GL_FALSE, &model_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[VIEW_U], 1, GL_FALSE, &view_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, GL_FALSE,
+			&projection_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_VIEW_U], 1, GL_FALSE,
+			&light_view_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_PROJECTION_U], 1, GL_FALSE,
+			&light_projection_matrix[0][0]);
+	glUniform3fv(uniforms[LIGHT_POSITION_U], 1, lp);
+
+// 	float dupa[3] = {0.,0., 1.};
+// 	glUniform3fv(uniforms[RGB_VALUE_U], 1, dupa);
+// 	glm::vec3 dupa = glm::vec3(0.,0.,1.);
+// 	glUniform4fv(uniforms[RGBA_VALUE_U], 1,  &RGBA_value[0][0]);
+
+	glUniform1iv(uniforms[MODEL_ID], 1, &model_id);
+}
+// void Shader::sendUniformArrays(int array_size)
+// {
+// 	glUniform4fv(uniforms[RGBA_VALUE_U], array_size,  &RGBA_value[0][0]);
+// }
+
+void Shader::update(const Camera& camera, const Camera& light)
+{
+	glm::mat4 view_matrix = camera.getViewMatrix();
+	glm::mat4 projection_matrix = camera.getProjectionMatrix();
+	glm::mat4 light_view_matrix = light.getViewMatrix();
+	glm::mat4 light_projection_matrix = light.getProjectionMatrix();
+
+	float lp[3];
+	lp[0] = light.position.x; lp[1] = light.position.y; lp[2] = light.position.z;
+
+	glUniformMatrix4fv(uniforms[VIEW_U], 1, GL_FALSE, &view_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[PROJECTION_U], 1, GL_FALSE,
+			&projection_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_VIEW_U], 1, GL_FALSE,
+			&light_view_matrix[0][0]);
+	glUniformMatrix4fv(uniforms[LIGHT_PROJECTION_U], 1, GL_FALSE,
+			&light_projection_matrix[0][0]);
+	glUniform3fv(uniforms[LIGHT_POSITION_U], 1, lp);
+
+// 	float dupa[3] = {0.,0., 1.};
+// 	glUniform3fv(uniforms[RGB_VALUE_U], 1, dupa);
+// 	glm::vec3 dupa = glm::vec3(0.,0.,1.);
+	glUniform4fv(uniforms[RGBA_VALUE_U], 1, (float*) &RGBA_value);
 }
 
 void Shader::updateRadar(Transform& transform, const Camera& camera,

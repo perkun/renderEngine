@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glx.h>
@@ -22,7 +23,7 @@
 #define GLM_FORCE_RADIANS
 class Keys {
 public:
-	bool A, W, S, D, C, O, P, K, L, Z, X, F, R, N, M;
+	bool A, W, S, D, C, O, P, K, L, Z, X, F, R, N, M, EQUAL, MINUS;
 	bool UP, DOWN, LEFT, RIGHT, SPACE;
 
 	Keys() {
@@ -45,6 +46,7 @@ public:
 
 	void update();
 	void clear(float r, float g, float b, float a);
+	void clear(glm::vec4 color);
 	void setDefaultViewport();
 	void setViewport(int, int, int, int);
 

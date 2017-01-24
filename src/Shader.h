@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
@@ -31,6 +32,10 @@ public:
 
 	void bind();
 	void update(Transform& transform, const Camera& camera, const Camera& light);
+	void update(Transform& transform, const Camera& camera, const Camera& light,
+			int model_id);
+	void update(const Camera& camera, const Camera& light);
+// 	void sendUniformArrays(int array_size);
 	void updateRadar(Transform& transform, const Camera& camera, const Camera& light);
 // 	void update(int model_index, int camera_index, int light_index);
 	void updateModelMatrix(Transform& transform);
@@ -49,15 +54,16 @@ public:
 		LIGHT_VIEW_U,
 		LIGHT_PROJECTION_U,
 		LIGHT_POSITION_U,
-		RGB_VALUE_U,
+		RGBA_VALUE_U,
 		NO_TRNSLATION_MODEL_U,
 		NO_TRNSLATION_VIEW_U,
+		MODEL_ID,
 
 		NUM_UNIFORMS
 	};
 
 	static const unsigned int NUM_SHADERS = 2;
-	glm::vec3 RGB_value;
+	glm::vec4 RGBA_value;
 
 	GLuint shaders[NUM_SHADERS];
 	GLuint uniforms[NUM_UNIFORMS];

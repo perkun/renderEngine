@@ -6,14 +6,14 @@ RadarImages::RadarImages(int frs)
 	num_images = 0;
 	frame_size = frs;
 
-	radar_images = new float*[1000];
+	radar_images = new float*[10000];
 
- 	radar_images_triangles = new vector<unsigned int>*[1000];
+ 	radar_images_triangles = new vector<unsigned int>*[10000];
 // 	radar_images_triangles = new unsigned int**[1000];
 
 	all_scaled = false;
 
-	printf("bla lasdw \n");
+// 	printf("bla lasdw \n");
 
 }
 
@@ -70,7 +70,6 @@ void RadarImages::scaleAllImages(int x, int y)
 					scaled_image_triangles[j].end()
 					);
 		}
-
 	}
 
 	all_scaled = true;
@@ -358,13 +357,15 @@ void RadarImages::createRadarImage(float *pixel_buffer_red,
 	}
 
 
-	max = -1000;
-	for (i = 1; i < radar_frame_size * radar_frame_size; i++)
-   	{
-		if (radar_images[num_images - 1][i] > max)
-			max = radar_images[num_images - 1][i];
-	}
+// 	max = -1000;
+// 	for (i = 1; i < radar_frame_size * radar_frame_size; i++)
+//    	{
+// 		if (radar_images[num_images - 1][i] > max)
+// 			max = radar_images[num_images - 1][i];
+// 	}
 // 	printf("max: %f\n",max);
+
+
 //	max = 10;
 //	for (i = 0; i < radar_frame_size * radar_frame_size; i++) {
 //		radar_image[i] /= max;

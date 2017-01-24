@@ -32,6 +32,8 @@ public:
 	bool render_off_screen;
 	bool interactive;
 
+	glm::vec4 clear_color = glm::vec4( 0., 0., 0., 1.);
+
 	std::vector<Mesh*> models;
 	std::vector<Shader*> shaders;
 	std::vector<Texture*> textures;
@@ -55,12 +57,21 @@ public:
 
 	Camera camera, light;
 
+	enum {
+		FREE,
+		FIXED_POINT
+	};
+	int camera_mode = FREE;
+
+	float step = 0.001;
+
 
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering);
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering, bool _interactive);
 	~RenderEngine();
 
 	void renderScene();
+	void renderSceneNoShadow();
 	void renderSceneRadar();
 	void userInput();
 
@@ -73,6 +84,8 @@ public:
 
 	int addModel(const std::string &file_name);
 	int addModel(float vertices[][3], int num_pkt, int indices[][3], int num_tr);
+	void clearModels();
+
 	int addModelAsteroidFormat(const std::string &filename);
 	int addShader(const std::string &file_name);
 	int addTexture(const std::string &file_name);

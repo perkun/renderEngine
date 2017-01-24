@@ -56,7 +56,7 @@ public:
 	IndexedModel model;
 
 // 	float RGB_value[3] = {1., 1., 1.};
-	glm::vec3 RGB_value = glm::vec3(1., 1., 1.);
+	glm::vec4 RGBA_value = glm::vec4(1., 1., 1., 1.);
 
 	Transform transform;
 

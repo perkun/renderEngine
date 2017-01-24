@@ -143,6 +143,76 @@ void Camera::rotateDown(float step)
 	target += position;
 }
 
+void Camera::fixedRotateRight( float step )
+{
+	position = position - target;
+	glm::mat4 rotation = glm::rotate(glm::mat4(1.0), step, glm::vec3(0.,0.,1.) );
+
+	position = glm::vec3( rotation * glm::vec4(position, 1.) );
+	position += target;
+
+}
+ void Camera::fixedRotateLeft(float step)
+{
+
+	position = position - target;
+	glm::mat4 rotation = glm::rotate(glm::mat4(1.0), -step, glm::vec3(0.,0.,1.) );
+
+	position = glm::vec3( rotation * glm::vec4(position, 1.) );
+	position += target;
+}
+
+void Camera::fixedRotateUp(float step)
+{
+	position = position - target;
+	if ( glm::dot(glm::normalize(position), glm::vec3(0.,0.,1.)) < 0.999 )
+	{
+
+		glm::vec3 axis = glm::cross(position, glm::vec3(0.,0.,1.) );
+		axis = glm::normalize(axis);
+		glm::mat4 rotation = glm::rotate(glm::mat4(1.0), step, axis);
+
+		position = glm::vec3( rotation * glm::vec4(position, 1.) );
+
+	}
+	position += target;
+}
+
+void Camera::fixedRotateDown(float step)
+{
+	position = position - target;
+	if ( glm::dot(glm::normalize(position), glm::vec3(0.,0.,1.)) > -0.999 )
+	{
+
+		glm::vec3 axis = glm::cross(position, glm::vec3(0.,0.,1.) );
+		axis = glm::normalize(axis);
+		glm::mat4 rotation = glm::rotate(glm::mat4(1.0), -step, axis);
+
+		position = glm::vec3( rotation * glm::vec4(position, 1.) );
+
+	}
+	position += target;
+
+}
+
+void Camera::zoomIn(float step)
+{
+	glm::vec3 direction = glm::normalize( position - target );
+	direction *= step;
+	position -= direction;
+}
+
+void Camera::zoomOut(float step)
+{
+	glm::vec3 direction = glm::normalize( position - target );
+	direction *= step;
+	position += direction;
+}
+
+
+
+
+
 /*void Camera::changeDirection(glm::vec3 cursor_pos)
   {
 

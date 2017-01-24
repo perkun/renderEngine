@@ -35,6 +35,12 @@ public:
 		scale = glm::vec3(1., 1., 1.);
 	}
 
+	enum {
+		EULER_ANGLES,
+		XYZ
+	};
+
+	int rotations = EULER_ANGLES;
 
 
 	glm::mat4 getModelMatrix();

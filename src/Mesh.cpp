@@ -77,9 +77,9 @@ void Mesh::InitMesh(const IndexedModel &model)
 
 Mesh::Mesh(const std::string &file_name) {
 
-	std::cout << "indexing...\n";
+// 	std::cout << "indexing...\n";
     model = OBJModel(file_name).ToIndexedModel();
-	std::cout << "model indexed\n";
+// 	std::cout << "model indexed\n";
 
 // 	for (int i = 0; i < 100; i++)
 // 		printf("%f \t %f \t %f\n", model.positions[i].x, model.positions[i].y,
@@ -336,9 +336,12 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr,
 
 Mesh::~Mesh() {
     glDeleteVertexArrays(1, &vertex_array_object);
+
+    glDeleteBuffers(NUM_BUFFERS, vertex_array_buffers);
 }
 
-void Mesh::draw() {
+void Mesh::draw()
+{
 
     glBindVertexArray(vertex_array_object);
 

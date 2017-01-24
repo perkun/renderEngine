@@ -48,6 +48,13 @@ public:
 	void rotateUp(float step);
 	void rotateDown(float step);
 
+	void fixedRotateRight(float step);
+	void fixedRotateLeft(float step);
+	void fixedRotateUp(float step);
+	void fixedRotateDown(float step);
+	void zoomIn(float step);
+	void zoomOut(float step);
+
 	void resetView() {
 		position = glm::vec3(0, -1, 0);
 		target = glm::vec3(0, 0, 0);
