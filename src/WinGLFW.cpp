@@ -101,9 +101,10 @@ void Keys::update(GLFWwindow* window)
 
 	if (glfwGetKey (window, GLFW_KEY_SPACE )) {
 		glfwWaitEvents();
-		SPACE = !SPACE;
-// 		std::cout << "status SPACE: " << SPACE << std::endl;
+		SPACE = true;
 	}
+	else
+		SPACE = false;
 // 	else
 // 		BACKSPACE = false;
 
@@ -142,6 +143,20 @@ void Keys::update(GLFWwindow* window)
 	else
 		C = false;
 
+	if (glfwGetKey (window, GLFW_KEY_EQUAL)) {
+		glfwWaitEvents();
+		EQUAL = true;
+	}
+	else
+		EQUAL = false;
+
+	if (glfwGetKey (window, GLFW_KEY_MINUS)) {
+		glfwWaitEvents();
+		MINUS = true;
+	}
+	else
+		MINUS = false;
+
 }
 
 
@@ -176,6 +191,11 @@ WinGLFW::WinGLFW(int width, int height, const std::string& title ) {
 	glFrontFace (GL_CCW);
 
 
+// 	glDisable(GL_CULL_FACE);
+
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	is_closed = false;
 
 	keys = Keys();
@@ -188,9 +208,17 @@ WinGLFW::~WinGLFW() {
 	glfwTerminate();
 }
 
-void WinGLFW::clear(float r, float g, float b, float a) {
+void WinGLFW::clear(float r, float g, float b, float a)
+{
 
 	glClearColor(r, g, b, a);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+// 	glClear(GL_DEPTH_BUFFER_BIT);
+}
+
+void WinGLFW::clear(glm::vec4 color)
+{
+	glClearColor(color[0], color[1], color[2], color[3] );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 // 	glClear(GL_DEPTH_BUFFER_BIT);
 }

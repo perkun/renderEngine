@@ -12,7 +12,8 @@
 
 #include <glm/gtx/transform.hpp>
 
-class Transform {
+class Transform
+{
 public:
 //	Transform();
 // 	Transform(const glm::vec3& pos = glm::vec3(), const glm::vec3& rot = glm::vec3(), const glm::vec3& scale = glm::vec3(1.0, 1.0, 1.0) ) :
@@ -34,16 +35,22 @@ public:
 		scale = glm::vec3(1., 1., 1.);
 	}
 
+	enum {
+		EULER_ANGLES,
+		XYZ
+	};
+
+	int rotations = EULER_ANGLES;
 
 
 	glm::mat4 getModelMatrix();
+	glm::mat4 getNoTranslationModelMatrix();
+	glm::mat4 getRotationMatrix();
+	glm::mat4 getRotationMatrix313();
 
 	void setPosition(glm::vec3 pos);
 	void setAngles(float alpha, float beta, float gamma, float gamma0);
 	void setScale(glm::vec3 scale);
-
-	glm::mat4 getRotationMatrix();
-	glm::mat4 getRotationMatrix313();
 
 	virtual ~Transform();
 

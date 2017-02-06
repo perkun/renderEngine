@@ -20,6 +20,7 @@
 #include "FrameBuffer.h"
 #include "Xwindow.h"
 #include "WinGLFW.h"
+#include "RadarImages.h"
 
 
 
@@ -30,6 +31,8 @@ public:
 
 	bool render_off_screen;
 	bool interactive;
+
+	glm::vec4 clear_color = glm::vec4( 0., 0., 0., 1.);
 
 	std::vector<Mesh*> models;
 	std::vector<Shader*> shaders;
@@ -54,12 +57,23 @@ public:
 
 	Camera camera, light;
 
+	enum {
+		FREE,
+		FIXED_POINT
+	};
+	int camera_mode = FREE;
+
+	float step = 0.001;
+	float speed;
+
 
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering);
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering, bool _interactive);
 	~RenderEngine();
 
 	void renderScene();
+	void renderSceneNoShadow();
+	void renderSceneRadar();
 	void userInput();
 
 
@@ -71,14 +85,22 @@ public:
 
 	int addModel(const std::string &file_name);
 	int addModel(float vertices[][3], int num_pkt, int indices[][3], int num_tr);
+	void clearModels();
+
 	int addModelAsteroidFormat(const std::string &filename);
 	int addShader(const std::string &file_name);
 	int addTexture(const std::string &file_name);
 	int addTexture(int w, int h);
+	int addTexture(int, int, GLenum, GLvoid*,  GLint internal_format,
+			GLenum format, GLenum type);
 	int addFramebuffer(int w, int h);
-	int addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect, float zNear, float zFar);
-	int addCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right, float top, float bottom, float zNear, float zFar);
-	void updateCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right, float bottom, float top, float zNear, float zFar, int camera_id);
+	int addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
+			float zNear, float zFar);
+	int addCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
+			float top, float bottom, float zNear, float zFar);
+	void updateCamera(const glm::vec3 pos, glm::vec3 targ, float left,
+			float right, float bottom, float top, float zNear, float zFar,
+			int camera_id);
 
 
 private:

@@ -10,14 +10,14 @@ RenderEngine::RenderEngine(int w, int h, bool visible, bool off_screen_rendering
 {
 	DISPLAY_WIDTH = w;
 	DISPLAY_HEIGHT = h;
-	shadow_size = 1024 * 2;
+	shadow_size = 1024 * 4;
 
 	Xdisplay.initWindow(w, h, visible);
 
 
 	// 	shadow_shader_id = addShader("shadowShader");
 	shadow_shader_id = 0;
-	Shader *temp = new Shader("shadowShader");
+	Shader *temp = new Shader("/usr/local/include/shadowShader");
 	shaders.push_back(temp);
 	shaders_camera.push_back(0);
 	shaders_texture.push_back(0);
@@ -36,13 +36,14 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 						   bool off_screen_rendering, bool _interactive ):
 						   display(w, h, "RenderEngine window")
 {
+
 	DISPLAY_WIDTH = w;
 	DISPLAY_HEIGHT = h;
 	shadow_size = 1024 * 2;
 
 //      shadow_shader_id = addShader("shadowShader");
 	shadow_shader_id = 0;
-	Shader *temp = new Shader("shadowShader");
+	Shader *temp = new Shader("/usr/local/include/shadowShader");
 	shaders.push_back(temp);
 	shaders_camera.push_back(0);
 	shaders_texture.push_back(0);
@@ -57,17 +58,21 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	render_off_screen = false;
 	interactive = _interactive;
 
-	camera_rotation_speed = 0.05;
+	camera_rotation_speed = 0.005;
+	speed = 2e-6;
+
 
 }
 
 void RenderEngine::renderScene()
 {
 
-
-	if (!render_off_screen) {
+	if (!render_off_screen)
+   	{
 		if (interactive)
-			display.clear(1.0, 1., 1., 1.);
+//  			display.clear(0., 0., 0., 1.);
+//  			display.clear(1., 1., 1., 1.);
+				display.clear(clear_color);
 		else
 			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
@@ -76,19 +81,23 @@ void RenderEngine::renderScene()
 	framebuffers[shadow_fb_id]->bind();
 	framebuffers[shadow_fb_id]->clear(0., 0., 0., 1.);
 	shaders[shadow_shader_id]->bind();
-	for (int i = 0; i < models.size(); i++) {
+	for (int i = 0; i < models.size(); i++)
+   	{
 		if (models[i]->casting_shadow) {
-			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0], *cameras[1]);
+			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0],
+					*cameras[1]);
 			models[i]->draw();
 		}
 	}
 
 	// normal drawing
-	if (!render_off_screen) {
+	if (!render_off_screen)
+   	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0,0,DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	}
-	else {
+	else
+   	{
 // 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[2]->frame_buffer);
 		framebuffers[fb]->bind();
 		GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
@@ -98,19 +107,25 @@ void RenderEngine::renderScene()
 
 	}
 
-	for (int i = 0; i < models.size(); i++) {
-		if (models[i]->visible) {
+	for (int i = 0; i < models.size(); i++)
+   	{
+		if (models[i]->visible)
+	   	{
 			shaders[models_shader[i]]->bind();
-			for (int j = 0; j < 3; j++)
-				shaders[models_shader[i]]->RGB_value[j] = models[i]->RGB_value[j];
-			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0], *cameras[1]);
+// 			for (int j = 0; j < 3; j++)
+				shaders[models_shader[i]]->RGBA_value =
+				   	models[i]->RGBA_value;
+			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0],
+					*cameras[1]);
 			models[i]->draw();
 		}
 	}
 
 
-	if (!render_off_screen) {
-		if (interactive) {
+	if (!render_off_screen)
+   	{
+		if (interactive)
+	   	{
 			userInput();
 			display.update();
 		}
@@ -120,64 +135,213 @@ void RenderEngine::renderScene()
 
 }
 
+
+void RenderEngine::renderSceneNoShadow()
+{
+
+	if (!render_off_screen)
+   	{
+		if (interactive)
+// 			display.clear(0., 0., 0., 1.);
+			display.clear(1., 1., 1., 1.);
+		else
+			Xdisplay.clear(0.0, 0., 0., 1.);
+	}
+
+
+	// normal drawing
+	if (!render_off_screen)
+   	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0,0,DISPLAY_WIDTH, DISPLAY_HEIGHT);
+	}
+	else
+   	{
+// 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[2]->frame_buffer);
+		framebuffers[fb]->bind();
+		GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
+		glDrawBuffers (1, draw_buffers);
+		textures[fb_tx]->bind();
+		framebuffers[fb]->clear(0., 0., 0., 1.);
+
+	}
+
+
+	for (int i = 0; i < models.size(); i++)
+   	{
+		if (models[i]->visible)
+	   	{
+			shaders[models_shader[i]]->bind();
+				shaders[models_shader[i]]->RGBA_value =
+				   	models[i]->RGBA_value;
+			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0],
+					*cameras[1]);
+			models[i]->draw();
+		}
+	}
+
+	if (!render_off_screen)
+   	{
+		if (interactive)
+	   	{
+			userInput();
+			display.update();
+		}
+		else
+			Xdisplay.update();
+	}
+
+}
+
+void RenderEngine::renderSceneRadar()
+{
+	// tak jak dla normalnie, tylko że bez zbędnych opcji i z użyciem
+	// update radar
+	//
+	// create shadow map
+	framebuffers[shadow_fb_id]->bind();
+	framebuffers[shadow_fb_id]->clear(0., 0., 0., 1.);
+	shaders[shadow_shader_id]->bind();
+	for (int i = 0; i < models.size(); i++)
+   	{
+		if (models[i]->casting_shadow) {
+			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0],
+					*cameras[1]);
+			models[i]->draw();
+		}
+	}
+
+	// normal drawing
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (!render_off_screen)
+   	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0,0,DISPLAY_WIDTH, DISPLAY_HEIGHT);
+	}
+	else
+   	{
+// 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[2]->frame_buffer);
+		framebuffers[fb]->bind();
+		GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
+		glDrawBuffers (1, draw_buffers);
+		textures[fb_tx]->bind();
+		framebuffers[fb]->clear(0., 0., 0., 1.);
+
+	}
+
+	for (int i = 0; i < models.size(); i++)
+   	{
+		if (models[i]->visible)
+	   	{
+			shaders[models_shader[i]]->bind();
+// 			for (int j = 0; j < 3; j++)
+// 				shaders[models_shader[i]]->RGBA_value[j] =
+// 				   	models[i]->RGBA_value[j];
+			shaders[models_shader[i]]->updateRadar(models[i]->transform,
+					*cameras[0], *cameras[1]);
+			models[i]->draw();
+		}
+	}
+
+	if (!render_off_screen)
+		display.update();
+}
+
 void RenderEngine::userInput()
 {
 // 	float camera_rotation_speed = 0.05;
 
-	if (display.keys.A) {
-		cameras[0]->moveLeft(0.01);
+
+	if ( camera_mode == FREE )
+	{
+		if (display.keys.A) {
+			cameras[0]->moveLeft(0.01);
+		}
+		if (display.keys.D) {
+			cameras[0]->moveRight(0.01);
+		}
+		if (display.keys.W) {
+			cameras[0]->moveForward(0.01);
+		}
+		if (display.keys.S) {
+			cameras[0]->moveBack(0.01);
+		}
+		if (display.keys.R) {
+			cameras[0]->moveUp(0.01);
+		}
+		if (display.keys.F) {
+			cameras[0]->moveDown(0.01);
+		}
+
+
+		if (display.keys.UP) {
+			cameras[0]->rotateUp(camera_rotation_speed);
+		}
+
+		if (display.keys.DOWN) {
+			cameras[0]->rotateDown(camera_rotation_speed);
+		}
+		if (display.keys.LEFT) {
+			cameras[0]->rotateLeft(camera_rotation_speed);
+		}
+		if (display.keys.RIGHT) {
+			cameras[0]->rotateRight(camera_rotation_speed);
+		}
+		// 	if (display.keys.C)
+		// 		cameras[0]->resetView();
+
+		// 	if (display.keys.SPACE)
+		// 		models[0]->transform.gamma += 0.005;
+
+		if (display.keys.O)
+			models[0]->transform.alpha -= speed;
+
+		if (display.keys.P)
+			models[0]->transform.alpha += speed;
+
+		if (display.keys.K)
+			models[0]->transform.beta -=  speed;
+
+		if (display.keys.L)
+			models[0]->transform.beta +=  speed;
+
+		if (display.keys.M)
+			models[0]->transform.gamma += speed;
+		if (display.keys.N)
+			models[0]->transform.gamma -= speed;
+
+		if (display.keys.EQUAL)
+			speed *= 2.;
+		if (display.keys.MINUS)
+			speed /= 2.;
 	}
-	if (display.keys.D) {
-		cameras[0]->moveRight(0.01);
+
+	if ( camera_mode == FIXED_POINT)
+	{
+
+		if (display.keys.D)
+			cameras[0]->fixedRotateRight(step);
+		if (display.keys.A)
+			cameras[0]->fixedRotateLeft(step);
+		if (display.keys.W)
+			cameras[0]->fixedRotateUp(step);
+		if (display.keys.S)
+			cameras[0]->fixedRotateDown(step);
+
+		if (display.keys.UP)
+			cameras[0]->zoomIn(step);
+		if (display.keys.DOWN)
+			cameras[0]->zoomOut(step);
+
+		if (display.keys.EQUAL)
+// 			step += 0.001;
+			step *= 2.;
+		if (display.keys.MINUS)
+			if (step>=0.001)
+// 				step -= 0.001;
+				step /= 2.;
+
 	}
-	if (display.keys.W) {
-		cameras[0]->moveForward(0.01);
-	}
-	if (display.keys.S) {
-		cameras[0]->moveBack(0.01);
-	}
-	if (display.keys.R) {
-		cameras[0]->moveUp(0.01);
-	}
-	if (display.keys.F) {
-		cameras[0]->moveDown(0.01);
-	}
-
-
-
-
-
-	if (display.keys.UP) {
-		cameras[0]->rotateUp(camera_rotation_speed);
-	}
-
-	if (display.keys.DOWN) {
-		cameras[0]->rotateDown(camera_rotation_speed);
-	}
-	if (display.keys.LEFT) {
-		cameras[0]->rotateLeft(camera_rotation_speed);
-	}
-	if (display.keys.RIGHT) {
-		cameras[0]->rotateRight(camera_rotation_speed);
-	}
-// 	if (display.keys.C)
-// 		cameras[0]->resetView();
-
-// 	if (display.keys.SPACE)
-// 		models[0]->transform.gamma += 0.005;
-
-	if (display.keys.O)
-		models[0]->transform.alpha -=0.005;
-
-	if (display.keys.P)
-		models[0]->transform.alpha +=0.005;
-
-	if (display.keys.K)
-		models[0]->transform.beta -=0.005;
-
-	if (display.keys.L)
-		models[0]->transform.beta +=0.005;
-
 
 
 
@@ -211,13 +375,22 @@ void RenderEngine::linkBasicCamerasToShader()
 	}
 }
 
+void RenderEngine::clearModels()
+{
+	for (int i = 0; i < models.size(); i++)
+		delete models[i];
+
+	models.clear();
+	models_shader.clear();
+}
+
 int RenderEngine::addModel(const std::string& file_name)
 {
-	std::cout << "adding model...\n";
+// 	std::cout << "adding model...\n";
 	Mesh *temp = new Mesh(file_name);
-	std::cout << "still adding model...\n";
+// 	std::cout << "still adding model...\n";
 	models.push_back(temp);
-	std::cout << "model added...\n";
+// 	std::cout << "model added...\n";
 
 	models_shader.push_back(0);
 
@@ -227,6 +400,7 @@ int RenderEngine::addModel(const std::string& file_name)
 int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3],
 			   														int num_tr)
 {
+
 	Mesh *temp = new Mesh(vertices, num_pkt, indices, num_tr);
 	models.push_back(temp);
 
@@ -239,7 +413,8 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 {
 	/**
 	 *  Funkcja wkładająca model do RenderEngine
-	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów i liczbę tr)
+	 * dla plików w formacie Bartczakowym (pierwsza linia ma liczbę punktów
+	 * i liczbę tr)
 	 */
 
 	// dodać wczytywanie dodatkowego pliku, np file_name.uv albo cos
@@ -287,14 +462,14 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 	}
 
 	if (texture_coords_available) {
-		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices, texture_coords);
+		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices,
+																texture_coords);
 		models.push_back(temp);
 	}
 	else {
 		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices);
 		models.push_back(temp);
 	}
-
 
 	models_shader.push_back(0);
 
@@ -329,6 +504,16 @@ int RenderEngine::addTexture(int w, int h)
 	textures.push_back(temp);
 	return textures.size() -1 ;
 }
+
+int RenderEngine::addTexture(int w, int h, GLenum target, GLvoid* data,
+		GLint internal_format, GLenum format, GLenum type)
+{
+	Texture *temp = new Texture(w ,h, target, data, internal_format, format,
+			type);
+	textures.push_back(temp);
+	return textures.size() -1 ;
+}
+
 
 int RenderEngine::addFramebuffer(int w, int h)
 {

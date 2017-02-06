@@ -3,14 +3,15 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
+#include <stdio.h>
 #define GLM_FORCE_RADIANS
 class Camera
 {
 public:
 	Camera() {}
-	Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect, 
+	Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
 					float zNear, float zFar);
-	Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right, 
+	Camera(const glm::vec3 pos,  glm::vec3 targ, float left, float right,
 					float bottom, float top, float zNear, float zFar);
 
 // 	glm::mat4 getProjectionMatrix();
@@ -29,6 +30,12 @@ public:
 		return glm::lookAt(position, target, up);
 	}
 
+	inline glm::mat4 getNoTranslationViewMatrix() const
+	{
+		glm::mat4 viewMatrix = getViewMatrix();
+		viewMatrix[3] = glm::vec4(0, 0, 0, 1); //  => brak translacji
+		return viewMatrix;
+	}
 
 	void moveLeft(float step);
 	void moveRight(float step);
@@ -41,6 +48,13 @@ public:
 	void rotateUp(float step);
 	void rotateDown(float step);
 
+	void fixedRotateRight(float step);
+	void fixedRotateLeft(float step);
+	void fixedRotateUp(float step);
+	void fixedRotateDown(float step);
+	void zoomIn(float step);
+	void zoomOut(float step);
+
 	void resetView() {
 		position = glm::vec3(0, -1, 0);
 		target = glm::vec3(0, 0, 0);
@@ -50,6 +64,8 @@ public:
 
 
     ~Camera();
+
+
 	glm::vec3 position;
 	glm::vec3 target;
 	glm::vec3 up;
