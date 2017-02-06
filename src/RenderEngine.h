@@ -64,6 +64,7 @@ public:
 	int camera_mode = FREE;
 
 	float step = 0.001;
+	float speed;
 
 
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering);

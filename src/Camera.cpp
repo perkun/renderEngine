@@ -22,7 +22,6 @@ Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
 	position = pos;
 	up = glm::vec3(0.,0.,1.);
 	target = targ;
-
 	view = glm::lookAt(position, target, up);
 
 }

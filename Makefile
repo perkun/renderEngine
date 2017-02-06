@@ -9,7 +9,7 @@ CPPEXT = cpp
 CEXT = c
 CUDAEXT = cu
 
-CFLAGS = -g -c
+CFLAGS = -g -c -std=c++11
 LIB = -lm -lglfw3 -lGL -lGLU -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl -lfreeimage
 
 SOURCES = $(shell find $(SRCDIR) -type f -name *.$(CPPEXT))
@@ -49,7 +49,7 @@ shared_library:
 # 	nvcc -arch=sm_20 -Xcompiler '-fPIC' -dc $(CUDASOURCES)
 # 	nvcc -arch=sm_20 -Xcompiler '-fPIC' -dlink $(CUDAOBJECTS) -o link.o
 # 	g++ -shared -o lib$(PROGRAM_NAME).so $(CUDAOBJECTS) link.o -L/usr/local/cuda/lib64 -lcudart
-	$(CC) -arch=sm_20 --ptxas-options=-v --compiler-options '-fPIC' -o bin/lib$(PROGRAM_NAME).so --shared $(CUDASOURCES) $(SOURCES) $(CSOURCES) $(LIB) -lcudart
+	$(CC) -arch=sm_20 -std=c++11 --ptxas-options=-v --compiler-options '-fPIC' -o bin/lib$(PROGRAM_NAME).so --shared $(CUDASOURCES) $(SOURCES) $(CSOURCES) $(LIB) -lcudart
 	sudo cp bin/lib$(PROGRAM_NAME).so /usr/local/lib
 	sudo chmod 755 /usr/local/lib/lib$(PROGRAM_NAME).so
 	sudo ldconfig

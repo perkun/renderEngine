@@ -36,6 +36,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 						   bool off_screen_rendering, bool _interactive ):
 						   display(w, h, "RenderEngine window")
 {
+
 	DISPLAY_WIDTH = w;
 	DISPLAY_HEIGHT = h;
 	shadow_size = 1024 * 2;
@@ -57,6 +58,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	interactive = _interactive;
 
 	camera_rotation_speed = 0.005;
+	speed = 2e-6;
 
 
 }
@@ -247,6 +249,8 @@ void RenderEngine::renderSceneRadar()
 void RenderEngine::userInput()
 {
 // 	float camera_rotation_speed = 0.05;
+
+
 	if ( camera_mode == FREE )
 	{
 		if (display.keys.A) {
@@ -289,16 +293,26 @@ void RenderEngine::userInput()
 		// 		models[0]->transform.gamma += 0.005;
 
 		if (display.keys.O)
-			models[0]->transform.alpha -=0.005;
+			models[0]->transform.alpha -= speed;
 
 		if (display.keys.P)
-			models[0]->transform.alpha +=0.005;
+			models[0]->transform.alpha += speed;
 
 		if (display.keys.K)
-			models[0]->transform.beta -=0.005;
+			models[0]->transform.beta -=  speed;
 
 		if (display.keys.L)
-			models[0]->transform.beta +=0.005;
+			models[0]->transform.beta +=  speed;
+
+		if (display.keys.M)
+			models[0]->transform.gamma += speed;
+		if (display.keys.N)
+			models[0]->transform.gamma -= speed;
+
+		if (display.keys.EQUAL)
+			speed *= 2.;
+		if (display.keys.MINUS)
+			speed /= 2.;
 	}
 
 	if ( camera_mode == FIXED_POINT)
