@@ -13,12 +13,7 @@ public:
 					float zNear, float zFar);
 	Camera(const glm::vec3 pos,  glm::vec3 targ, float left, float right,
 					float bottom, float top, float zNear, float zFar);
-
-// 	glm::mat4 getProjectionMatrix();
-// 	glm::mat4 getViewMatrix();
-
-
-
+    ~Camera();
 
 	inline glm::mat4 getProjectionMatrix() const
 	{
@@ -60,19 +55,14 @@ public:
 		target = glm::vec3(0, 0, 0);
 		up = glm::vec3(0, 0, 1);
 	}
-// 	void changeDirection(glm::vec3 cursor_pos);
-
-
-    ~Camera();
-
 
 	glm::vec3 position;
 	glm::vec3 target;
 	glm::vec3 up;
+
 private:
 	glm::mat4 perspective, view;
 	glm::vec3 forward;
-
 };
 
 #endif // CAMERA_H

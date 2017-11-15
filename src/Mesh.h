@@ -20,11 +20,6 @@
 
 class Vertex {
 public:
-
-	glm::vec3 pos;
-	glm::vec2 tex_coord;
-	glm::vec3 normal;
-
 	Vertex(const glm::vec3& pos, const glm::vec2& tex_coord,
 			const glm::vec3 &normal = glm::vec3(0,0,0) )
    	{
@@ -33,10 +28,9 @@ public:
 		this -> normal = normal;
 	}
 
-//	glm::vec3* GetPos() { return &pos; }
-protected:
-private:
-
+	glm::vec3 pos;
+	glm::vec2 tex_coord;
+	glm::vec3 normal;
 };
 
 
@@ -44,23 +38,7 @@ private:
 
 class Mesh {
 public:
-	static bool normalize, normal_interpolation;
-	GLenum draw_mode = GL_TRIANGLES;
 
-	bool visible = true;
-	bool casting_shadow = true;
-
-	float max;
-
-	/// zobaczymy co sie staie, jak bedzie to zmienna globalna
-	IndexedModel model;
-
-// 	float RGB_value[3] = {1., 1., 1.};
-	glm::vec4 RGBA_value = glm::vec4(1., 1., 1., 1.);
-
-	Transform transform;
-
-	void draw();
 	Mesh();
 
 	Mesh(const Mesh& other);
@@ -74,6 +52,19 @@ public:
 			float texture_coords[][2]);
 	virtual ~Mesh();
 
+	void draw();
+
+
+	static bool normalize, normal_interpolation;
+	bool visible = true;
+	bool casting_shadow = true;
+	float max;
+	/// zobaczymy co sie staie, jak bedzie to zmienna globalna
+	IndexedModel model;
+// 	float RGB_value[3] = {1., 1., 1.};
+	glm::vec4 RGBA_value = glm::vec4(1., 1., 1., 1.);
+	Transform transform;
+	GLenum draw_mode = GL_TRIANGLES;
 
 private:
 
@@ -93,8 +84,6 @@ private:
 
 	void InitMesh(const IndexedModel &model);
 	glm::vec2 calculateTextureCoords(float *vec);
-
-
 
 };
 

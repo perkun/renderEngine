@@ -13,7 +13,7 @@
 ******************************************************************/
 
 // #include <cuda.h>
-#define CUDA_VERSION 5000
+#define CUDA_VERSION 8000
 #define GLM_FORCE_RADIANS
 
 #include <stdio.h>

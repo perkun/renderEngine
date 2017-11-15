@@ -138,6 +138,7 @@ void Keys::update(GLFWwindow* window)
 		RIGHT = false;
 
 	if (glfwGetKey (window, GLFW_KEY_C)) {
+		glfwWaitEvents();
 		C = true;
 	}
 	else
@@ -191,10 +192,19 @@ WinGLFW::WinGLFW(int width, int height, const std::string& title ) {
 	glFrontFace (GL_CCW);
 
 
+	//automatic texture generation
+// 	glEnable(GL_TEXTURE_GEN_S);
+// 	glEnable(GL_TEXTURE_GEN_T);
+// 	glEnable(GL_TEXTURE_GEN_R);
+// 	glEnable(GL_TEXTURE_GEN_Q);
+//
+// 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+// 	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+
 // 	glDisable(GL_CULL_FACE);
 
-	glEnable (GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+// 	glEnable (GL_BLEND);
+// 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	is_closed = false;
 

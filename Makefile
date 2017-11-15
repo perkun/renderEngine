@@ -10,7 +10,7 @@ CEXT = c
 CUDAEXT = cu
 
 CFLAGS = -g -c -std=c++11
-LIB = -lm -lglfw3 -lGL -lGLU -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl -lfreeimage
+LIB = -lm -lglfw -lGL -lGLU -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl -lfreeimage
 
 SOURCES = $(shell find $(SRCDIR) -type f -name *.$(CPPEXT))
 CSOURCES = $(shell find $(SRCDIR) -type f -name *.$(CEXT))
@@ -53,6 +53,7 @@ shared_library:
 	sudo cp bin/lib$(PROGRAM_NAME).so /usr/local/lib
 	sudo chmod 755 /usr/local/lib/lib$(PROGRAM_NAME).so
 	sudo ldconfig
+	sudo mkdir -p /usr/local/include/$(PROGRAM_NAME)
 	sudo cp src/*.h /usr/local/include/$(PROGRAM_NAME)
 
 

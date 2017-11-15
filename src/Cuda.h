@@ -1,6 +1,6 @@
 #ifndef CUDA_H_
 #define CUDA_H_
-#define CUDA_VERSION 5000
+#define CUDA_VERSION 8000
 // #define GLM_COMPILER 0
 
 #include <iostream>
@@ -18,6 +18,12 @@
 
 class Cuda {
 public:
+	Cuda(GLuint &tex, int w, int h);
+	~Cuda();
+
+	void copyResult();
+	float calculateMagnitudes();
+
 	float *dev_result, result;
 	struct cudaGraphicsResource *vbo_res;
 	cudaChannelFormatDesc channelDesc;
@@ -27,15 +33,6 @@ public:
 	int num_blocks, initial_num_blocks;
 	int width, height;
 	GLuint texture;
-
-	Cuda(GLuint &tex, int w, int h);
-	~Cuda();
-
-	void copyResult();
-	float calculateMagnitudes();
-
-
-
 };
 
 

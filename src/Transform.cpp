@@ -83,7 +83,7 @@ glm::mat4 Transform::getRotationMatrix313()
 	return
 		glm::rotate(alpha, glm::vec3(0.0, 0.0, 1.0)) *
 		glm::rotate(beta, glm::vec3(1.0, 0.0, 0.0)) *
-		glm::rotate(gamma, glm::vec3(0.0, 0.0, 1.0));
+		glm::rotate(gamma + gamma0, glm::vec3(0.0, 0.0, 1.0));
 
 }
 

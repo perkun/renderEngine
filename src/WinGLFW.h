@@ -37,12 +37,9 @@ public:
 
 class WinGLFW {
 public:
-	Keys keys;
-	int disp_width, disp_height;
-
-	GLFWwindow* window;
-
-	bool is_closed;
+	WinGLFW() {}
+	WinGLFW(int width, int height, const std::string& title );
+	virtual ~WinGLFW();
 
 	void update();
 	void clear(float r, float g, float b, float a);
@@ -50,10 +47,10 @@ public:
 	void setDefaultViewport();
 	void setViewport(int, int, int, int);
 
-	WinGLFW() {}
-	WinGLFW(int width, int height, const std::string& title );
-	virtual ~WinGLFW();
-
+	Keys keys;
+	int disp_width, disp_height;
+	GLFWwindow* window;
+	bool is_closed;
 };
 
 #endif /* WINGLFW_H_ */

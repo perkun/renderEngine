@@ -14,6 +14,12 @@
 
 class Xwindow {
 public:
+	Xwindow();
+	~Xwindow();
+	void initWindow(int, int, bool);
+	void update();
+	void clear(float r, float g, float b, float a);
+
 	Display *dpy;
 	Window root;
 	GLint att[5];// = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
@@ -26,14 +32,6 @@ public:
 	XEvent xev;
 
 	int window_dim_x, window_dim_y;
-
-	
-	Xwindow();
-	void initWindow(int, int, bool);
-	void update();
-	void clear(float r, float g, float b, float a);
-	
-	~Xwindow();
 };
 
 #endif /* XWINDOW_H_ */

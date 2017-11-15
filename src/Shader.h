@@ -23,8 +23,6 @@
 
 class Shader {
 public:
-	GLuint program;
-
 	Shader();
 	Shader(const Shader& other) {}
 	Shader(const std::string& filename);
@@ -39,8 +37,6 @@ public:
 	void updateRadar(Transform& transform, const Camera& camera, const Camera& light);
 // 	void update(int model_index, int camera_index, int light_index);
 	void updateModelMatrix(Transform& transform);
-
-//private:
 	std::string loadShader(const std::string& filename);
 	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 	GLuint createShader(const std::string& text, unsigned int type);
@@ -62,13 +58,12 @@ public:
 		NUM_UNIFORMS
 	};
 
+	GLuint program;
 	static const unsigned int NUM_SHADERS = 2;
 	glm::vec4 RGBA_value;
 
 	GLuint shaders[NUM_SHADERS];
 	GLuint uniforms[NUM_UNIFORMS];
-
-
 };
 
 #endif /* SHADER_H_ */

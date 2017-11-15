@@ -26,47 +26,6 @@
 
 class RenderEngine {
 public:
-	int DISPLAY_WIDTH;
-	int DISPLAY_HEIGHT;
-
-	bool render_off_screen;
-	bool interactive;
-
-	glm::vec4 clear_color = glm::vec4( 0., 0., 0., 1.);
-
-	std::vector<Mesh*> models;
-	std::vector<Shader*> shaders;
-	std::vector<Texture*> textures;
-	std::vector<FrameBuffer*> framebuffers;
-	std::vector<Camera*> cameras;
-
-	std::vector< int > models_shader;
-	std::vector< int > shaders_texture;
-	std::vector< int > shaders_camera;
-
-	int shadow_shader_id, shadow_texture_id, shadow_fb_id;
-	int shadow_size;
-	int fb, fb_tx;
-
-	float camera_rotation_speed;
-
-	glm::vec3 light_position;
-
-	Xwindow Xdisplay;
-	WinGLFW display;
-
-	Camera camera, light;
-
-	enum {
-		FREE,
-		FIXED_POINT
-	};
-	int camera_mode = FREE;
-
-	float step = 0.001;
-	float speed;
-
-
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering);
 	RenderEngine(int w, int h, bool visible, bool off_screen_rendering, bool _interactive);
 	~RenderEngine();
@@ -101,16 +60,40 @@ public:
 	void updateCamera(const glm::vec3 pos, glm::vec3 targ, float left,
 			float right, float bottom, float top, float zNear, float zFar,
 			int camera_id);
+	int DISPLAY_WIDTH;
+	int DISPLAY_HEIGHT;
 
 
-private:
+	enum {
+		FREE,
+		FIXED_POINT
+	};
 
+	glm::vec4 clear_color = glm::vec4( 0., 0., 0., 1.);
+	bool render_off_screen;
+	bool interactive;
+	std::vector<Mesh*> models;
+	std::vector<Shader*> shaders;
+	std::vector<Texture*> textures;
+	std::vector<FrameBuffer*> framebuffers;
+	std::vector<Camera*> cameras;
+
+	std::vector< int > models_shader;
+	std::vector< int > shaders_texture;
+	std::vector< int > shaders_camera;
+
+	int shadow_shader_id, shadow_texture_id, shadow_fb_id;
+	int shadow_size;
+	int fb, fb_tx;
+	float camera_rotation_speed;
+	glm::vec3 light_position;
+
+	Xwindow Xdisplay;
+	WinGLFW display;
+	Camera camera, light;
+	int camera_mode = FREE;
+	float step = 0.001;
+	float speed;
 };
-
-
-
-
-
-
 
 #endif /* RENDERENGINE_H_ */

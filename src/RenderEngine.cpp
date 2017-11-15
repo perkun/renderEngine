@@ -386,11 +386,11 @@ void RenderEngine::clearModels()
 
 int RenderEngine::addModel(const std::string& file_name)
 {
-// 	std::cout << "adding model...\n";
+//  	std::cout << "adding model...\n";
 	Mesh *temp = new Mesh(file_name);
-// 	std::cout << "still adding model...\n";
+//  	std::cout << "still adding model...\n";
 	models.push_back(temp);
-// 	std::cout << "model added...\n";
+//  	std::cout << "model added...\n";
 
 	models_shader.push_back(0);
 
@@ -429,7 +429,7 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 	std::string tex_filename = filename + ".uv";
 	FILE *f_tex = fopen(tex_filename.c_str(), "r");
 	if (f_tex == NULL) {
-		perror("No texture coordinates .uv file");
+// 		perror("No texture coordinates .uv file");
 		texture_coords_available = false;
 	}
 	else
@@ -486,7 +486,8 @@ int RenderEngine::addShader(const std::string& file_name)
 	shaders_texture.push_back(0);
 
 	// automatyczne dodanie uniform name "depth_map" do shadera
-	textures[shadow_texture_id]->setUniform(*shaders[shaders.size() -1] , "dddd", "depth_map");
+	textures[shadow_texture_id]->setUniform(*shaders[shaders.size() -1] ,
+			"dddd", "depth_map");
 
 	return shaders.size() -1 ;
 }

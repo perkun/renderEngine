@@ -17,6 +17,18 @@
 #define GLM_FORCE_RADIANS
 class FrameBuffer {
 public:
+	FrameBuffer(int, int);
+	FrameBuffer();
+	FrameBuffer(const FrameBuffer& other) {}
+	~FrameBuffer();
+
+	void bind();
+	void clear(float, float, float, float);
+private:
+	void bindDepthTexture(unsigned int unit);
+	void bindColorTexture(unsigned int unit);
+
+public:
 	GLuint frame_buffer;
 	GLuint color_texture;
 	GLuint depth_texture;
@@ -24,18 +36,6 @@ public:
 	int width, height;// shadow_size;
 	GLenum draw_buffers[1];// = { GL_COLOR_ATTACHMENT0};
 	GLenum draw_buffers_depth[1];// = {GL_NONE };
-	
-	
-	FrameBuffer(int, int);
-	FrameBuffer();
-	FrameBuffer(const FrameBuffer& other) {}
-	~FrameBuffer();
-	void bind();
-	void clear(float, float, float, float);
-private:
-	void bindDepthTexture(unsigned int unit);
-	void bindColorTexture(unsigned int unit);
-	
 };
 
 #endif /* FRAMEBUFFER_H_ */
