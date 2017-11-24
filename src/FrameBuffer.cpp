@@ -5,8 +5,9 @@ FrameBuffer::FrameBuffer() {
 }
 
 FrameBuffer::FrameBuffer(int w, int h) {
-	draw_buffers[0] = GL_COLOR_ATTACHMENT0;	draw_buffers_depth[1] = GL_NONE;
-	
+	draw_buffers[0] = GL_COLOR_ATTACHMENT0;
+	draw_buffers_depth[1] = GL_NONE;
+
 	width = w;
 	height = h;
 // 	shadow_size = width;
@@ -27,7 +28,7 @@ FrameBuffer::FrameBuffer(int w, int h) {
 }
 
 void FrameBuffer::bind() {
-	
+
 	glViewport(0, 0, width, height);
 	glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
 // 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);

@@ -8,7 +8,8 @@ Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
 	perspective = glm::perspective(fov, aspect, zNear, zFar);
 	position = pos;
 // 	forward = glm::vec3(0,0,-1);
-	up = glm::vec3(0.,0.,1.);
+// 	up = glm::vec3(0.,0.,1.);
+	up = glm::vec3(0,0.39774,0.917498); // Earth tilt
 	target = targ;
 
 	view = glm::lookAt(position, target, up);
@@ -20,7 +21,8 @@ Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
 {
 	perspective = glm::ortho(left, right, bottom, top, zNear, zFar);
 	position = pos;
-	up = glm::vec3(0.,0.,1.);
+// 	up = glm::vec3(0.,0.,1.);
+	up = glm::vec3(0,0.39774,0.917498); // Earth tilt
 	target = targ;
 	view = glm::lookAt(position, target, up);
 
