@@ -160,9 +160,8 @@ void Keys::update(GLFWwindow* window)
 
 }
 
-
-
-WinGLFW::WinGLFW(int width, int height, const std::string& title ) {
+WinGLFW::WinGLFW(int width, int height, const std::string& title )
+{
 	disp_height = height;
 	disp_width = width;
 
@@ -214,7 +213,9 @@ WinGLFW::WinGLFW(int width, int height, const std::string& title ) {
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_FALSE);
 }
 
-WinGLFW::~WinGLFW() {
+WinGLFW::~WinGLFW()
+{
+	glfwDestroyWindow(window);
 	glfwTerminate();
 }
 
@@ -234,28 +235,23 @@ void WinGLFW::clear(glm::vec4 color)
 }
 
 
-void WinGLFW::update() {
+void WinGLFW::update()
+{
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glfwSwapBuffers (window);
 
-	glfwPollEvents ();
+	glfwPollEvents();
 
-	if (glfwGetKey (window, GLFW_KEY_ESCAPE)) {
-		puts("ESCAPE key pushed");
-		glfwSetWindowShouldClose (window, 1);
+	int escape_key_status = glfwGetKey(window, GLFW_KEY_ESCAPE);
+
+	if (escape_key_status == GLFW_PRESS) {
+		puts("Bye bye :)");
+		glfwSetWindowShouldClose(window, 1);
 		is_closed = true;
 	}
 
-// 	if (glfwGetKey (window, GLFW_KEY_A)) {
-// // 		printf("A___");
-// 		keys.A = true;
-// 	}
-//
-
-
 	keys.update(window);
-
 
 }
 
