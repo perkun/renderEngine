@@ -33,9 +33,6 @@ public:
 	glm::vec3 normal;
 };
 
-
-
-
 class Mesh {
 public:
 
