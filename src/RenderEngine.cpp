@@ -400,12 +400,12 @@ int RenderEngine::addModel(const std::string& file_name)
 int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3],
 			   														int num_tr)
 {
-
+//
 	Mesh *temp = new Mesh(vertices, num_pkt, indices, num_tr);
 	models.push_back(temp);
-
+//
 	models_shader.push_back(0);
-
+//
 	return models.size() -1 ;
 }
 
@@ -417,6 +417,7 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 	 * i liczbę tr)
 	 */
 
+/*
 	// dodać wczytywanie dodatkowego pliku, np file_name.uv albo cos
 	// i jeśli istnieje to wpisuj koordynaty
 
@@ -475,6 +476,7 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 
 // 	printf("model %s added\n", filename.c_str());
 	return models.size() -1 ;
+*/
 }
 
 int RenderEngine::addShader(const std::string& file_name)

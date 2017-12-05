@@ -15,23 +15,38 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <vector>
-#include "obj_loader.h"
+#include <fstream>
+// #include "obj_loader.h"
 #include "Transform.h"
 
-class Vertex {
-public:
-	Vertex(const glm::vec3& pos, const glm::vec2& tex_coord,
-			const glm::vec3 &normal = glm::vec3(0,0,0) )
-   	{
-		this -> pos = pos;
-		this -> tex_coord = tex_coord;
-		this -> normal = normal;
-	}
+using namespace std;
+using namespace glm;
 
-	glm::vec3 pos;
-	glm::vec2 tex_coord;
-	glm::vec3 normal;
-};
+// class Vertex {
+// public:
+// 	Vertex(const glm::vec3& pos, const glm::vec2& tex_coord,
+// 			const glm::vec3 &normal = glm::vec3(0,0,0) )
+//    	{
+// 		this -> pos = pos;
+// 		this -> tex_coord = tex_coord;
+// 		this -> normal = normal;
+// 	}
+//
+// 	glm::vec3 pos;
+// 	glm::vec2 tex_coord;
+// 	glm::vec3 normal;
+// };
+
+// class IndexedModel
+// {
+// public:
+// 	std::vector<glm::vec3> positions;
+// 	std::vector<glm::vec2> texCoords;
+// 	std::vector<glm::vec3> normals;
+// 	std::vector<unsigned int> indices;
+//
+// // 	void CalcNormals();
+// };
 
 class Mesh {
 public:
@@ -39,14 +54,13 @@ public:
 	Mesh();
 
 	Mesh(const Mesh& other);
-
 	Mesh(const std::string &file_name);
-	Mesh(Vertex *vertices, unsigned int number_of_vertices,
-			unsigned int *indices, unsigned int num_indices);
-
+// 	Mesh(Vertex *vertices, unsigned int number_of_vertices,
+// 			unsigned int *indices, unsigned int num_indices);
+//
 	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr);
-	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr,
-			float texture_coords[][2]);
+// 	Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr,
+// 			float texture_coords[][2]);
 	virtual ~Mesh();
 
 	void draw();
@@ -57,7 +71,7 @@ public:
 	bool casting_shadow = true;
 	float max;
 	/// zobaczymy co sie staie, jak bedzie to zmienna globalna
-	IndexedModel model;
+// 	IndexedModel model;
 // 	float RGB_value[3] = {1., 1., 1.};
 	glm::vec4 RGBA_value = glm::vec4(1., 1., 1., 1.);
 	Transform transform;
@@ -77,10 +91,20 @@ private:
 	GLuint vertex_array_buffers[NUM_BUFFERS];
 	GLuint vertex_array_buffer;
 
+	vector<vec3> positions;
+	vector<vec2> texCoords;
+	vector<vec3> normals;
+	vector<unsigned int> indices;
+
 	unsigned int draw_count;
 
-	void InitMesh(const IndexedModel &model);
-	glm::vec2 calculateTextureCoords(float *vec);
+// 	void InitMesh(const IndexedModel &model);
+	void indexObj(const string &file_name);
+	void InitMesh();
+	void calculateNormals();
+	void calculateTextureCoordinates();
+// 	glm::vec2 calculateTextureCoords(float *vec);
+	glm::vec2 textureCoordinates(vec3 vertex);
 
 };
 
