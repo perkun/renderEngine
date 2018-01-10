@@ -200,7 +200,7 @@ WinGLFW::WinGLFW(int width, int height, const std::string& title )
 // 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 // 	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 
-// 	glDisable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE);
 
 // 	glEnable (GL_BLEND);
 // 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -224,14 +224,14 @@ void WinGLFW::clear(float r, float g, float b, float a)
 
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-// 	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 void WinGLFW::clear(glm::vec4 color)
 {
 	glClearColor(color[0], color[1], color[2], color[3] );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-// 	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 

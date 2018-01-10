@@ -97,6 +97,7 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr )
 			vertices[i][1] /= max;
 			vertices[i][2] /= max;
 		}
+		cout << "model normalized..." << "\n";
     }
 
 	for (int i = 0; i < num_pkt; i++)
@@ -104,13 +105,17 @@ Mesh::Mesh(float vertices[][3], int num_pkt, int indices[][3], int num_tr )
 		positions.push_back(
 				vec3( vertices[i][0], vertices[i][1], vertices[i][2])
 		);
+		cout << "positions pushed back..." << "\n";
 	}
 
 	calculateNormals();
-	calculateTextureCoords();
+	cout << "normals calculated..." << "\n";
+	calculateTextureCoordinates();
+	cout << "texture coordinates calculated..." << "\n";
 
 
     InitMesh();
+	cout << "mesh initialized..." << "\n";
 
 
 }

@@ -417,7 +417,7 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 	 * i liczbę tr)
 	 */
 
-/*
+
 	// dodać wczytywanie dodatkowego pliku, np file_name.uv albo cos
 	// i jeśli istnieje to wpisuj koordynaty
 
@@ -455,28 +455,28 @@ int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 	}
 	fclose(f);
 
-	if (texture_coords_available) {
-		for (int i = 0; i < num_vertices; i++) {
-			fscanf(f_tex, "%f %f ", &texture_coords[i][0], &texture_coords[i][1]);
-		}
-		fclose(f_tex);
-	}
+// 	if (texture_coords_available) {
+// 		for (int i = 0; i < num_vertices; i++) {
+// 			fscanf(f_tex, "%f %f ", &texture_coords[i][0], &texture_coords[i][1]);
+// 		}
+// 		fclose(f_tex);
+// 	}
 
-	if (texture_coords_available) {
-		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices,
-																texture_coords);
-		models.push_back(temp);
-	}
-	else {
-		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices);
-		models.push_back(temp);
-	}
+// 	if (texture_coords_available) {
+// 		Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices,
+// 																texture_coords);
+// 		models.push_back(temp);
+// 	}
+// 	else {
+	Mesh *temp = new Mesh(vertices, num_vertices, indices, num_indices);
+	models.push_back(temp);
+// 	}
 
 	models_shader.push_back(0);
 
 // 	printf("model %s added\n", filename.c_str());
 	return models.size() -1 ;
-*/
+
 }
 
 int RenderEngine::addShader(const std::string& file_name)
