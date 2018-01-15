@@ -1,19 +1,24 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <stdio.h>
 #define GLM_FORCE_RADIANS
+
+using namespace std;
+
 class Camera
 {
 public:
 	Camera() {}
 	Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
-					float zNear, float zFar);
+					float zNear, float zFar, bool earth_tilt);
 	Camera(const glm::vec3 pos,  glm::vec3 targ, float left, float right,
-					float bottom, float top, float zNear, float zFar);
+		float bottom, float top, float zNear, float zFar, bool earth_tilt);
     ~Camera();
+
 
 	inline glm::mat4 getProjectionMatrix() const
 	{
@@ -59,6 +64,7 @@ public:
 	glm::vec3 position;
 	glm::vec3 target;
 	glm::vec3 up;
+
 
 private:
 	glm::mat4 perspective, view;

@@ -525,30 +525,31 @@ int RenderEngine::addFramebuffer(int w, int h)
 }
 
 int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float left,
-			   	float right, float bottom, float top, float zNear, float zFar)
+			   	float right, float bottom, float top, float zNear, float zFar,
+			   	bool earth_tilt)
 {
-	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar);
+	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar, earth_tilt);
 	cameras.push_back(temp);
 // 	cameras[cameras.size()-1].initialize(pos, targ, left, right, top, bottom, zNear, zFar);
 	return cameras.size() -1;
 }
 
-void RenderEngine::updateCamera(const glm::vec3 pos, glm::vec3 targ,
-				float left, float right, float bottom, float top, float zNear,
-			   	float zFar, int camera_id)
-{
-	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar);
-	cameras.at(camera_id) = temp;
-	// 	cameras.push_back(temp);
-}
-
 int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float fov,
-				float aspect, float zNear, float zFar)
+				float aspect, float zNear, float zFar, bool earth_tilt)
 {
-	Camera *temp = new Camera(pos, targ, fov, aspect, zNear, zFar);
+	Camera *temp = new Camera(pos, targ, fov, aspect, zNear, zFar, earth_tilt);
 	cameras.push_back(temp);
 // 	cameras[cameras.size()-1].initialize(pos, targ, fov, aspect, zNear, zFar);
 	return cameras.size() -1;
+}
+
+void RenderEngine::updateCamera(const glm::vec3 pos, glm::vec3 targ,
+				float left, float right, float bottom, float top, float zNear,
+			   	float zFar, int camera_id, bool earth_tilt)
+{
+	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar, earth_tilt);
+	cameras.at(camera_id) = temp;
+	// 	cameras.push_back(temp);
 }
 
 RenderEngine::~RenderEngine()

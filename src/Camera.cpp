@@ -3,13 +3,24 @@
 #define GLM_FORCE_RADIANS
 
 Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
-				float zNear, float zFar)
+				float zNear, float zFar, bool earth_tilt)
 {
 	perspective = glm::perspective(fov, aspect, zNear, zFar);
 	position = pos;
 // 	forward = glm::vec3(0,0,-1);
-// 	up = glm::vec3(0.,0.,1.);
-	up = glm::vec3(0,0.39774,0.917498); // Earth tilt
+
+	if (earth_tilt)
+	{
+// 		cout << "earth tilt mode" << "\n";
+		up = glm::vec3(0.,0.39774,0.917498); // Earth tilt
+	}
+	else
+	{
+// 		cout << "no earth tilt mode" << "\n";
+		up = glm::vec3(0.,0.,1.);
+	}
+
+
 	target = targ;
 
 	view = glm::lookAt(position, target, up);
@@ -17,12 +28,22 @@ Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
 }
 
 Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
-			   	float bottom, float top, float zNear, float zFar)
+   	float bottom, float top, float zNear, float zFar, bool earth_tilt)
 {
 	perspective = glm::ortho(left, right, bottom, top, zNear, zFar);
 	position = pos;
-// 	up = glm::vec3(0.,0.,1.);
-	up = glm::vec3(0,0.39774,0.917498); // Earth tilt
+
+	if (earth_tilt)
+	{
+		cout << "earth tilt mode" << "\n";
+		up = glm::vec3(0.,0.39774,0.917498); // Earth tilt
+	}
+	else
+	{
+		cout << "no earth tilt mode" << "\n";
+		up = glm::vec3(0.,0.,1.);
+	}
+
 	target = targ;
 	view = glm::lookAt(position, target, up);
 

@@ -54,12 +54,12 @@ public:
 			GLenum format, GLenum type);
 	int addFramebuffer(int w, int h);
 	int addCamera(const glm::vec3 pos, glm::vec3 targ, float fov, float aspect,
-			float zNear, float zFar);
+			float zNear, float zFar, bool earth_tilt = true);
 	int addCamera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
-			float top, float bottom, float zNear, float zFar);
+		float top, float bottom, float zNear, float zFar, bool earth_tilt = true);
 	void updateCamera(const glm::vec3 pos, glm::vec3 targ, float left,
 			float right, float bottom, float top, float zNear, float zFar,
-			int camera_id);
+			int camera_id, bool earth_tilt = true);
 	int DISPLAY_WIDTH;
 	int DISPLAY_HEIGHT;
 
