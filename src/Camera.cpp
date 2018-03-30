@@ -35,12 +35,12 @@ Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
 
 	if (earth_tilt)
 	{
-		cout << "earth tilt mode" << "\n";
+// 		cout << "earth tilt mode" << "\n";
 		up = glm::vec3(0.,0.39774,0.917498); // Earth tilt
 	}
 	else
 	{
-		cout << "no earth tilt mode" << "\n";
+// 		cout << "no earth tilt mode" << "\n";
 		up = glm::vec3(0.,0.,1.);
 	}
 
