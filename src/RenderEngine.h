@@ -92,8 +92,10 @@ public:
 	WinGLFW display;
 	Camera camera, light;
 	int camera_mode = FREE;
+	int current_camera = 0;
 	float step = 0.001;
 	float speed;
+	float camera_movement_speed=0.00001;
 };
 
 #endif /* RENDERENGINE_H_ */

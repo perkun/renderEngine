@@ -13,6 +13,18 @@ void Keys::update(GLFWwindow* window)
 {
 	glfwPollEvents();
 
+	if (glfwGetKey (window, GLFW_KEY_I)) {
+		I = true;
+	}
+	else
+		I = false;
+
+	if (glfwGetKey (window, GLFW_KEY_J)) {
+		J = true;
+	}
+	else
+		J = false;
+
 
 	if (glfwGetKey (window, GLFW_KEY_W)) {
 		W = true;
@@ -98,6 +110,17 @@ void Keys::update(GLFWwindow* window)
 	}
 	else
 		M = false;
+
+	if (glfwGetKey (window, GLFW_KEY_U)) {
+		U = true;
+	}
+	else
+		U = false;
+	if (glfwGetKey (window, GLFW_KEY_H)) {
+		H = true;
+	}
+	else
+		H = false;
 
 	if (glfwGetKey (window, GLFW_KEY_SPACE )) {
 		glfwWaitEvents();

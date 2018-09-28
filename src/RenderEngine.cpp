@@ -58,7 +58,7 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	render_off_screen = false;
 	interactive = _interactive;
 
-	camera_rotation_speed = 0.005;
+	camera_rotation_speed = 0.000003;
 	speed = 2e-6;
 
 
@@ -113,9 +113,9 @@ void RenderEngine::renderScene()
 	   	{
 			shaders[models_shader[i]]->bind();
 // 			for (int j = 0; j < 3; j++)
-				shaders[models_shader[i]]->RGBA_value =
-				   	models[i]->RGBA_value;
-			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0],
+			shaders[models_shader[i]]->RGBA_value =
+				models[i]->RGBA_value;
+			shaders[models_shader[i]]->update(models[i]->transform, *cameras[current_camera],
 					*cameras[1]);
 			models[i]->draw();
 		}
@@ -174,7 +174,7 @@ void RenderEngine::renderSceneNoShadow()
 			shaders[models_shader[i]]->bind();
 				shaders[models_shader[i]]->RGBA_value =
 				   	models[i]->RGBA_value;
-			shaders[models_shader[i]]->update(models[i]->transform, *cameras[0],
+			shaders[models_shader[i]]->update(models[i]->transform, *cameras[current_camera],
 					*cameras[1]);
 			models[i]->draw();
 		}
@@ -255,40 +255,40 @@ void RenderEngine::userInput()
 	if ( camera_mode == FREE )
 	{
 		if (display.keys.A) {
-			cameras[0]->moveLeft(0.01);
+			cameras[current_camera]->moveLeft(camera_movement_speed);
 		}
 		if (display.keys.D) {
-			cameras[0]->moveRight(0.01);
+			cameras[current_camera]->moveRight(camera_movement_speed);
 		}
 		if (display.keys.W) {
-			cameras[0]->moveForward(0.01);
+			cameras[current_camera]->moveForward(camera_movement_speed);
 		}
 		if (display.keys.S) {
-			cameras[0]->moveBack(0.01);
+			cameras[current_camera]->moveBack(camera_movement_speed);
 		}
 		if (display.keys.R) {
-			cameras[0]->moveUp(0.01);
+			cameras[current_camera]->moveUp(camera_movement_speed);
 		}
 		if (display.keys.F) {
-			cameras[0]->moveDown(0.01);
+			cameras[current_camera]->moveDown(camera_movement_speed);
 		}
 
 
 		if (display.keys.UP) {
-			cameras[0]->rotateUp(camera_rotation_speed);
+			cameras[current_camera]->rotateUp(camera_rotation_speed);
 		}
 
 		if (display.keys.DOWN) {
-			cameras[0]->rotateDown(camera_rotation_speed);
+			cameras[current_camera]->rotateDown(camera_rotation_speed);
 		}
 		if (display.keys.LEFT) {
-			cameras[0]->rotateLeft(camera_rotation_speed);
+			cameras[current_camera]->rotateLeft(camera_rotation_speed);
 		}
 		if (display.keys.RIGHT) {
-			cameras[0]->rotateRight(camera_rotation_speed);
+			cameras[current_camera]->rotateRight(camera_rotation_speed);
 		}
 		// 	if (display.keys.C)
-		// 		cameras[0]->resetView();
+		// 		cameras[current_camera]->resetView();
 
 		// 	if (display.keys.SPACE)
 		// 		models[0]->transform.gamma += 0.005;
@@ -311,9 +311,18 @@ void RenderEngine::userInput()
 			models[0]->transform.gamma -= speed;
 
 		if (display.keys.EQUAL)
+		{
 			speed *= 2.;
+			camera_rotation_speed *=2.;
+			camera_movement_speed *=2.;
+		}
+
 		if (display.keys.MINUS)
+		{
 			speed /= 2.;
+			camera_rotation_speed /=2.;
+			camera_movement_speed /=2.;
+		}
 	}
 
 	if ( camera_mode == FIXED_POINT)

@@ -23,7 +23,7 @@
 #define GLM_FORCE_RADIANS
 class Keys {
 public:
-	bool A, W, S, D, C, O, P, K, L, Z, X, F, R, N, M, EQUAL, MINUS;
+	bool I, J, U, H, LSB, RSB, A, W, S, D, C, O, P, K, L, Z, X, F, R, N, M, EQUAL, MINUS;
 	bool UP, DOWN, LEFT, RIGHT, SPACE;
 
 	Keys() {
