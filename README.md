@@ -1,6 +1,7 @@
 #Render Engine
 
 ##instrukcja obsługi
+
 	1. stworzyć silnik graficzny (klasa RenderEngine)
 	2. stworzyć shader, co najmniej jeden (klasa Shader)
 	3. dodać model planetoidy
