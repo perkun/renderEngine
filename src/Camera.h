@@ -55,6 +55,10 @@ public:
 	void zoomIn(float step);
 	void zoomOut(float step);
 
+	void tiltLeft(float step);
+	void tiltRight(float step);
+	void setTilt(float tilt);
+
 	void resetView() {
 		position = glm::vec3(0, -1, 0);
 		target = glm::vec3(0, 0, 0);

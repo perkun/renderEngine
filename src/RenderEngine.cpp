@@ -287,6 +287,13 @@ void RenderEngine::userInput()
 		if (display.keys.RIGHT) {
 			cameras[current_camera]->rotateRight(camera_rotation_speed);
 		}
+
+		if (display.keys.U) {
+			cameras[current_camera]->tiltRight(camera_rotation_speed);
+		}
+		if (display.keys.H) {
+			cameras[current_camera]->tiltLeft(camera_rotation_speed);
+		}
 		// 	if (display.keys.C)
 		// 		cameras[current_camera]->resetView();
 

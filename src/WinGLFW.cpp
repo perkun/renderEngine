@@ -116,6 +116,7 @@ void Keys::update(GLFWwindow* window)
 	}
 	else
 		U = false;
+
 	if (glfwGetKey (window, GLFW_KEY_H)) {
 		H = true;
 	}

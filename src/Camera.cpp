@@ -45,6 +45,9 @@ Camera::Camera(const glm::vec3 pos, glm::vec3 targ, float left, float right,
 	}
 
 	target = targ;
+
+	forward = glm::normalize(target - position);
+
 	view = glm::lookAt(position, target, up);
 
 }
@@ -232,8 +235,24 @@ void Camera::zoomOut(float step)
 }
 
 
+void Camera::tiltLeft(float step)
+{
+ 	up = glm::vec3( glm::rotate(glm::mat4(1.0), step, forward) * glm::vec4(up, 1.0));
+}
 
+void Camera::tiltRight(float step)
+{
 
+ 	up = glm::vec3( glm::rotate(glm::mat4(1.0), -step, forward) * glm::vec4(up, 1.0));
+}
+
+void Camera::setTilt(float tilt)
+{
+
+	up = glm::vec3(0.,0.,1.);
+ 	up = glm::vec3( glm::rotate(glm::mat4(1.0), tilt, forward) * glm::vec4(up, 1.0));
+
+}
 
 /*void Camera::changeDirection(glm::vec3 cursor_pos)
   {
