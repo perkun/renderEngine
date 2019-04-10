@@ -1,6 +1,6 @@
-#Render Engine
+# Render Engine
 
-##instrukcja obsługi
+## instrukcja obsługi
 
 	1. stworzyć silnik graficzny (klasa RenderEngine)
 	2. stworzyć shader, co najmniej jeden (klasa Shader)
