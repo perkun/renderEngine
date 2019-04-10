@@ -1,10 +1,3 @@
-/*
- * WinGLFW.cpp
- *
- *  Created on: 15 wrz 2015
- *      Author: grzeslaff
- */
-
 #include "WinGLFW.h"
 
 #define GLM_FORCE_RADIANS

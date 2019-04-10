@@ -1,10 +1,3 @@
-/*
- * stb_image.h
- *
- *  Created on: 16 wrz 2015
- *      Author: grzeslaff
- */
-
 ////   begin header file  ////////////////////////////////////////////////////
 //
 // Limitations:

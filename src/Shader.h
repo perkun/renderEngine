@@ -1,10 +1,3 @@
-/*
- * Shader.h
- *
- *  Created on: 15 wrz 2015
- *      Author: grzeslaff
- */
-
 #ifndef SHADER_H_
 #define SHADER_H_
 
@@ -17,7 +10,6 @@
 #include <glm/gtx/transform.hpp>
 #include "Transform.h"
 #include "Camera.h"
-//#include "transform.h"
 
 #define GLM_FORCE_RADIANS
 

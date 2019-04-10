@@ -35,19 +35,4 @@ public:
 	GLuint texture;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif /* CUDA_H_ */

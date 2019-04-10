@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 #include <GL/glew.h>
-//#include "/home/grzeslaff/instalki/glfw-3.1.2/include/GLFW/glfw3.h"
 #include <GLFW/glfw3.h>
 #include<X11/X.h>
 #include<X11/Xlib.h>
@@ -33,6 +32,7 @@ public:
 	void renderScene();
 	void renderSceneNoShadow();
 	void renderSceneRadar();
+
 	void userInput();
 
 

@@ -1,10 +1,3 @@
-/*
- * Mesh.h
- *
- *  Created on: 15 wrz 2015
- *      Author: grzeslaff
- */
-
 #ifndef MESH_H_
 #define MESH_H_
 

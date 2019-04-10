@@ -1,10 +1,3 @@
-/*
- * Image.h
- *
- *  Created on: 7 cze 2015
- *      Author: grzeslaff
- */
-
 #ifndef IMAGE_H_
 #define IMAGE_H_
 

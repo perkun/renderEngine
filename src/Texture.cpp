@@ -1,12 +1,3 @@
-/*
- * Texture.cpp
- *
- *  Created on: 16 wrz 2015
- *      Author: grzeslaff
- */
-
-
-
 #include "Texture.h"
 
 #define GLM_FORCE_RADIANS

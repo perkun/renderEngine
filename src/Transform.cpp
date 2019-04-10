@@ -1,23 +1,7 @@
-/*
- * Transform.cpp
- *
- *  Created on: 16 wrz 2015
- *      Author: grzeslaff
- */
-
 #include "Transform.h"
 
 #define GLM_FORCE_RADIANS
 
-/*
-Transform::Transform()
-{
-	alpha = beta = gamma = gamma0 = 0.;
-	pos = glm::vec3(0., 0., 0.);
-	equatorial_orbit_position = glm::vec3(0., 0., 0.) ;
-	rot = glm::vec3(0., 0., 0.) ;
-	scale = glm::vec3(1., 1., 1.);
-}*/
 
 Transform::~Transform()
 {

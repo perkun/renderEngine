@@ -6,6 +6,9 @@ int Texture::num_textures = 0;
 
 
 
+/** @brief constructor for Xdisplay (Xserver)
+ *  Uses X server, can create normal window or hidden window (for SAGE)
+ */
 RenderEngine::RenderEngine(int w, int h, bool visible, bool off_screen_rendering)
 {
 	DISPLAY_WIDTH = w;
@@ -15,7 +18,6 @@ RenderEngine::RenderEngine(int w, int h, bool visible, bool off_screen_rendering
 	Xdisplay.initWindow(w, h, visible);
 
 
-	// 	shadow_shader_id = addShader("shadowShader");
 	shadow_shader_id = 0;
 	Shader *temp = new Shader("/usr/local/include/shadowShader");
 	shaders.push_back(temp);
@@ -32,6 +34,9 @@ RenderEngine::RenderEngine(int w, int h, bool visible, bool off_screen_rendering
 	interactive = false;
 }
 
+/** @brief constructor for GLFW window (interactive mode)
+ *
+ */
 RenderEngine::RenderEngine(int w, int h, bool visible,
 						   bool off_screen_rendering, bool _interactive ):
 						   display(w, h, "RenderEngine window")
@@ -41,7 +46,6 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 	DISPLAY_HEIGHT = h;
 	shadow_size = 1024 * 2;
 
-//      shadow_shader_id = addShader("shadowShader");
 	shadow_shader_id = 0;
 	Shader *temp = new Shader("/usr/local/include/shadowShader");
 	shaders.push_back(temp);
@@ -64,15 +68,18 @@ RenderEngine::RenderEngine(int w, int h, bool visible,
 
 }
 
+
+/** @brief renders scene (with shadows)
+ *
+ * 	renders all the models in std::vector<*Mesh> models
+ */
 void RenderEngine::renderScene()
 {
 
 	if (!render_off_screen)
    	{
 		if (interactive)
-//  			display.clear(0., 0., 0., 1.);
-//  			display.clear(1., 1., 1., 1.);
-				display.clear(clear_color);
+			display.clear(clear_color);
 		else
 			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
@@ -84,8 +91,11 @@ void RenderEngine::renderScene()
 	for (int i = 0; i < models.size(); i++)
    	{
 		if (models[i]->casting_shadow) {
-			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0],
-					*cameras[1]);
+			shaders[shadow_shader_id]->update(
+												models[i]->transform,
+											   	*cameras[0],
+												*cameras[1]
+											);
 			models[i]->draw();
 		}
 	}
@@ -98,7 +108,6 @@ void RenderEngine::renderScene()
 	}
 	else
    	{
-// 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[2]->frame_buffer);
 		framebuffers[fb]->bind();
 		GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
 		glDrawBuffers (1, draw_buffers);
@@ -112,11 +121,12 @@ void RenderEngine::renderScene()
 		if (models[i]->visible)
 	   	{
 			shaders[models_shader[i]]->bind();
-// 			for (int j = 0; j < 3; j++)
-			shaders[models_shader[i]]->RGBA_value =
-				models[i]->RGBA_value;
-			shaders[models_shader[i]]->update(models[i]->transform, *cameras[current_camera],
-					*cameras[1]);
+			shaders[models_shader[i]]->RGBA_value = models[i]->RGBA_value;
+			shaders[models_shader[i]]->update(
+												models[i]->transform,
+												*cameras[current_camera],
+												*cameras[1]
+											);
 			models[i]->draw();
 		}
 	}
@@ -136,14 +146,17 @@ void RenderEngine::renderScene()
 }
 
 
+/** @brief renders scene (without shadows)
+ *
+ * 	same as renderScene() except for shadow mapping
+ */
 void RenderEngine::renderSceneNoShadow()
 {
 
 	if (!render_off_screen)
    	{
 		if (interactive)
-// 			display.clear(0., 0., 0., 1.);
-			display.clear(1., 1., 1., 1.);
+			display.clear(clear_color);
 		else
 			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
@@ -172,10 +185,12 @@ void RenderEngine::renderSceneNoShadow()
 		if (models[i]->visible)
 	   	{
 			shaders[models_shader[i]]->bind();
-				shaders[models_shader[i]]->RGBA_value =
-				   	models[i]->RGBA_value;
-			shaders[models_shader[i]]->update(models[i]->transform, *cameras[current_camera],
-					*cameras[1]);
+				shaders[models_shader[i]]->RGBA_value = models[i]->RGBA_value;
+			shaders[models_shader[i]]->update(
+												models[i]->transform,
+											   	*cameras[current_camera],
+												*cameras[1]
+											  );
 			models[i]->draw();
 		}
 	}
@@ -193,6 +208,12 @@ void RenderEngine::renderSceneNoShadow()
 
 }
 
+/** @brief renders radar image
+ *
+ * same as render scene, except for unnecessary options (window visibility, etc)
+ * and with updateRadar() function for shader
+ *
+ */
 void RenderEngine::renderSceneRadar()
 {
 	// tak jak dla normalnie, tylko że bez zbędnych opcji i z użyciem
@@ -205,8 +226,11 @@ void RenderEngine::renderSceneRadar()
 	for (int i = 0; i < models.size(); i++)
    	{
 		if (models[i]->casting_shadow) {
-			shaders[shadow_shader_id]->update(models[i]->transform, *cameras[0],
-					*cameras[1]);
+			shaders[shadow_shader_id]->update(
+												models[i]->transform,
+											   	*cameras[0],
+												*cameras[1]
+											 );
 			models[i]->draw();
 		}
 	}
@@ -220,7 +244,6 @@ void RenderEngine::renderSceneRadar()
 	}
 	else
    	{
-// 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[2]->frame_buffer);
 		framebuffers[fb]->bind();
 		GLenum draw_buffers[1] = { GL_COLOR_ATTACHMENT0 };
 		glDrawBuffers (1, draw_buffers);
@@ -234,11 +257,11 @@ void RenderEngine::renderSceneRadar()
 		if (models[i]->visible)
 	   	{
 			shaders[models_shader[i]]->bind();
-// 			for (int j = 0; j < 3; j++)
-// 				shaders[models_shader[i]]->RGBA_value[j] =
-// 				   	models[i]->RGBA_value[j];
-			shaders[models_shader[i]]->updateRadar(models[i]->transform,
-					*cameras[0], *cameras[1]);
+			shaders[shadow_shader_id]->update(
+												models[i]->transform,
+											   	*cameras[0],
+												*cameras[1]
+											 );
 			models[i]->draw();
 		}
 	}
@@ -247,6 +270,9 @@ void RenderEngine::renderSceneRadar()
 		display.update();
 }
 
+/** @brief handles keyboard input during rendering
+ *
+ */
 void RenderEngine::userInput()
 {
 // 	float camera_rotation_speed = 0.05;
@@ -350,20 +376,14 @@ void RenderEngine::userInput()
 			cameras[0]->zoomOut(step);
 
 		if (display.keys.EQUAL)
-// 			step += 0.001;
 			step *= 2.;
 		if (display.keys.MINUS)
 			if (step>=0.001)
-// 				step -= 0.001;
 				step /= 2.;
 
 	}
-
-
-
-// 	if (!render_off_screen)
-// 		display.update();
 }
+
 
 void RenderEngine::linkShaderToModel(int shader_index, int model_index)
 {
@@ -380,17 +400,21 @@ void RenderEngine::linkCameraToShaders(int camera_index, int shader_index)
 	shaders_camera[shader_index] = camera_index;
 }
 
+/** @brief links 2 basic cameras to shaders, i.e. cameras 0 and 1
+ *
+ */
 void RenderEngine::linkBasicCamerasToShader()
 {
-	/**
-	 * linkuje dwie podstawowe kamery do shaderów
-	 */
 	for (int i = 0; i < shaders.size(); i++) {
 		linkCameraToShaders(0, i);
 		linkCameraToShaders(1, i);
 	}
 }
 
+
+/** @brief deletes models pointers and clears models vector
+ *
+ */
 void RenderEngine::clearModels()
 {
 	for (int i = 0; i < models.size(); i++)
@@ -400,19 +424,24 @@ void RenderEngine::clearModels()
 	models_shader.clear();
 }
 
+/** @brief adds model from file in OBJ format
+ *
+ * @return model's index
+ */
 int RenderEngine::addModel(const std::string& file_name)
 {
-//  	std::cout << "adding model...\n";
 	Mesh *temp = new Mesh(file_name);
-//  	std::cout << "still adding model...\n";
 	models.push_back(temp);
-//  	std::cout << "model added...\n";
 
 	models_shader.push_back(0);
 
 	return models.size() -1 ;
 }
 
+/** @brief adds model from arrays of vertices and indices
+ *
+ * @return model's index
+ */
 int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3],
 			   														int num_tr)
 {
@@ -425,6 +454,10 @@ int RenderEngine::addModel(float vertices[][3], int num_pkt, int indices[][3],
 	return models.size() -1 ;
 }
 
+/** @brief adds model from file in SHP format
+ *
+ * @return model's index
+ */
 int RenderEngine::addModelAsteroidFormat(const std::string& filename)
 {
 	/**
@@ -536,7 +569,6 @@ int RenderEngine::addFramebuffer(int w, int h)
 {
 	FrameBuffer *temp = new FrameBuffer(w,h);
 	framebuffers.push_back(temp);
-// 	framebuffers[framebuffers.size()-1].initialize(w, h);
 	return framebuffers.size() -1 ;
 }
 
@@ -546,7 +578,6 @@ int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float left,
 {
 	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar, earth_tilt);
 	cameras.push_back(temp);
-// 	cameras[cameras.size()-1].initialize(pos, targ, left, right, top, bottom, zNear, zFar);
 	return cameras.size() -1;
 }
 
@@ -555,7 +586,6 @@ int RenderEngine::addCamera(const glm::vec3 pos, glm::vec3 targ, float fov,
 {
 	Camera *temp = new Camera(pos, targ, fov, aspect, zNear, zFar, earth_tilt);
 	cameras.push_back(temp);
-// 	cameras[cameras.size()-1].initialize(pos, targ, fov, aspect, zNear, zFar);
 	return cameras.size() -1;
 }
 
@@ -565,7 +595,6 @@ void RenderEngine::updateCamera(const glm::vec3 pos, glm::vec3 targ,
 {
 	Camera *temp = new Camera(pos, targ, left, right, bottom, top, zNear, zFar, earth_tilt);
 	cameras.at(camera_id) = temp;
-	// 	cameras.push_back(temp);
 }
 
 RenderEngine::~RenderEngine()

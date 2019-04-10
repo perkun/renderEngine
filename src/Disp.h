@@ -1,10 +1,3 @@
-/*
- * Disp.h
- *
- *  Created on: 14 wrz 2015
- *      Author: grzeslaff
- */
-
 #ifndef DISP_H_
 #define DISP_H_
 

@@ -1,18 +1,9 @@
-/*
- * Mesh.cpp
- *
- *  Created on: 15 wrz 2015
- *      Author: grzeslaff
- */
-
 #include "Mesh.h"
 
 #define GLM_FORCE_RADIANS
-// #include "obj_loader.h"
 
 
 Mesh::Mesh() {
-    // blabla
 }
 
 
@@ -33,7 +24,6 @@ Mesh::Mesh(const Mesh& other)
 
 void Mesh::InitMesh(const IndexedModel &model)
 {
-// 	printf("%d\n",  model.indices.size());
     draw_count = model.indices.size();
 
     glGenVertexArrays(1, &vertex_array_object);

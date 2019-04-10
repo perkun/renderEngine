@@ -1,10 +1,3 @@
-/*
- * Texture.h
- *
- *  Created on: 16 wrz 2015
- *      Author: grzeslaff
- */
-
 #ifndef TEXTURE_H_
 #define TEXTURE_H_
 

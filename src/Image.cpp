@@ -1,10 +1,3 @@
-/*
- * Image.cpp
- *
- *  Created on: 7 cze 2015
- *      Author: grzeslaff
- */
-
 #include "Image.h"
 #define GLM_FORCE_RADIANS
 Image::Image(int w, int h, int bpp) {

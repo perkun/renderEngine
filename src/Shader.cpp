@@ -1,10 +1,3 @@
-/*
- * Shader.cpp
- *
- *  Created on: 15 wrz 2015
- *      Author: grzeslaff
- */
-
 #include "Shader.h"
 #define GLM_FORCE_RADIANS
 Shader::Shader() {
