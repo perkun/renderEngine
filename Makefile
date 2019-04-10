@@ -10,7 +10,7 @@ CEXT = c
 CUDAEXT = cu
 
 CFLAGS = -g -c -std=c++11
-LIB = -lm -lglfw -lGL -lGLU -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl -lfreeimage
+LIB = -lm -lglfw -lGL -lGLEW -lX11 -lXi -lXxf86vm -lXrandr -lXcursor -lXinerama -lrt -lpthread -ldl -lfreeimage
 
 SOURCES = $(shell find $(SRCDIR) -type f -name *.$(CPPEXT))
 CSOURCES = $(shell find $(SRCDIR) -type f -name *.$(CEXT))

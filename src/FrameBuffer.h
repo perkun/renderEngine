@@ -13,7 +13,7 @@
 #include<X11/Xlib.h>
 #include<GL/gl.h>
 #include<GL/glx.h>
-#include<GL/glu.h>
+// #include<GL/glu.h>
 #define GLM_FORCE_RADIANS
 class FrameBuffer {
 public:
