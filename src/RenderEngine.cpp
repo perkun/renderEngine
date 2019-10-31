@@ -104,7 +104,14 @@ void RenderEngine::renderScene()
 	if (!render_off_screen)
    	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,  GL_RENDERBUFFER, 0);
+
 		glViewport(0,0,DISPLAY_WIDTH, DISPLAY_HEIGHT);
+
+		if (interactive)
+			display.clear(clear_color);
+		else
+			Xdisplay.clear(0.0, 0., 0., 1.);
 	}
 	else
    	{
@@ -257,11 +264,16 @@ void RenderEngine::renderSceneRadar()
 		if (models[i]->visible)
 	   	{
 			shaders[models_shader[i]]->bind();
-			shaders[shadow_shader_id]->update(
+			shaders[models_shader[i]]->updateRadar(
 												models[i]->transform,
-											   	*cameras[0],
+											   	*cameras[current_camera],
 												*cameras[1]
-											 );
+											  );
+// 			shaders[shadow_shader_id]->update(
+// 												models[i]->transform,
+// 											   	*cameras[0],
+// 												*cameras[1]
+// 											 );
 			models[i]->draw();
 		}
 	}
