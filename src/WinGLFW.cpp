@@ -222,6 +222,10 @@ WinGLFW::WinGLFW(int width, int height, const std::string& title )
 // 	glEnable (GL_BLEND);
 // 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
+	glfwSwapInterval(0);
+
+
 	is_closed = false;
 
 	keys = Keys();

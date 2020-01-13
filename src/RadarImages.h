@@ -19,6 +19,8 @@ public:
 	void createRadarImage(float *pixel_buffer_red, float *pixel_buffer_green,
 			float *pixel_buffer_blue, float *pixel_buffer,
 			unsigned int *pixel_buffer_uint);
+	void createRadarImage(float *pixel_buffer_red, float *pixel_buffer_green,
+			float *pixel_buffer_blue, float *pixel_buffer);
 	void scaleImage( int x, int y, int image_id);
 	void scaleAllImages(int x, int y);
 

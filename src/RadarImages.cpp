@@ -291,6 +291,69 @@ void RadarImages::scaleImage(int x, int y, int image_id)
 
 void RadarImages::createRadarImage(float *pixel_buffer_red,
 		float *pixel_buffer_green, float *pixel_buffer_blue,
+		float *pixel_buffer)
+{
+	/**
+	 * funkcja dodaje do tabeli **radar_images nowy obraz radarowy
+	 * stworzony z podanyc tablic z danymi
+	 */
+
+
+	num_images++;
+	radar_images[num_images - 1] = new float[frame_size * frame_size];
+
+	// tworzy tablice wielkości frs*frs vektorów uns. int
+	radar_images_triangles[num_images-1] =
+		new vector<unsigned int>[frame_size*frame_size];
+
+	int i, j;
+	float ni, d, max;
+
+	int radar_frame_size = frame_size;
+
+	for (i = 0; i < radar_frame_size * radar_frame_size; i++)
+		radar_images[num_images - 1][i] = 0;
+
+	// UWAGA!! jest przestawione (red jest z lewej, blue z prawej,
+	// nie ma odbicia lustrzanego z obrazem z gory)
+
+	for (i = 0; i < radar_frame_size * radar_frame_size; i++)
+   	{
+		ni = pixel_buffer_red[i];
+		d = pixel_buffer[i];
+
+		int x = int((1 - ni) * radar_frame_size / 2);
+		int y = int(d * radar_frame_size);
+
+		if (d != 0 && ni != 0)
+		{
+			radar_images[num_images - 1][y*radar_frame_size + x]
+			   	+= pixel_buffer_green[i];
+
+		}
+	}
+
+	for (i = 0; i < radar_frame_size * radar_frame_size; i++)
+   	{
+		ni = pixel_buffer_blue[i];
+		d = pixel_buffer[i];
+
+		int x = int(ni * radar_frame_size / 2 + radar_frame_size / 2);
+		int y = int(d * radar_frame_size);
+
+		if (d != 0 && ni != 0)
+		{
+			radar_images[num_images - 1][y*radar_frame_size + x]
+				+= pixel_buffer_green[i];
+		}
+	}
+}
+
+
+
+
+void RadarImages::createRadarImage(float *pixel_buffer_red,
+		float *pixel_buffer_green, float *pixel_buffer_blue,
 		float *pixel_buffer, unsigned int *pixel_buffer_uint)
 {
 	/**
