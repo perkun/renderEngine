@@ -75,6 +75,23 @@ Mesh::Mesh(const std::string &file_name) {
 // 		printf("%f \t %f \t %f\n", model.positions[i].x, model.positions[i].y,
 // 		model.positions[i].z);
 // 	puts("xxxxxxxxxxxxxxx");
+
+	if (normalize)
+	{
+		float maxlen = -1;
+		for (glm::vec3 &pos: model.positions)
+		{
+			float len = length(pos);
+			if (len > maxlen)
+				maxlen = len;
+		}
+
+
+		for (glm::vec3 &pos: model.positions)
+			pos = pos / maxlen;
+
+	}
+
     InitMesh(model);
 
 }
